@@ -18,6 +18,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 
@@ -25,6 +26,7 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     LoginComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     CommonModule,
