@@ -36,4 +36,13 @@ export class AuthService {
 
     return false;
   }
+
+  checkVerifyToken(token: string) {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }) 
+    }
+    return this.http.get(environment.API_URL + '/auth/verify-token/' + token, httpOptions)
+  }
 }

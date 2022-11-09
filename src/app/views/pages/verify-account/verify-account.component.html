@@ -1,0 +1,91 @@
+<div class="flex flex-col w-screen h-screen bg-white" *ngIf="verified_token">
+    <div class="flex bg-red-900 w-full items-center">
+        <img class="w-12 h-12 m-2" src="/assets/images/logo-filled.png" alt="logo">
+        <h1 class="text-2xl font-sans font-semibold text-center text-white">Manuel S. Enverga University Foundation Candelaria Inc.</h1>
+    </div>
+
+    <div class="font-sans font-semibold text-xl md:text-5xl m-8">Verify Account</div>
+    <div class="font-sans font-semibold text-xl md:text-5xl m-8">Account Token: {{ token }}</div>
+    <form 
+        [formGroup]="verifyForm" 
+        novalidate 
+        class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-8">
+
+        <mat-form-field class="w-full" appearance="fill">
+          <mat-label>Username</mat-label>
+          <input type="text" matInput formControlName="username" placeholder="Username">
+          <mat-error *ngIf="verifyForm.hasError('required')">
+            Please enter a valid username
+          </mat-error>
+          <mat-error *ngIf="verifyForm.hasError('minLength') && !verifyForm.hasError('required')">
+            Please enter 3 letter username
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter a valid username
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <input type="password" matInput placeholder="Confirm password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+            <mat-error *ngIf="verifyForm.hasError('notSame')">
+              Passwords do not match
+            </mat-error>  
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Firstname</mat-label>
+            <input type="text" matInput formControlName="firstname" placeholder="Username">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter firstname 
+            </mat-error>
+          </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Lastname</mat-label>
+            <input type="text" matInput formControlName="lastname" placeholder="Lastname">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter a lastname
+            </mat-error>
+          </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Middlename</mat-label>
+            <input type="text" matInput formControlName="middlename" placeholder="Middlename">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter a middlename
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Address</mat-label>
+            <input type="text" matInput formControlName="address" placeholder="Address">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter firstname 
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender" name="gender">
+              <mat-option value="m">Male</mat-option>
+              <mat-option value="f">Female</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Year</mat-label>
+            <input type="text" matInput formControlName="year" placeholder="Year">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter a Year
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Image</mat-label>
+            <input type="text" matInput formControlName="student_img" placeholder="Image">
+            <mat-error *ngIf="verifyForm.hasError('required')">
+              Please enter firstname 
+            </mat-error>
+        </mat-form-field>
+    </form>
+
+</div>
