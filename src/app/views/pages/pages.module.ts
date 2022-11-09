@@ -19,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { Page404Component } from './page404/page404.component';
 
 
 
@@ -27,6 +28,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   declarations: [
     LoginComponent,
     ForgotPasswordComponent,
+    Page404Component,
   ],
   imports: [
     CommonModule,
