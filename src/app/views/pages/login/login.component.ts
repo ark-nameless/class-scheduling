@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveUser(data.data);
         this.sending = false;
 
-        // this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/dashboard']);
       },
       err => {
         let errorSnackbar = this._snackBar.open(err.error.detail, 'Clear', {duration: 5 * 1000})

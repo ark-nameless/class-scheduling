@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginGuard } from './guards/login.guard';
+import { RoleGuard } from './guards/role.guard';
 import { ForgotPasswordComponent } from './views/pages/forgot-password/forgot-password.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { VerifyAccountComponent } from './views/pages/verify-account/verify-account.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: "full", component: LoginComponent },
-  { path: 'login', pathMatch: "full", component: LoginComponent, canActivate:[]},
-  { path: 'forgot-password', pathMatch: 'full', component: ForgotPasswordComponent },
-  // { path: 'admin', loadChildren: () => import(`./views/admin/admin.module`).then(m => m.AdminModule)},
-  { path: 'verify/:token', pathMatch: "prefix", component: VerifyAccountComponent },
-  { path: '**', component: Page404Component}
+	{ path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: 'login', pathMatch: "full", component: LoginComponent, canActivate:[LoginGuard] },
+  { path: 'forgot-password', pathMatch: 'full', component: ForgotPasswordComponent, canActivate:[LoginGuard] },
+  { path: 'admin', loadChildren: () => import(`./views/admin/admin.module`).then(m => m.AdminModule)},
+  { path: 'verify/:token', pathMatch: "prefix", component: VerifyAccountComponent, canActivate:[LoginGuard] },
+  { path: '**', component: Page404Component, canActivate:[LoginGuard]}
 ];
 
 @NgModule({
