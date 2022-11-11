@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndexComponent } from './index/index.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -11,8 +12,8 @@ const routes: Routes = [
 		path: '', component: IndexComponent, canActivate: [],
 		canActivateChild: [AuthGuard, RoleGuard],  data: { expectedRole: "Admin" },
 		children: [
-      { path: 'dashboard', component: DashboardComponent },
-			// { path: 'users', component: UsersComponent },
+      	{ path: 'dashboard', component: DashboardComponent },
+		{ path: 'users', component: UsersComponent },
 			// { path: 'departments', component: DepartmentsComponent },
 		]
 	}

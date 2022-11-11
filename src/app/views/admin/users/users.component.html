@@ -1,0 +1,33 @@
+<div class="w-full h-full">
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab  label="Manage Students">
+            <div x-data="{addStudent: false}" >
+                <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2">
+                    <button mat-raised-button class="bg-red-900 text-white" x-on:click="addStudent = ! addStudent">
+                        <mat-icon matPrefix>person_add</mat-icon>
+                        Add Student
+                    </button>
+                </div>
+    
+                <app-new-student x-show="addStudent"></app-new-student>
+                <app-table-students></app-table-students>
+            </div>
+        </mat-tab>
+        <mat-tab label="Manage Teachers">
+            <div x-data="{addTeacher: false}" >
+                <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2">
+                    <button mat-raised-button class="bg-red-900 text-white" x-on:click="addTeacher = ! addTeacher">
+                        <mat-icon matPrefix>person_add</mat-icon>
+                        Add Teacher
+                    </button>
+                </div>
+
+                <app-new-teacher x-show="addTeacher"></app-new-teacher>
+                <app-table-teachers></app-table-teachers>
+            </div>
+        </mat-tab>
+        <!-- <mat-tab label="Manage Department Heads">
+            <app-departments></app-departments>
+        </mat-tab> -->
+    </mat-tab-group>
+</div>

@@ -24,19 +24,34 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
+import { UsersComponent } from './users/users.component';
+import { NewStudentComponent } from './forms/new-student/new-student.component';
+import { NewTeacherComponent } from './forms/new-teacher/new-teacher.component';
+import { TableStudentsComponent } from './tables/table-students/table-students.component';
+import { TableTeachersComponent } from './tables/table-teachers/table-teachers.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
 @NgModule({
   declarations: [
     IndexComponent,
-    DashboardComponent
+    DashboardComponent,
+    UsersComponent,
+    NewStudentComponent,
+    NewTeacherComponent,
+    TableStudentsComponent,
+    TableTeachersComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+
+    ComponentsModule,
 
     MatToolbarModule,
     MatButtonModule,
@@ -55,6 +70,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDividerModule,
     MatProgressBarModule,
     MatSidenavModule,
+    NgSelectModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class AdminModule { }
