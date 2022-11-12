@@ -74,13 +74,17 @@
 
 <ng-template #menu>
     <div class="example-menu" cdkMenu>
-        <button class="example-menu-item" cdkMenuItem (click)="sendVerificationEmail()">
+        <button mat-flat-button cdkMenuItem (click)="sendVerificationEmail()">
             <mat-icon>published_with_changes</mat-icon>
             <span>Send Verification Email</span>
         </button>
-        <button class="example-menu-item" cdkMenuItem (click)="sendPasswordResetEmail()">
+        <button mat-flat-button cdkMenuItem (click)="sendPasswordResetEmail()">
             <mat-icon>lock_reset</mat-icon>
             <span>Send Password Reset Email</span>
+        </button>
+        <button mat-flat-button cdkMenuItem (click)="deleteAccount('0ms', '0ms')">
+            <mat-icon>delete_forever</mat-icon>
+            <span>Delete Account</span>
         </button>
     </div>
 </ng-template>

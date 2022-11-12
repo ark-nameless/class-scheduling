@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -8,6 +9,7 @@ import { catchError, retry, Subscription, throwError } from 'rxjs';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { StudentApiService } from 'src/app/apis/student-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
+import { DialogDeleteAccountComponent } from 'src/app/components/dialog-delete-account/dialog-delete-account.component';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -28,9 +30,10 @@ export class TableTeachersComponent implements OnInit {
 
   teachers = <any>[];
 
-  selectedId = '';
+  selectedRow = <any>{};
 
   constructor(
+    public dialog: MatDialog,
     private teacherApi: TeacherApiService,
     private events: EventEmitterService,
     private authApi: AuthApiService,
@@ -91,12 +94,12 @@ export class TableTeachersComponent implements OnInit {
 
 
   rowOnClick(data: any) {
-    this.selectedId = data.id;
+    this.selectedRow = data
   }
 
   sendVerificationEmail(id: string = '') {
-    if (id != '') this.selectedId = id;
-    this.authApi.sendAccountVerifivation(this.selectedId).subscribe((data) => {
+    if (id == '') id = this.selectedRow.id
+    this.authApi.sendAccountVerifivation(id).subscribe((data) => {
       this.snackBar.open(data.detail, 'Close', {duration: 3 * 1000})
     }, (error: any) => { 
       this.snackBar.open(error.error.detail, 'Close', {duration: 3 * 1000})
@@ -104,7 +107,22 @@ export class TableTeachersComponent implements OnInit {
   }
 
   sendPasswordResetEmail(id: string = '') {
-    if (id != '') this.selectedId = id;
+    if (id == '') id = this.selectedRow.id
     console.log('send password reset email');
   }
+
+  deleteAccount(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DialogDeleteAccountComponent, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        id: this.selectedRow.id,
+        email: this.selectedRow.email,
+        role: this.selectedRow.role
+      }
+    });
+  }
+
+
 }
