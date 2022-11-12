@@ -3,25 +3,29 @@
     <form 
     [formGroup]="form" 
     novalidate 
+    (ngSubmit)="onSubmit()"
     class="grid gap-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <mat-form-field class="w-full" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" placeholder="example@example.com">
             <mat-icon matSuffix>alternate_email</mat-icon>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Department</mat-label>
-            <mat-icon matSuffix>account_tree</mat-icon>
-            <mat-select formControlName="department">
-              <mat-option value="BSCS">Bachelor of Science in Computer Science</mat-option>
-              <mat-option value="BSCpE">BS Computer Engineering</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <ng-select 
+            [dropdownPosition]="'bottom'"
+            [appearance]="'outline'"
+            [items]="departments" 
+            bindLabel="name" 
+            bindValue="id" 
+            formControlName="department"
+            [loading]="loadingDepartments"
+            placeholder="Department">
+        </ng-select>
         <button 
             class="font-sans text-lg font-semibold col-span-full bg-red-900 text-white px-5 py-2.5" 
+            [disabled]="!this.form.valid"
             mat-raised-button>
+            <mat-icon><mat-spinner *ngIf="sending" [diameter]="20" [color]="'accent'"></mat-spinner></mat-icon>
             Register
         </button>
-        {{ form.value | json }}
     </form>
 </div>

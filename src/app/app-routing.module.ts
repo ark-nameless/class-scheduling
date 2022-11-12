@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', pathMatch: "full", component: LoginComponent, canActivate:[LoginGuard] },
   { path: 'forgot-password', pathMatch: 'full', component: ForgotPasswordComponent, canActivate:[LoginGuard] },
   { path: 'admin', loadChildren: () => import(`./views/admin/admin.module`).then(m => m.AdminModule)},
-  { path: 'verify/:token', pathMatch: "prefix", component: VerifyAccountComponent, canActivate:[LoginGuard] },
+  { path: 'verify-account/:token', pathMatch: "prefix", component: VerifyAccountComponent, canActivate:[LoginGuard] },
   { path: '**', component: Page404Component, canActivate:[LoginGuard]}
 ];
 

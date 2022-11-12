@@ -32,8 +32,8 @@ import { TableTeachersComponent } from './tables/table-teachers/table-teachers.c
 import { ComponentsModule } from 'src/app/components/components.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-
+import {CdkMenuModule} from '@angular/cdk/menu';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -52,6 +52,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HttpClientModule,
 
     ComponentsModule,
+
+    CdkMenuModule,
 
     MatToolbarModule,
     MatButtonModule,
@@ -72,6 +74,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSidenavModule,
     NgSelectModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ]
 })
 export class AdminModule { }
