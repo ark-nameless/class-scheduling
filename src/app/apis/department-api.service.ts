@@ -28,4 +28,16 @@ export class DepartmentApiService {
     return this.http
       .get<any[]>(this.apiURL + '/departments', this.httpOptions)
   }
+
+  createNewDepartment(data: any): Observable<any[]> {
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'accept': 'application/json',
+        'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    }
+    return this.http
+               .post<any>(this.apiURL + '/departments', JSON.stringify(data), headers);
+  }
 }

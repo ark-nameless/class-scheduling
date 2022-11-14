@@ -1,0 +1,13 @@
+<div class="w-full h-full">
+    <div x-data="{newDepartment: false}" >
+        <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2">
+            <button mat-raised-button class="bg-red-900 text-white" x-on:click="newDepartment = ! newDepartment">
+                <mat-icon matPrefix>add_circle</mat-icon>
+                Create New Department
+            </button>
+        </div>
+
+        <app-new-department x-show="newDepartment" x-collapse></app-new-department>
+        <app-table-departments ></app-table-departments>
+    </div>
+</div>

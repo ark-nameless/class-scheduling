@@ -58,7 +58,7 @@ export class TableStudentsComponent implements OnInit {
 
     this.events.events$.forEach((event) => {
       if (event.event == 'added student') {
-        event = event.data;
+      event = event.data;
         let data = {
           id: event.id,
           name: event.name = event.name !== null ? event.name.lastname + ', ' + 

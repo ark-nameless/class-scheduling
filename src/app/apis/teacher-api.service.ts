@@ -29,9 +29,9 @@ export class TeacherApiService {
       .get<any[]>(this.apiURL + '/teachers', this.httpOptions)
   }
 
-  getVerifiedStudents(): Observable<any[]> {
+  getNoneDeptHeadTeachers(): Observable<any[]> {
     return this.http
-      .get<any[]>(this.apiURL + '/students/verified', this.httpOptions)
+               .get<any[]>(this.apiURL + '/teachers/none-department-head', this.httpOptions);
   }
 
   registerUnverifiedTeacher(student: any): Observable<any> {

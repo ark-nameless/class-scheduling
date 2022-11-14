@@ -34,6 +34,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {CdkMenuModule} from '@angular/cdk/menu';
 import {MatDialogModule} from '@angular/material/dialog';
+import { TableDepartmentsComponent } from './tables/table-departments/table-departments.component';
+import { DepartmentsComponent } from './departments/departments.component';
+import { NewDepartmentComponent } from './forms/new-department/new-department.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     NewStudentComponent,
     NewTeacherComponent,
     TableStudentsComponent,
-    TableTeachersComponent
+    TableTeachersComponent,
+    TableDepartmentsComponent,
+    DepartmentsComponent,
+    NewDepartmentComponent
   ],
   imports: [
     CommonModule,
