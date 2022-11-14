@@ -45,6 +45,20 @@ export class StudentApiService {
       .post<any>(this.apiURL + '/students', JSON.stringify(student), headers)
   }
 
+  verifyStudentAccount(token: string, data: any): Observable<any> {
+    let headers = { 
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'accept': 'application/json',
+        // 'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    };
+
+    return this.http
+               .put<any>(this.apiURL + '/students/' + token, JSON.stringify(data), headers);
+  }
+
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

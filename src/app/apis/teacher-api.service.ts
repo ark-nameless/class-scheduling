@@ -46,6 +46,19 @@ export class TeacherApiService {
       .post<any>(this.apiURL + '/teachers', JSON.stringify(student), headers)
   }
 
+  verifyTeacherInformation(token: string, data: any): Observable<any> {
+    let headers = { 
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'accept': 'application/json',
+        // 'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    };
+
+    return this.http
+               .put<any>(this.apiURL + '/teachers/' + token, JSON.stringify(data), headers);
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

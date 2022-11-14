@@ -1,0 +1,253 @@
+<div class="flex flex-col w-screen h-screen bg-white" >
+    <div class="flex bg-red-900 w-full items-center">
+        <img class="w-12 h-12 m-2" src="/assets/images/logo-filled.png" alt="logo">
+        <h1 class="text-2xl font-sans font-semibold text-center text-white">Manuel S. Enverga University Foundation Candelaria Inc.</h1>
+    </div>
+
+    <div class="font-sans font-semibold text-xl md:text-5xl m-8">Verify Student Account</div>
+    <!-- <div class="font-sans font-semibold text-xl md:text-5xl m-8">Account Token: {{ token }}</div> -->
+    <form 
+        [formGroup]="verifyForm" 
+        novalidate 
+        (ngSubmit)="onSubmit()"
+        class="flex flex-col w-full py-3 px-8 overflow-x-hidden">
+        
+        <p class="font-sans text-lg font-semibold">Credentials</p>
+        <div class="grid gap-2 grid-cols-1 md:grid-cols-3">
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>Username</mat-label>
+                <input type="text" matInput formControlName="username" placeholder="joshua.lapso">
+                <mat-error *ngIf="verifyForm.controls['username'].hasError('required')">
+                    Username is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password" placeholder="Password">
+                <mat-error *ngIf="verifyForm.controls['password'].hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input type="password" matInput formControlName="confirmPassword" placeholder="Password">
+                <mat-error *ngIf="verifyForm.controls['confirmPassword'].hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="verifyForm.hasError('notSame') && !verifyForm.controls['confirmPassword'].hasError('required')">
+                    Passwords do not match
+                </mat-error>  
+            </mat-form-field>
+        </div>
+
+        <p class="font-sans text-lg font-semibold">Name</p>
+        <div class="grid gap-2 grid-cols-1 md:grid-cols-3">
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName="firstname" placeholder="Joshua">
+                <mat-error *ngIf="verifyForm.controls['firstname'].hasError('required')">
+                    First Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput formControlName="lastname" placeholder="Lapso">
+                <mat-error *ngIf="verifyForm.controls['lastname'].hasError('required')">
+                    Last Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="flex" appearance="outline">
+                <mat-label>Middle Name</mat-label>
+                <input type="text" matInput formControlName="middlename" placeholder="Dalisay">
+            </mat-form-field>
+        </div>
+
+
+        <p class="font-sans text-lg font-semibold">Address</p>
+        <div class="grid gap-1 grid-cols-3">
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>House Number</mat-label>
+                <input type="text" matInput formControlName="house_no" placeholder="458">
+            </mat-form-field>
+            <mat-form-field class="col-span-2 md:col-span-1" appearance="outline">
+                <mat-label>Street</mat-label>
+                <input type="text" matInput formControlName="street" placeholder="Purok I">
+            </mat-form-field>
+            <mat-form-field class="col-span-3 md:col-span-1" appearance="outline">
+                <mat-label>Barangay</mat-label>
+                <input type="text" matInput formControlName="barangay" placeholder="Malabanban Norte">
+            </mat-form-field>
+            <mat-form-field class="col-span-1 md:col-span-1" appearance="outline">
+                <mat-label>Town</mat-label>
+                <input type="text" matInput formControlName="town" placeholder="Candelaria">
+            </mat-form-field>
+            <mat-form-field class="col-span-2 md:col-span-1" appearance="outline">
+                <mat-label>Province</mat-label>
+                <input type="text" matInput formControlName="province" placeholder="Quezon">
+            </mat-form-field>
+        </div>
+
+        <p class="font-sans text-lg font-semibold">Contact Information</p>
+        <div class="grid gap-1 grid-cols-2">
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Telephone Number</mat-label>
+                <input type="text" matInput formControlName="tel_no" placeholder="585-4567">
+            </mat-form-field>
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input type="text" matInput formControlName="phone_no" placeholder="09*********">
+            </mat-form-field>
+        </div>  
+
+        <p class="font-sans text-lg font-semibold">Personal Information</p>
+        <div class="grid gap-1 grid-cols-2">
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Birth Place</mat-label>
+                <input type="text" matInput formControlName="birth_place" placeholder="Lucena City">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="date_of_birth">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Nationality</mat-label>
+                <input type="text" matInput formControlName="nationality" placeholder="Filipino">
+            </mat-form-field>
+            <mat-form-field class="" appearance="outline">
+                <mat-label>Sex</mat-label>
+                <input type="text" matInput formControlName="sex" placeholder="Male">
+            </mat-form-field>
+        </div>
+
+        <p class="font-sans text-lg font-semibold">Parent Information</p>
+        <div class="grid gap-1 grid-cols-1">
+            <p class="font-sans text-lg font-semibold">Father</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput formControlName="father_firstname" placeholder="Pedro">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput formControlName="father_lastname" placeholder="Penduko">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input type="text" matInput formControlName="father_middlename" placeholder="Dalisay">
+                </mat-form-field>
+            </div>
+            <p class="font-sans text-lg font-semibold">Mother</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput formControlName="mother_firstname" placeholder="Martha">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput formControlName="mother_lastname" placeholder="Penduko">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input type="text" matInput formControlName="mother_middlename" placeholder="Dalisay">
+                </mat-form-field>
+            </div>
+            <p class="font-sans text-lg font-semibold">Guardian</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput formControlName="guardian_firstname" placeholder="Alalay">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput formControlName="guardian_lastname" placeholder="Penduko">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input type="text" matInput formControlName="guardian_middlename" placeholder="Dalisay">
+                </mat-form-field>
+            </div>
+            <p class="font-sans text-lg font-semibold">Address</p>
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Address</mat-label>
+                <input type="text" matInput formControlName="address" placeholder="Malabanban Norte, Candelaria Querzon">
+            </mat-form-field>
+        </div>
+
+        <p class="font-sans text-lg font-semibold">Previous Schools Information</p>
+        <div class="grid gap-1 grid-cols-1">
+            <p class="font-sans text-lg font-semibold">Elementary</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Name</mat-label>
+                    <input type="text" matInput formControlName="elem_name" placeholder="CES Main">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Location</mat-label>
+                    <input type="text" matInput formControlName="elem_location" placeholder="Malabanban Norte">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Graduation Year</mat-label>
+                    <input type="text" matInput formControlName="elem_year" placeholder="2000">
+                </mat-form-field>
+            </div>
+            <p class="font-sans text-lg font-semibold">Junior Highschool</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Name</mat-label>
+                    <input type="text" matInput formControlName="junior_high_name" placeholder="CES Main">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Location</mat-label>
+                    <input type="text" matInput formControlName="junior_high_location" placeholder="Malabanban Norte">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Graduation Year</mat-label>
+                    <input type="text" matInput formControlName="junior_high_year" placeholder="2000">
+                </mat-form-field>
+            </div>
+            <p class="font-sans text-lg font-semibold">Senior Highschool</p>
+            <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Name</mat-label>
+                    <input type="text" matInput formControlName="senior_high_name" placeholder="CES Main">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>School Location</mat-label>
+                    <input type="text" matInput formControlName="senior_high_location" placeholder="Malabanban Norte">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Graduation Year</mat-label>
+                    <input type="text" matInput formControlName="senior_high_year" placeholder="2000">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <p class="font-sans text-lg font-semibold">Learner's Information</p>
+        <div class="grid gap-1 grid-cols-2 md:grid-cols-3">
+            <mat-checkbox class="place-self-center" formControlName="is_transfer" [(ngModel)]="transferee">Are you a Transfer ?</mat-checkbox>
+
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>College School Name</mat-label>
+                <input [attr.disabled]="transferee" type="text" matInput formControlName="college_name" placeholder="MSEUF Lucena">
+            </mat-form-field>
+
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>LRN</mat-label>
+                <input type="text" matInput formControlName="lrn" placeholder="">
+            </mat-form-field>
+        </div>
+
+        <button 
+            class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white px-5 py-2.5 mb-2" 
+            [disabled]="!this.verifyForm.valid"
+            mat-raised-button>
+            <mat-icon><mat-spinner *ngIf="sending" [diameter]="20" [color]="'accent'"></mat-spinner></mat-icon>
+            Send
+        </button>
+    </form>
+
+</div>

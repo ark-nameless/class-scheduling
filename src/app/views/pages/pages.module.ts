@@ -17,10 +17,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { Page404Component } from './page404/page404.component';
 import { VerifyAccountComponent } from './verify-account/verify-account.component';
+import { VerifyStudentAccountComponent } from './verify-student-account/verify-student-account.component';
+import { VerifyTeacherAccountComponent } from './verify-teacher-account/verify-teacher-account.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -31,6 +36,8 @@ import { VerifyAccountComponent } from './verify-account/verify-account.componen
     ForgotPasswordComponent,
     Page404Component,
     VerifyAccountComponent,
+    VerifyStudentAccountComponent,
+    VerifyTeacherAccountComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +57,9 @@ import { VerifyAccountComponent } from './verify-account/verify-account.componen
     MatMenuModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
   ],
   exports: [
     LoginComponent,
