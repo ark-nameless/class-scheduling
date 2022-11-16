@@ -23,7 +23,7 @@ export class LoginGuard implements CanActivate {
       if (this.authService.isLoggedIn()){
         if (user.role == 'Admin') this.router.navigate(['/admin']);
         else if (user.role == 'Teacher') this.router.navigate(['/teacher']);
-        else if (user.role == 'Head') this.router.navigate(['/head']);
+        else if (user.role == 'Department Head') this.router.navigate(['/dept-head']);
         else if (user.role == 'Student') this.router.navigate(['/student']);
 
         return false;

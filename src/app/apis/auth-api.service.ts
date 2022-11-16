@@ -34,6 +34,10 @@ export class AuthApiService {
       .post<any>(this.apiURL + '/auth/email/verify-account', JSON.stringify({id: id}), headers)
   }
 
+  getDepartmentId(id: string): Observable<any> {
+    return this.http.get<any>(this.apiURL + `/auth/${id}/department`, this.httpOptions);
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

@@ -59,6 +59,16 @@ export class TeacherApiService {
                .put<any>(this.apiURL + '/teachers/' + token, JSON.stringify(data), headers);
   }
 
+  getTeacherPerDepartment(id: string){
+    return this.http
+      .get<any[]>(this.apiURL + `/departments/${id}/teachers`, this.httpOptions)
+  }
+
+  getTeacherSchedule(id: string){ 
+    return this.http
+      .get<any[]>(this.apiURL + `/teachers/${id}/subject-loads`, this.httpOptions)    
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

@@ -1,0 +1,95 @@
+<div 
+    x-data="{ sidebarOpen: false }"
+    class="flex flex-col w-screen h-screen overflow-x-hidden">
+
+    <div class="flex justify-between items-center bg-red-900 h-14 w-full">
+        <div class="flex items-center pl-2">
+            <div class="flex md:hidden ">
+                <button mat-icon-button class="example-icon" aria-label="" mat-button x-on:click="sidebarOpen = ! sidebarOpen">
+                    <mat-icon class="text-white">menu</mat-icon>
+                </button>
+            </div>
+            <h1 class="font-sans text-xl text-white md:pl-16">Class Scheduling</h1>
+        </div>
+        <div class="flex text-white">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>expand_circle_down</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>account_circle</mat-icon>
+                  <span>Profile</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>settings</mat-icon>
+                  <span>Settings</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                  <mat-icon>logout</mat-icon>
+                  <span>Logout</span>
+                </button>
+              </mat-menu>
+        </div>
+    </div>
+        
+
+    <div class="flex w-full h-full items-center">
+
+        <div x-show="sidebarOpen" x-on:click="sidebarOpen = false"
+            class="w-14 h-full overflow-y-auto
+                 text-gray-400 transition-all duration-300 ease-in-out bg-slate-200 shadow-lg overflow-x-hidden">
+
+            <div class="flex flex-col bg-red-900 h-full space-y-5 pl-2">
+                <button mat-icon-button aria-label="" class="text-white">
+                    <img class="w-fit bg-white rounded-full p-1 " src="/assets/images/logo-filled.png" alt="">
+                </button>
+                <button [routerLink]="'dashboard'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>home</mat-icon>
+                </button>
+                <button [routerLink]="'students'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>group</mat-icon>
+                </button>
+                <button [routerLink]="'department'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>account_tree</mat-icon>
+                </button>
+                <button [routerLink]="'class-schedules'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>school</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="hidden md:flex w-16 lg:w-24 h-full sticky top-0 items-center">
+            <div class="flex flex-col items-center bg-red-900 w-full h-full space-y-5">
+                <button mat-icon-button aria-label="" class="text-white">
+                    <img class="w-fit bg-white rounded-full p-1 " src="/assets/images/logo-filled.png" alt="">
+                </button>
+                <button [routerLink]="'dashboard'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>home</mat-icon>
+                </button>
+                <button [routerLink]="'students'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>group</mat-icon>
+                </button>
+                <button [routerLink]="'department'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>account_tree</mat-icon>
+                </button>
+                <button [routerLink]="'class-schedules'" mat-icon-button aria-label="" class="text-white">
+                    <mat-icon>school</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- content -->
+        <div class="flex flex-col w-full h-full">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!-- sidebar -->
+        <div class="hidden lg:flex w-1/4 h-full sticky top-0 items-center">
+            <div class="flex flex-col justify-center m-2 bg-purple-100 w-full h-[98%] rounded-xl">
+
+            </div>
+        </div>
+    </div>
+
+    
+</div>

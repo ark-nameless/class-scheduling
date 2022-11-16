@@ -14,6 +14,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SessionService } from 'src/app/services/session.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { AuthApiService } from 'src/app/apis/auth-api.service';
 
 
 
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
   emailErrorMatcher = new MyErrorStateMatcher
 
   constructor(private fb: FormBuilder, 
+              private authApi: AuthApiService,
               private authService: AuthService,
               private tokenStorage: SessionService,
               private router: Router,
@@ -62,13 +64,21 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(username, password).subscribe(
       data => {
-        console.log(data);
         this.tokenStorage.saveToken(data.access_token);
         this.tokenStorage.saveRefreshToken(data.refresh_token);
         this.tokenStorage.saveUser(data.data);
         this.sending = false;
 
-        this.router.navigate(['/admin/dashboard']);
+        const user = this.tokenStorage.getUser();
+
+        if (user.role == 'Admin') this.router.navigate(['/admin/dashboard']);
+        else if (user.role == 'Department Head'){
+          
+          this.router.navigate(['/dept-head/dashboard']);
+        } 
+        else if (user.role == 'Teacher') this.router.navigate(['/teacher/dashboard']);
+        else if (user.role == 'Student') this.router.navigate(['/student/dashboard']);
+
       },
       err => {
         let errorSnackbar = this._snackBar.open(err.error.detail, 'Clear', {duration: 5 * 1000})
