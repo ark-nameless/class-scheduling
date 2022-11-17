@@ -34,6 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 @NgModule({
   declarations: [
     IndexComponent,
@@ -75,6 +77,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatDialogModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    NgxMaterialTimepickerModule,
   ]
 })
 export class DeptHeadModule { }
