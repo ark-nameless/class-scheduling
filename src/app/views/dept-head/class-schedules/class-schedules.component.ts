@@ -1,38 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
+import { ClassApiService } from 'src/app/apis/class-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 
 
-export interface ActiveSchedule {
-    sectionCode: string;
-    subjectCode: string;
-    subjectDescription: string;
-    units: number
-    hours: number
-    room: string;
-    teacherId: string;
-    schedule: [{
-        days: string,
-        startTime: string,
-        endTime: string,
-        location: string
-    }]
-}
+// export interface ActiveSchedule {
+//     section_id: string;
+//     subject_id: string;
+//     description: string;
+//     units: number
+//     hours: number
+//     room: string;
+//     teacher_id: string;
+//     schedule: [{
+//         days: string,
+//         startTime: string,
+//         endTime: string,
+//         location: string
+//     }]
+// }
 
 
-export interface SubjectSchedule {
-    sectionCode: string;
-    subjectCode: string;
-    subjectDescription: string;
-    units: number;
-    hours: number;
-    room: string;
-    teacherId: string;
-}
+// export interface SubjectSchedule {
+//     section_id: string;
+//     subject_id: string;
+//     description: string;
+//     units: number;
+//     hours: number;
+//     room: string;
+//     teacher_id: string;
+// }
 
 @Component({
     selector: 'app-class-schedules',
@@ -42,14 +44,13 @@ export interface SubjectSchedule {
 export class ClassSchedulesComponent implements OnInit {
 
     schedule = {
-        sectionCode: '',
-        subjectCode: '',
-        subjectDescription: '',
+        section_id: '',
+        subject_id: '',
+        description: '',
         units: 0,
         hours: 0,
-        room: '',
-        teacherId: '',
-        schedule: [{
+        teacher_id: '',
+        schedules: [{
             days: '',
             startTime: '',
             endTime: '',
@@ -59,19 +60,13 @@ export class ClassSchedulesComponent implements OnInit {
 
     scheduleList = <any>[];
 
-
     selectedLoad: number = -1;
 
     departmentTeachers = <any>[];
     loadingTeachers = false;
     selectedTeacherId = '';
 
-    daySelector = ''
-    startTime = '';
-    endTime = '';
-
-    days = <any>[];
-    times = '';
+    isValidSchedule = false;
 
     subjectSchedule = [
         {
@@ -84,13 +79,25 @@ export class ClassSchedulesComponent implements OnInit {
 
     selectedTeacherSchedule = <any>[];
 
+    classForm: FormGroup;
+    initialClassForm: FormGroup;
+
     constructor(
+        private router: Router,
         private fb: FormBuilder,
         private session: SessionService,
         private authApi: AuthApiService,
         private teacherApi: TeacherApiService,
+        private classApi: ClassApiService,
         private snackbar: MatSnackBar,
     ) {
+        this.initialClassForm = this.classForm = this.fb.group({
+            major: [null, ],
+            semester: [null, [Validators.required]],
+            startYear: [null, [Validators.required]],
+            endYear: [null, [Validators.required]],
+        })
+
         if (window.sessionStorage.getItem('dept-id') == null) {
             console.log('getting department id...')
             this.authApi.getDepartmentId(session.getUser().id).subscribe(data => {
@@ -114,25 +121,23 @@ export class ClassSchedulesComponent implements OnInit {
                     entry.name.firstname + ' ' + entry.name.middlename.toUpperCase()[0] + '.' : '';
                 this.departmentTeachers.push(entry)
             });
-            // this.departmentTeachers = data.data;
             this.loadingTeachers = false;
         })
     }
 
     private emptySchedule() {
-        return this.schedule.sectionCode == '' ||
-            this.schedule.subjectCode == '' ||
-            this.schedule.subjectDescription == '' ||
+        return this.schedule.section_id == '' ||
+            this.schedule.subject_id == '' ||
+            this.schedule.description == '' ||
             this.schedule.units == 0 ||
-            this.schedule.hours == 0 ||
-            this.schedule.room == '';
+            this.schedule.hours == 0 ;
     }
 
-    private emptySubjectLoad() {
-        const length = this.scheduleList[this.selectedLoad].schedule.length - 1;
-        return this.scheduleList[this.selectedLoad].schedule[length].days.length <= 0 ||
-            this.scheduleList[this.selectedLoad].schedule[length].startTime == '' ||
-            this.scheduleList[this.selectedLoad].schedule[length].endTime == '';
+    emptySubjectLoad() {
+        const length = this.scheduleList[this.selectedLoad].schedules.length - 1;
+        return this.scheduleList[this.selectedLoad].schedules[length].days.length <= 0 ||
+            this.scheduleList[this.selectedLoad].schedules[length].startTime == '' ||
+            this.scheduleList[this.selectedLoad].schedules[length].endTime == '';
     }
 
     private timeToInt(time: string) {
@@ -155,6 +160,29 @@ export class ClassSchedulesComponent implements OnInit {
         )
     }
 
+    private checkSchedule(sched1: any, sched2: any) {
+        console.log(sched2)
+        let days = sched1.days.join('')
+
+        for (let i = 0; i < sched2.length; i++) {
+            for (const day of sched2[i].days) {
+                // similar day; perform check
+                if (days.search(day) != -1) {
+                    let t1 = {
+                        startTime: sched1.startTime,
+                        endTime: sched1.endTime
+                    };
+                    let t2 = {
+                        startTime: sched2[i].startTime,
+                        endTime: sched2[i].endTime
+                    };
+                    if (this.checkTimeCollision(t1, t2)) return true
+                }
+            }
+        }
+        return false
+    }
+
 
 
     addSubjectSchedule() {
@@ -162,15 +190,16 @@ export class ClassSchedulesComponent implements OnInit {
             this.snackbar.open('Please fill in all the fields before adding', 'Close', { duration: 3 * 1000 });
             return
         }
-        this.scheduleList[this.selectedLoad].schedule.push({
+        this.scheduleList[this.selectedLoad].schedules.push({
             days: '',
             startTime: '',
             endTime: '',
             location: ''
         });
+        this.isValidSchedule = false;
     }
     removeSubjectSchedule(index: number) {
-        this.scheduleList[this.selectedLoad].schedule.splice(index, 1);
+        this.scheduleList[this.selectedLoad].schedules.splice(index, 1);
     }
 
 
@@ -180,14 +209,13 @@ export class ClassSchedulesComponent implements OnInit {
     }
     clearSchedule() {
         this.schedule = {
-            sectionCode: '',
-            subjectCode: '',
-            subjectDescription: '',
+            section_id: '',
+            subject_id: '',
+            description: '',
             units: 0,
             hours: 0,
-            room: '',
-            teacherId: '',
-            schedule: [{
+            teacher_id: '',
+            schedules: [{
                 days: '',
                 startTime: '',
                 endTime: '',
@@ -203,54 +231,117 @@ export class ClassSchedulesComponent implements OnInit {
         }
         this.scheduleList.push(this.schedule)
         this.schedule = {
-            sectionCode: '',
-            subjectCode: '',
-            subjectDescription: '',
+            section_id: '',
+            subject_id: '',
+            description: '',
             units: 0,
             hours: 0,
-            room: '',
-            teacherId: '',
-            schedule: [{
+            teacher_id: '',
+            schedules: [{
                 days: '',
                 startTime: '',
                 endTime: '',
                 location: ''
             }]
         };
+        this.isValidSchedule = false;
 
     }
 
     selectedTeacher() {
-        const teacherId = this.scheduleList[this.selectedLoad].teacherId;
-        this.teacherApi.getTeacherSchedule(teacherId).subscribe((data: any) => {
-            this.selectedTeacherSchedule = data.data;
-        })
+        // this.selectedTeacherName = 
+        const teacherId = this.scheduleList[this.selectedLoad].teacher_id;
+        if (teacherId != ''){
+            this.teacherApi.getTeacherSchedule(teacherId).subscribe((data: any) => {
+                this.selectedTeacherSchedule = data.data;
+            }, err => {
+
+            })
+        }
     }
 
-    private validaSelectedLoad() {
-        const scheduleLen = this.scheduleList[this.selectedLoad].schedule.length;
-        const baseSchedule = this.scheduleList[this.selectedLoad].schedule[0];
-
+    private validSelectedLoad() {
+        const scheduleLen = this.scheduleList[this.selectedLoad].schedules.length;
         for (let i = 0, advance = i + 1; advance < scheduleLen; i++, advance++) {
-            let scheduleDay = this.scheduleList[this.selectedLoad].schedule[advance].days.join('');
-            let found = baseSchedule.days.forEach((day: any) => {
+            let scheduleDay = this.scheduleList[this.selectedLoad].schedules[advance].days.join('');
+            let found = this.scheduleList[this.selectedLoad].schedules[i].days.forEach((day: any) => {
+                console.log(day)
                 let searched = scheduleDay.search(day)
                 if (searched != -1) {
+                    let i_time = this.scheduleList[this.selectedLoad].schedules[i];
+                    let advance_time = this.scheduleList[this.selectedLoad].schedules[advance];
 
+                    let t1 = { startTime: i_time.startTime, endTime: i_time.endTime };
+                    let t2 = { startTime: advance_time.startTime, endTime: advance_time.endTime };
+                    if (this.checkTimeCollision(t1, t2)) {
+                        this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
+                        return
+                    }
                 }
             });
         }
     }
 
-    private checkFilledUpSchedule() {
-    }
-
     validateSchedule() {
+        this.isValidSchedule = false;
         if (this.emptySubjectLoad()) {
             this.snackbar.open('Please add schedule before trying to validate it.', 'Close', { duration: 1 * 1000 });
             return
         }
+        this.validSelectedLoad();
+        let selected_index = 0;
+        for (let i = 0; i < this.scheduleList.length; i++) {
+            this.scheduleList[i].schedules.forEach((sched: any) => {
+                this.scheduleList.forEach((schedule: any, index: number) => {
+                    // check only if not the same schedule and same teacher's schedule
+                    if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
+                        let res = this.checkSchedule(sched, schedule.schedules);
+                        console.log(`${this.scheduleList[i].teacher_id} == ${schedule.teacher_id}`)
+                        if (res){
+                            this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
+                            return 
+                        }
+                    }
+                });
+            });
+        }
+        // checking for saved subject load
+        if (this.selectedTeacherSchedule.length > 0){
+            this.scheduleList[this.selectedLoad].schedules.forEach((data: any) => {
+                this.selectedTeacherSchedule.forEach((sched2: any) => {
+                    if (this.checkSchedule(data, sched2.schedules)){
+                        this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
+                        return 
+                    }
+                })
+            })
+        }
+        this.isValidSchedule = true;
+    }
 
-        this.validaSelectedLoad();
+
+    publishClassSchedule() {
+        console.log('publishing class schedule...')
+        let class_schedule = {
+            department_id: window.sessionStorage.getItem('dept-id'),
+            major: this.classForm.value.major,
+            semester: this.classForm.value.semester,
+            year: {
+                start: this.classForm.value.startYear,
+                end: this.classForm.value.endYear
+            },
+            subject_loads: this.scheduleList
+        }
+
+        this.classApi.createNewClassSchedule(class_schedule).subscribe((data: any) => {
+            this.classForm = this.initialClassForm;
+            let res = this.snackbar.open('Class Schedule Successfully Published', 'Close', { duration: 3 * 1000 });
+
+            res.onAction().subscribe(() => {
+                this.router.navigate(['dept-head/dashboard'])
+            })
+        }, err => {
+
+        })
     }
 }
