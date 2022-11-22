@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepartmentComponent implements OnInit {
 
+  departmentId = ''
+
   constructor() { }
 
   ngOnInit(): void {
+    this.departmentId = window.sessionStorage.getItem('dept-id') ?? '';
   }
 
 }

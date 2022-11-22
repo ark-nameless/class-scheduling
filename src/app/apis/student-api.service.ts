@@ -23,9 +23,22 @@ export class StudentApiService {
     }),
   };
 
-  getStudents(): Observable<any[]> {
+  getStudents(deptId = ''): Observable<any[]> {
+    if (deptId != '') return this.getStudentsInDepartment(deptId);
     return this.http
       .get<any[]>(this.apiURL + '/students', this.httpOptions)
+  }
+
+  getStudentsInDepartment(departmentId: string): Observable<any>{
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'accept': 'application/json',
+        'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    }
+    return this.http
+      .get<any>(this.apiURL + `/departments/${departmentId}/students`, headers);
   }
 
   getVerifiedStudents(): Observable<any[]> {

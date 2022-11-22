@@ -24,7 +24,8 @@ export class TeacherApiService {
     }),
   };
 
-  getAllTeachers(): Observable<any[]> {
+  getAllTeachers(deptId=''): Observable<any[]> {
+    if (deptId != '') return this.getTeacherPerDepartment(deptId);
     return this.http
       .get<any[]>(this.apiURL + '/teachers', this.httpOptions)
   }

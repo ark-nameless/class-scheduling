@@ -6,6 +6,7 @@ import { ClassSchedulesComponent } from './class-schedules/class-schedules.compo
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepartmentComponent } from './department/department.component';
 import { IndexComponent } from './index/index.component';
+import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.component';
 import { StudentsComponent } from './students/students.component';
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
 			{ path: 'students', component: StudentsComponent },
 			{ path: 'department', component: DepartmentComponent },
 			{ path: 'class-schedules', component: ClassSchedulesComponent },
+			{ path: 'view-class-schedule/:token', component: ViewClassInfoComponent },
 		]
 	}
 ];

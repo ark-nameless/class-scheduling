@@ -32,4 +32,19 @@ export class ClassApiService {
     return this.http
                .post<any>(this.apiURL + '/classes', JSON.stringify(data), headers);
   }
+
+  getClasses(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/departments/${id}/classes`, this.httpOptions);
+  }
+
+  getClassInfo(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/classes/${id}/class-info`, this.httpOptions);
+  }
+
+  getClassLoads(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/classes/${id}/class-loads`, this.httpOptions);
+  }
 }

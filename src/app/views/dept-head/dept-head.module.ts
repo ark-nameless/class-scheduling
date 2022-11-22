@@ -35,6 +35,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { CreateNewClassScheduleComponent } from './forms/create-new-class-schedule/create-new-class-schedule.component';
+import { NewStudentComponent } from './forms/new-student/new-student.component';
+import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     StudentsComponent,
     DepartmentComponent,
     ClassSchedulesComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreateNewClassScheduleComponent,
+    NewStudentComponent,
+    ViewClassInfoComponent
   ],
   imports: [
     CommonModule,

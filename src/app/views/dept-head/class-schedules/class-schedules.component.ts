@@ -317,6 +317,7 @@ export class ClassSchedulesComponent implements OnInit {
             })
         }
         this.isValidSchedule = true;
+        this.snackbar.open('Schedule is Valid', 'Close', { duration: 2 * 1000 });
     }
 
 

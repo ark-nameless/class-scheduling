@@ -1,0 +1,99 @@
+<div class="flex flex-col w-full p-5">
+    <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+  
+    <div class="mat-elevation-z8">
+        <va-mat-table class="mat-elevation-z8">
+            <ng-container action-bar-items>
+                <button va-mat-table-column-sorter [(columns)]="displayedColumns" [columnNames]="displayedColumns"
+                    [saveName]="userId+'teachers-table'">
+                    <mat-icon>view_column</mat-icon>
+                    Columns
+                </button>
+            </ng-container>
+        <table mat-table [dataSource]="dataSource" matSort>
+  
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+            </ng-container>
+  
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+            </ng-container>
+  
+            <!-- Address Column -->
+            <ng-container matColumnDef="verified">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Verified </th>
+                <td mat-cell *matCellDef="let row"> {{row.verified}} </td>
+            </ng-container>
+  
+            <!-- Gender Column -->
+            <ng-container matColumnDef="department_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+                <td mat-cell *matCellDef="let row">
+                    <p class="hidden md:flex">{{ row.department_name }}</p>
+                    <p class="md:hidden">{{ row.abbrev }}</p>
+                </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="actions" class=" md:hidden">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class=" md:hidden"> Actions </th>
+                <td mat-cell *matCellDef="let row" class=" md:hidden">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                            <mat-icon>dialpad</mat-icon>
+                            <span>Redial</span>
+                        </button>
+                        <button mat-menu-item disabled>
+                            <mat-icon>voicemail</mat-icon>
+                            <span>Check voice mail</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>notifications_off</mat-icon>
+                            <span>Disable alerts</span>
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [cdkContextMenuTriggerFor]="context_menu_teachers_table"
+                (contextmenu)="rowOnClick(row)"></tr>
+  
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+        </va-mat-table>
+  
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  
+  </div>
+  
+  <ng-template #context_menu_teachers_table>
+      <div class="example-menu" cdkMenu>
+          <button mat-flat-button cdkMenuItem (click)="sendVerificationEmail()">
+              <mat-icon>published_with_changes</mat-icon>
+              <span>Send Verification Email</span>
+          </button>
+          <button mat-flat-button cdkMenuItem (click)="sendPasswordResetEmail()">
+              <mat-icon>lock_reset</mat-icon>
+              <span>Send Password Reset Email</span>
+          </button>
+          <button mat-flat-button cdkMenuItem (click)="deleteAccount('0ms', '0ms')">
+              <mat-icon>delete_forever</mat-icon>
+              <span>Delete Account</span>
+          </button>
+      </div>
+  </ng-template>
