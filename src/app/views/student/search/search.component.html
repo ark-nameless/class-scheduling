@@ -1,0 +1,38 @@
+<div class="flex flex-col w-full h-full p-2 space-y-2">
+    <h1 class="font-sans text-2xl font-semibold">Search</h1>
+    <ng-select class="bg-white"
+        [dropdownPosition]="'bottom'"
+        [appearance]="'outline'"
+        [items]="studentList" 
+        bindLabel="username" 
+        bindValue="id" 
+        placeholder="Search Student"
+        [(ngModel)]="studentSearch">
+    </ng-select>
+    <button mat-raised-button 
+        color="primary" 
+        class="w-full"
+        (click)="searchStudent()"
+        >
+        Search
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <ng-select class="bg-white"
+        [dropdownPosition]="'bottom'"
+        [appearance]="'outline'"
+        [items]="teacherList" 
+        bindLabel="username" 
+        bindValue="id" 
+        placeholder="Search Teacher"
+        [(ngModel)]="teacherSearch">
+    </ng-select>
+    <button mat-raised-button 
+        color="primary" 
+        class="w-full" 
+        (click)="searchTeacher()"
+        >
+        Search
+    </button>
+</div>

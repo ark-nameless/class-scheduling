@@ -51,11 +51,17 @@ export class StudentApiService {
                .get<any>(this.apiURL + `/students/${id}`, this.httpOptions);
   }
 
+
+  getStudentSchedules(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/students/${id}/schedules`, this.httpOptions)
+  }
+
+
   registerUnverifiedStudent(student: any): Observable<any> {
     let headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        // 'accept': 'application/json',
         'Authorization': 'Bearer ' + this.token.getToken(),
       })
     }
