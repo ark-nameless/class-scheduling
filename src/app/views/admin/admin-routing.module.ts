@@ -11,7 +11,7 @@ const routes: Routes = [
 	{ path: '', redirectTo: 'dashboard', pathMatch: 'full'},
 	{
 		path: '', component: IndexComponent, canActivate: [],
-		canActivateChild: [AuthGuard, RoleGuard],  data: { expectedRole: "Admin" },
+		canActivateChild: [AuthGuard, RoleGuard],  data: { expectedRole: ["Admin"] },
 		children: [
 			{ path: 'dashboard', component: DashboardComponent },
 			{ path: 'users', component: UsersComponent },

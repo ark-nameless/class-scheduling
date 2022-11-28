@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { StudentApiService } from 'src/app/apis/student-api.service';
@@ -31,10 +32,13 @@ export class StudentsTableComponent implements OnInit {
 
   @Input()
   departmentId = '';
+  @Input() 
+  origin = '';
 
   userId = '';
 
   constructor(
+    private router: Router,
     public dialog: MatDialog,
     private studentAPI: StudentApiService,
     private events: EventEmitterService,
@@ -99,21 +103,34 @@ export class StudentsTableComponent implements OnInit {
 
   rowOnClick(data: any) {
     this.selectedRow = data;
+
+  }
+
+  selectRow(data: any) {
+    console.log(data);
+    this.router.navigate([`/${this.origin}/${data.role.toLowerCase()}/profile/${data.id}`])
   }
 
   sendVerificationEmail(id = '') {
     if (id == '') id = this.selectedRow.id;
 
-    console.log(id)
-    this.authApi.sendAccountVerifivation(id).subscribe((data) => {
+    console.log(id);
+    this.authApi.sendAccountVerification(id).subscribe((data) => {
       this.snackBar.open(data.detail, 'Close', {duration: 3 * 1000})
     }, (error: any) => { 
       this.snackBar.open(error.error.detail, 'Close', {duration: 3 * 1000})
     })
   }
 
-  sendPasswordResetEmail() {
-    console.log('send password reset email');
+  sendPasswordResetEmail(id = '') {
+    if (id == '') id = this.selectedRow.id;
+
+    console.log(id);
+    this.authApi.sendPasswordResetViaAdmin(id).subscribe((data:any) => {
+      this.snackBar.open(data.detail, 'Close', {duration: 3 * 1000})
+    }, (error: any) => { 
+      this.snackBar.open(error.error.detail, 'Close', {duration: 3 * 1000})
+    })
   }
 
 

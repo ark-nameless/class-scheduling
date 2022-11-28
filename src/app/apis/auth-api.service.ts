@@ -23,7 +23,30 @@ export class AuthApiService {
     }),
   };
 
-  sendAccountVerifivation(id: string): Observable<any> {
+  resetNewPassword(token: string, password: any): Observable<any> {
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    }
+    return this.http
+               .put<any>(this.apiURL + `/auth/${token}/change-password`, password, headers)
+  }
+
+  sendPasswordResetViaEmail(data: any): Observable<any> {
+    console.log(data)
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    }
+    return this.http
+      .put<any>(this.apiURL + '/auth/email/reset-password', JSON.stringify(data), headers)
+  }
+
+  sendAccountVerification(id: string): Observable<any> {
     let headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -32,6 +55,17 @@ export class AuthApiService {
     }
     return this.http
       .post<any>(this.apiURL + '/auth/email/verify-account', JSON.stringify({id: id}), headers)
+  }
+
+  sendPasswordResetViaAdmin(id: string): Observable<any> {
+    let headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer ' + this.token.getToken(),
+      })
+    }
+    return this.http
+      .post<any>(this.apiURL + '/auth/email/send-reset-password', JSON.stringify({id: id}), headers)
   }
 
   getDepartmentId(id: string): Observable<any> {

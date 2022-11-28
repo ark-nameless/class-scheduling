@@ -70,6 +70,11 @@ export class TeacherApiService {
       .get<any[]>(this.apiURL + `/teachers/${id}/subject-loads`, this.httpOptions)    
   }
 
+  getTeacherPublicProfile(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/teachers/${id}`, this.httpOptions);
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
@@ -33,12 +34,15 @@ export class TeachersTableComponent implements OnInit {
 
   @Input()
   departmentId = '';
+  @Input()
+  origin = '';
 
   userId = '';
 
 
   constructor(
     public dialog: MatDialog,
+    private router: Router,
     private teacherApi: TeacherApiService,
     private events: EventEmitterService,
     private authApi: AuthApiService,
@@ -103,9 +107,14 @@ export class TeachersTableComponent implements OnInit {
     this.selectedRow = data
   }
 
+  selectRow(data: any) {
+    console.log(data);
+    this.router.navigate([`/${this.origin}/${data.role.toLowerCase()}/profile/${data.id}`])
+  }
+
   sendVerificationEmail(id: string = '') {
     if (id == '') id = this.selectedRow.id
-    this.authApi.sendAccountVerifivation(id).subscribe((data) => {
+    this.authApi.sendAccountVerification(id).subscribe((data) => {
       this.snackBar.open(data.detail, 'Close', {duration: 3 * 1000})
     }, (error: any) => { 
       this.snackBar.open(error.error.detail, 'Close', {duration: 3 * 1000})

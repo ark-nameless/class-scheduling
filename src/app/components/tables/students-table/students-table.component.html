@@ -8,7 +8,7 @@
         <va-mat-table class="mat-elevation-z8">
             <ng-container action-bar-items>
                 <button va-mat-table-column-sorter [(columns)]="displayedColumns" [columnNames]="displayedColumns"
-                    [saveName]="userId+'student-table'">
+                    [saveName]="userId+'students-table'">
                     <mat-icon>view_column</mat-icon>
                     Columns
                 </button>
@@ -53,13 +53,13 @@
                                 <mat-icon>published_with_changes</mat-icon>
                                 <span>Send Verification Email</span>
                             </button>
-                            <button mat-flat-button (click)="sendPasswordResetEmail()">
+                            <button mat-flat-button (click)="sendPasswordResetEmail(row.id)">
                                 <mat-icon>lock_reset</mat-icon>
                                 <span>Send Password Reset Email</span>
                             </button>
                             <button mat-flat-button (click)="deleteAccount('0ms', '0ms')">
                                 <mat-icon>delete_forever</mat-icon>
-                                <span>Delete Account</span>
+                                <span>Deactive Account</span>
                             </button>
                         </mat-menu>
                     </td>
@@ -67,6 +67,7 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;" [cdkContextMenuTriggerFor]="menu"
+                    (click)="selectRow(row)"
                     (contextmenu)="rowOnClick(row)"></tr>
 
                 <!-- Row shown when there is no matching data. -->
@@ -92,7 +93,7 @@
         </button>
         <button mat-flat-button cdkMenuItem (click)="deleteAccount('0ms', '0ms')">
             <mat-icon>delete_forever</mat-icon>
-            <span>Delete Account</span>
+            <span>Deactive Account</span>
         </button>
     </div>
 </ng-template>

@@ -46,6 +46,11 @@ export class StudentApiService {
       .get<any[]>(this.apiURL + '/students/verified', this.httpOptions)
   }
 
+  getStudentPublicProfile(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/students/${id}`, this.httpOptions);
+  }
+
   registerUnverifiedStudent(student: any): Observable<any> {
     let headers = {
       headers: new HttpHeaders({

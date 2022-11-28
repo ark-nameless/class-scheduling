@@ -11,28 +11,20 @@
                 </button>
             </div>
             <app-students-table 
+                [origin]="'dept-head'"
                 [departmentId]="departmentId">
             </app-students-table>
         </mat-tab>
         
         <mat-tab label="Manage Teachers">
             <div class="grid gap-2 grid-cols-1 md:grid-cols-2 m-4">
-                <!-- <button 
-                    mat-raised-button 
-                    (click)="addNewStudentDialog()"
-                    class="bg-red-900 text-white">
-                    <mat-icon matPrefix>person_add</mat-icon>
-                    Add Teacher
-                </button> -->
             </div>
         
             <app-teachers-table
-                [departmentId]="departmentId">
+                [departmentId]="departmentId"
+                [origin]="'dept-head'">
             </app-teachers-table>
         </mat-tab>
-        <!-- <mat-tab label="Manage Department Heads">
-            <app-departments></app-departments>
-        </mat-tab> -->
     </mat-tab-group>
 
     

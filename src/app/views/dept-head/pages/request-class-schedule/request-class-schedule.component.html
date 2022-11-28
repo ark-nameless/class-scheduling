@@ -1,0 +1,52 @@
+<div class="flex flex-col w-full h-full p-2 space-y-4">
+    <h1 class="font-sans text-2xl font-semibold">Request Subject Schedules</h1>
+    
+    <div class="flex flex-col w-full h-full space-y-2 border-2 border-slate-400 rounded-xl p-2">
+        <h1 class="font-sans text-xl font-semibold">Request Description</h1>
+        <mat-form-field class="w-full">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="4th Year 1st Sem" [(ngModel)]="requestNote">
+        </mat-form-field>
+    
+        <div class="flex flex-col w-full mt-10">
+            <h1 class="font-sans text-xl font-semibold">Department</h1>
+            <ng-select class="bg-white"
+                    [dropdownPosition]="'bottom'"
+                    [appearance]="'outline'"
+                    [items]="allDepartments" 
+                    bindLabel="name" 
+                    bindValue="id" 
+                    [loading]="loadingDepartments"
+                    placeholder="Send Request to"
+                    [(ngModel)]="selectedDepartment">
+            </ng-select>
+        </div>
+    
+        <h1 class="font-sans text-xl font-semibold">Subject List</h1>
+        <div class="flex w-full border-slate-400 border-2 rounded-xl p-4 space-x-2 space-y-2">
+            <div class="flex items-center justify-center w-fit rounded-xl p-1 bg-slate-300 hover:cursor-pointer hover:bg-slate-400 hover:text-white" 
+                *ngFor="let subject of subjectList; let i = index;">
+                {{ subject }}
+                <button matSuffix mat-icon-button aria-label="remove" (click)="removeSubject(i)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+    
+        <h1 class="font-sans text-xl font-semibold">Subject Name</h1>
+        <mat-form-field class="w-full">
+            <mat-label>Subject Name</mat-label>
+            <input matInput type="text" [(ngModel)]="inputSubject" appearance="outline" (keyup.enter)="saveSubject()">
+            <button *ngIf="inputSubject" matSuffix mat-icon-button aria-label="Clear" (click)="inputSubject=''">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="saveSubject()">
+            Add
+        </button>
+    </div>
+    
+    <button mat-raised-button color="accent" (click)="sendSchedule()">
+        Send Request
+    </button>
+</div>

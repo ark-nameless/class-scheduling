@@ -37,6 +37,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { TableDepartmentsComponent } from './tables/table-departments/table-departments.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { NewDepartmentComponent } from './forms/new-department/new-department.component';
+import { PagesModule } from '../pages/pages.module';
 
 @NgModule({
   declarations: [

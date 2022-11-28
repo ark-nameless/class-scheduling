@@ -21,7 +21,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     const role = route.parent!.data['expectedRole'];
     let user = this.tokenStorage.getUser();
 
-    if (user.role !== role) {
+    if (role.indexOf(user.role) == -1) {
       this.router.navigate(['login']);
     }
     return true;

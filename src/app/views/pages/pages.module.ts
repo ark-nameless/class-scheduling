@@ -26,6 +26,10 @@ import { VerifyStudentAccountComponent } from './verify-student-account/verify-s
 import { VerifyTeacherAccountComponent } from './verify-teacher-account/verify-teacher-account.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ViewPublicProfileComponent } from './view-public-profile/view-public-profile.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -38,6 +42,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     VerifyAccountComponent,
     VerifyStudentAccountComponent,
     VerifyTeacherAccountComponent,
+    ChangePasswordComponent,
+    ViewPublicProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -60,9 +66,13 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatDividerModule,
+    MatListModule,
   ],
   exports: [
     LoginComponent,
+    ChangePasswordComponent,
+    ViewPublicProfileComponent,
   ]
 })
 export class PagesModule { }

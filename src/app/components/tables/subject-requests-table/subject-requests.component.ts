@@ -19,6 +19,9 @@ import { DialogDeleteAccountComponent } from '../../dialog-delete-account/dialog
   styleUrls: ['./subject-requests.component.css']
 })
 export class SubjectRequestsTableComponent implements OnInit {
+
+  snackbarDuration = 3;
+
   private subs = new Subscription();
 
   displayedColumns: string[] = ['from', 'description', 'subjects', 'actions'];
@@ -44,7 +47,7 @@ export class SubjectRequestsTableComponent implements OnInit {
     private departmentApi: DepartmentApiService,
     private events: EventEmitterService,
     private authApi: AuthApiService,
-    private snackBar: MatSnackBar,
+    private snackbar: MatSnackBar,
     private token: SessionService,
   ) {
     this.userId = token.getUser().id;
@@ -81,5 +84,22 @@ export class SubjectRequestsTableComponent implements OnInit {
 
   rowOnClick(data: any) {
     this.selectedRow = data
+  }
+
+  finishRequest(id = ''){
+    id = id == '' ? this.selectedRow.id : id;
+
+    this.departmentApi.finishScheduleRequest(id).subscribe(
+      (data: any) => {
+        this.snackbar.open(data.detail, 'Close', { duration: this.snackbarDuration * 1000 })
+
+        const objWithIdIndex = this.requests.findIndex((obj:any) => obj.id === id);
+
+        if (objWithIdIndex > -1) {
+          this.requests.splice(objWithIdIndex, 1);
+        }
+        this.dataSource = this.requests;
+      }
+    )
   }
 }

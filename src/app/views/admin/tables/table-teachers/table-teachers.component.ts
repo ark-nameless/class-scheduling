@@ -99,7 +99,7 @@ export class TableTeachersComponent implements OnInit {
 
   sendVerificationEmail(id: string = '') {
     if (id == '') id = this.selectedRow.id
-    this.authApi.sendAccountVerifivation(id).subscribe((data) => {
+    this.authApi.sendAccountVerification(id).subscribe((data) => {
       this.snackBar.open(data.detail, 'Close', {duration: 3 * 1000})
     }, (error: any) => { 
       this.snackBar.open(error.error.detail, 'Close', {duration: 3 * 1000})

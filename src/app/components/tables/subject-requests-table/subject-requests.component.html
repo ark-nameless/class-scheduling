@@ -4,7 +4,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
     </mat-form-field>
   
-    <div class="mat-elevation-z8">
+    <div class="table-container mat-elevation-z8">
         <va-mat-table class="mat-elevation-z8">
             <ng-container action-bar-items>
                 <button va-mat-table-column-sorter [(columns)]="displayedColumns" [columnNames]="displayedColumns"
@@ -46,7 +46,10 @@
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-
+                        <button mat-flat-button (click)="finishRequest(row.id)">
+                            <mat-icon>delete_forever</mat-icon>
+                            <span>Finish Request</span>
+                        </button>
                     </mat-menu>
                 </td>
             </ng-container>
@@ -69,7 +72,7 @@
   
   <ng-template #context_menu_for_request_subjects>
       <div class="example-menu" cdkMenu>
-        <button mat-flat-button cdkMenuItem>
+        <button mat-flat-button cdkMenuItem (click)="finishRequest()">
             <mat-icon>delete_forever</mat-icon>
             <span>Finish Request</span>
         </button>

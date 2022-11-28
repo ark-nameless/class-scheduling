@@ -45,6 +45,9 @@ import { DataTablesModule } from 'angular-datatables';
 import { NewScheduleComponent } from './pages/new-schedule/new-schedule.component';
 import { CreateRequestSubjectsComponent } from './forms/create-request-subjects/create-request-subjects.component';
 import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-departments/view-requesting-departments.component';
+import { PagesModule } from '../pages/pages.module';
+import { RequestClassScheduleComponent } from './pages/request-class-schedule/request-class-schedule.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,8 @@ import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-depa
     ViewClassInfoComponent,
     NewScheduleComponent,
     CreateRequestSubjectsComponent,
-    ViewRequestingDepartmentsComponent
+    ViewRequestingDepartmentsComponent,
+    RequestClassScheduleComponent
   ],
   imports: [
     CommonModule,
@@ -99,6 +103,6 @@ import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-depa
     MatRippleModule,
     MatChipsModule,
     MatListModule,
-  ]
+  ],
 })
 export class DeptHeadModule { }

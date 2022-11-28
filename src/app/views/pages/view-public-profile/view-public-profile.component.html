@@ -1,0 +1,31 @@
+<div class="grid gap-2 grid-cols-1 md:grid-cols-3 w-full h-full p-2">
+    <div class="flex flex-col p-2 border-slate-400 border-2 rounded-xl h-fit">
+        <h1 class="font-sans text-2xl font-semibold">Student Profile</h1>
+        <mat-icon class="no-profile-svg">account_circle</mat-icon>
+    </div>
+
+    <div class="col-span-2 grid gap-2 grid-cols-1 p-2 border-slate-400 border-2 rounded-xl">
+        <mat-list>
+            <div mat-subheader>Student Name</div>
+            <mat-list-item>
+                {{ userName }}
+            </mat-list-item>
+
+            <mat-divider></mat-divider>
+
+            <div mat-subheader>Department</div>
+            <mat-list-item>
+                {{  userProfile.department_name }}
+            </mat-list-item>
+            
+            <mat-divider></mat-divider>
+
+            <div *ngIf="userRole == 'student'" class="">
+                <div mat-subheader>Year</div>
+                <mat-list-item>
+                    {{  userProfile.year }}
+                </mat-list-item>
+            </div>
+          </mat-list>
+    </div>
+</div>

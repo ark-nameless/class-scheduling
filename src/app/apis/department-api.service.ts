@@ -50,4 +50,9 @@ export class DepartmentApiService {
     return this.http
                .post<any>(this.apiURL + '/departments', JSON.stringify(data), headers);
   }
+
+  finishScheduleRequest(id: string): Observable<any> {
+    return this.http
+               .delete<any>(this.apiURL + `/departments/${id}/finish-request`, this.httpOptions);
+  }
 }
