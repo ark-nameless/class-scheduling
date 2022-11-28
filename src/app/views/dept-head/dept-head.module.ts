@@ -33,11 +33,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatRippleModule} from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatListModule} from '@angular/material/list';
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { CreateNewClassScheduleComponent } from './forms/create-new-class-schedule/create-new-class-schedule.component';
 import { NewStudentComponent } from './forms/new-student/new-student.component';
 import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.component';
+import { DataTablesModule } from 'angular-datatables';
+import { NewScheduleComponent } from './pages/new-schedule/new-schedule.component';
+import { CreateRequestSubjectsComponent } from './forms/create-request-subjects/create-request-subjects.component';
+import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-departments/view-requesting-departments.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +55,10 @@ import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.
     DashboardComponent,
     CreateNewClassScheduleComponent,
     NewStudentComponent,
-    ViewClassInfoComponent
+    ViewClassInfoComponent,
+    NewScheduleComponent,
+    CreateRequestSubjectsComponent,
+    ViewRequestingDepartmentsComponent
   ],
   imports: [
     CommonModule,
@@ -58,6 +68,8 @@ import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.
     HttpClientModule,
 
     ComponentsModule,
+
+    DataTablesModule,
 
     CdkMenuModule,
 
@@ -84,6 +96,9 @@ import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.
     MatExpansionModule,
     MatButtonToggleModule,
     NgxMaterialTimepickerModule,
+    MatRippleModule,
+    MatChipsModule,
+    MatListModule,
   ]
 })
 export class DeptHeadModule { }

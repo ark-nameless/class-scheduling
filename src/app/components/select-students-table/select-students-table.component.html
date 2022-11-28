@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>Department Students</h1>
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+    <va-mat-table class="mat-elevation-z8">
+      <ng-container action-bar-items class>
+        <button va-mat-table-column-sorter [(columns)]="studentsTableColumns" [columnNames]="studentsTableColumns"
+          [saveName]="userId+'classes-select-students-table'">
+          <mat-icon>view_column</mat-icon>
+          Columns
+        </button>
+      </ng-container>
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="profile_img">
+          <th mat-header-cell *matHeaderCellDef> Profile </th>
+          <td mat-cell *matCellDef="let row"> {{row.profile_img}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name</th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+          <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Year </th>
+          <td mat-cell *matCellDef="let row"> {{row.year}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="studentsTableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: studentsTableColumns;" (click)="selection.toggle(row)">
+        </tr>
+      </table>
+    </va-mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of student list">
+    </mat-paginator>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close mat-dialog-close="none">Cancel</button>
+  <button 
+    [disabled]="selectedStudents.size < 1"
+    mat-raised-button 
+    color="primary" 
+    [mat-dialog-close]="selectedStudents"
+    cdkFocusInitial>
+      Add Students
+  </button>
+</mat-dialog-actions>

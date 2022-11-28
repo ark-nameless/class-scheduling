@@ -33,6 +33,11 @@ export class ClassApiService {
                .post<any>(this.apiURL + '/classes', JSON.stringify(data), headers);
   }
 
+  createNewResponseSchedule(data: any): Observable<any> {
+    return this.http
+               .post<any>(this.apiURL + `/classes/response-schedule`, JSON.stringify(data), this.httpOptions);
+  }
+
   getClasses(id: string): Observable<any> {
     return this.http
                .get<any>(this.apiURL + `/departments/${id}/classes`, this.httpOptions);
@@ -47,4 +52,36 @@ export class ClassApiService {
     return this.http
                .get<any>(this.apiURL + `/classes/${id}/class-loads`, this.httpOptions);
   }
+
+  getClassStudents(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/classes/${id}/class-students`, this.httpOptions);
+  }
+
+  getStudentsNotInClass(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/classes/${id}/students-not-in-class`, this.httpOptions);
+  }
+
+  addNewStudentsInClass(id: string, payload:any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/add-students`, payload, this.httpOptions);
+  }
+  updateClassInfo(id: string, payload:any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/class-info`, payload, this.httpOptions);
+  }
+
+  removeStudentsFromClass(id: string, payload:any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/remove-students`, payload, this.httpOptions);
+  }
+
+
+
+
+
+
+
+
 }

@@ -29,6 +29,16 @@ export class DepartmentApiService {
       .get<any[]>(this.apiURL + '/departments', this.httpOptions)
   }
 
+  getSubjectRequests(departmentId: string): Observable<any[]> {
+    return this.http
+      .get<any[]>(this.apiURL + `/departments/${departmentId}/subject-requests`, this.httpOptions)
+  }
+
+  getSubjectResponses(departmentId: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/departments/${departmentId}/subject-requests-responses`, this.httpOptions);
+  }
+
   createNewDepartment(data: any): Observable<any[]> {
     let headers = {
       headers: new HttpHeaders({

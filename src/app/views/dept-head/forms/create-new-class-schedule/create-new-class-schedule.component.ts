@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { ClassApiService } from 'src/app/apis/class-api.service';
+import { DepartmentApiService } from 'src/app/apis/department-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -36,12 +37,17 @@ export class CreateNewClassScheduleComponent implements OnInit {
   classForm: FormGroup;
   initialClassForm: FormGroup;
 
+  selectedRequesSchedules = <any>[];
+  selectedSchedules = new Set<any>();
+  selectedSchedulesList = <any>[];
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private session: SessionService,
     private authApi: AuthApiService,
     private teacherApi: TeacherApiService,
+    private departmentApi: DepartmentApiService,
     private classApi: ClassApiService,
     private snackbar: MatSnackBar,
   ) {
@@ -54,7 +60,6 @@ export class CreateNewClassScheduleComponent implements OnInit {
     })
 
     if (window.sessionStorage.getItem('dept-id') == null) {
-      // console.log('getting department id...')
       this.authApi.getDepartmentId(session.getUser().id).subscribe(data => {
         window.sessionStorage.setItem('dept-id', data.data);
       })
@@ -66,6 +71,7 @@ export class CreateNewClassScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTeachers();
+    this.loadResponseSchedules();
   }
 
   loadTeachers() {
@@ -78,6 +84,15 @@ export class CreateNewClassScheduleComponent implements OnInit {
       });
       this.loadingTeachers = false;
     })
+  }
+
+  loadResponseSchedules(){
+    this.departmentApi.getSubjectResponses(this.getDeptId()).subscribe( 
+      (data: any) => {
+        console.log(data);
+        this.selectedRequesSchedules = data.data;
+      }
+    )
   }
 
   private emptySchedule() {
@@ -155,6 +170,15 @@ export class CreateNewClassScheduleComponent implements OnInit {
     return false
   }
 
+  public selectRequestSchedule(data: any) {
+		if (this.selectedSchedules.has(data)) {
+			this.selectedSchedules.delete(data);
+		} else {
+			this.selectedSchedules.add(data);
+		}
+    console.log(this.selectedRequesSchedules)
+  }
+
 
 
   addSubjectSchedule() {
@@ -171,7 +195,9 @@ export class CreateNewClassScheduleComponent implements OnInit {
     this.isValidSchedule = false;
   }
   removeSubjectSchedule(index: number) {
-    this.scheduleList[this.selectedLoad].schedules.splice(index, 1);
+    if (this.scheduleList[this.selectedLoad].schedules.length > 1){
+      this.scheduleList[this.selectedLoad].schedules.splice(index, 1);
+    }
   }
 
 
@@ -183,7 +209,6 @@ export class CreateNewClassScheduleComponent implements OnInit {
     this.schedule = this.getEmptySchedule();
   }
   addSchedule() {
-    console.log(this.session.getUser())
     if (this.emptySchedule()) {
       this.snackbar.open('Please fill in all the fields before adding', 'Close', { duration: 3 * 1000 });
       return
@@ -277,12 +302,14 @@ export class CreateNewClassScheduleComponent implements OnInit {
     let class_schedule = {
       department_id: window.sessionStorage.getItem('dept-id'),
       major: this.classForm.value.major,
+      name: this.classForm.value.name,
       semester: this.classForm.value.semester,
       year: {
         start: this.classForm.value.startYear,
         end: this.classForm.value.endYear
       },
-      subject_loads: this.scheduleList
+      subject_loads: this.scheduleList,
+      response_loads: Array.from(this.selectedSchedules)
     }
 
     this.classApi.createNewClassSchedule(class_schedule).subscribe((data: any) => {

@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SelectDepartmentsComponent } from './select-departments/select-departments.component';
 import { DialogDeleteAccountComponent } from './dialog-delete-account/dialog-delete-account.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -32,6 +34,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ClassesTableComponent } from './tables/classes-table/classes-table.component';
 import { TeachersTableComponent } from './tables/teachers-table/teachers-table.component';
+import { SelectStudentsTableComponent } from './select-students-table/select-students-table.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { SubjectRequestsTableComponent } from './tables/subject-requests-table/subject-requests.component';
+import {MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, } from '@angular/material/chips';
 
 
 
@@ -44,6 +51,9 @@ import { TeachersTableComponent } from './tables/teachers-table/teachers-table.c
     StudentsTableComponent,
     ClassesTableComponent,
     TeachersTableComponent,
+    SelectStudentsTableComponent,
+    CalendarComponent,
+    SubjectRequestsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -75,6 +85,8 @@ import { TeachersTableComponent } from './tables/teachers-table/teachers-table.c
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatButtonToggleModule,
+    MatDatepickerModule,
+    MatChipsModule,
   ],
   exports: [
     SelectDepartmentsComponent,
@@ -84,6 +96,12 @@ import { TeachersTableComponent } from './tables/teachers-table/teachers-table.c
     StudentsTableComponent,
     ClassesTableComponent,
     TeachersTableComponent,
-  ]
+    SelectStudentsTableComponent,
+    CalendarComponent,
+    SubjectRequestsTableComponent,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+  ],
 })
 export class ComponentsModule { }

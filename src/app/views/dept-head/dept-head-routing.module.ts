@@ -5,8 +5,12 @@ import { RoleGuard } from 'src/app/guards/role.guard';
 import { ClassSchedulesComponent } from './class-schedules/class-schedules.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DepartmentComponent } from './department/department.component';
+import { CreateNewClassScheduleComponent } from './forms/create-new-class-schedule/create-new-class-schedule.component';
+import { CreateRequestSubjectsComponent } from './forms/create-request-subjects/create-request-subjects.component';
 import { IndexComponent } from './index/index.component';
+import { NewScheduleComponent } from './pages/new-schedule/new-schedule.component';
 import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.component';
+import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-departments/view-requesting-departments.component';
 import { StudentsComponent } from './students/students.component';
 
 const routes: Routes = [
@@ -20,6 +24,9 @@ const routes: Routes = [
 			{ path: 'department', component: DepartmentComponent },
 			{ path: 'class-schedules', component: ClassSchedulesComponent },
 			{ path: 'view-class-schedule/:token', component: ViewClassInfoComponent },
+			{ path: 'create-new-schedule', component: NewScheduleComponent },
+			{ path: 'create-request-subjects', component: CreateRequestSubjectsComponent },
+			{ path: 'subject-requests', component: ViewRequestingDepartmentsComponent },
 		]
 	}
 ];

@@ -6,7 +6,9 @@
             <div class="flex flex-col">
                 <mat-tab-group mat-align-tabs="center">
                     <mat-tab label="Create Subject Schedule" class="mb-5">
-                        <div class="grid gap-x-2 gap-y-0 grid-cols-2 ">
+                        <h1 class="font-sans text-2xl font-semibold">Class Info</h1>
+
+                        <div class="grid gap-x-2 gap-y-0 h-96 grid-cols-2 border-2 rounded-xl p-2 border-slate-300">
                             <mat-form-field appearance="outline">
                                 <mat-label>Section Code</mat-label>
                                 <input matInput type="text" [(ngModel)]="schedule.section_id">
@@ -17,8 +19,7 @@
                             </mat-form-field>
                             <mat-form-field appearance="outline" class="col-span-2">
                                 <mat-label>Description/Subject Name</mat-label>
-                                <input type="text" matInput placeholder="Thesis II"
-                                    [(ngModel)]="schedule.description">
+                                <input type="text" matInput placeholder="Thesis II" [(ngModel)]="schedule.description">
                             </mat-form-field>
                             <mat-form-field appearance="outline">
                                 <mat-label>Units</mat-label>
@@ -36,22 +37,38 @@
                     </mat-tab>
                     <!-- End Create Subject -->
 
-                    <mat-tab label="Select Subject">Select Subject</mat-tab>
+                    <mat-tab label="Select Subject">
+                        <h1 class="font-sans text-2xl font-semibold">Subject Requests</h1>
+                        <div class="grid gap-2 grid-cols-1 h-96 border-2 rounded-xl p-2 border-slate-300 ">
+                            <mat-selection-list #schedules>
+                                <mat-list-option *ngFor="let schedule of selectedRequesSchedules"
+                                    (click)="selectRequestSchedule(schedule)">
+                                    <div class="flex flex-col border-1 rounded-xl border-slate-400 p-2 drop-shadow-md">
+                                        <h1 class="font-sans text-lg font-semibold">{{schedule.description}}</h1>
+                                        <p class="font-sans text-md font-semibold text-slate-500">
+                                            {{schedule.teacher_name}}</p>
+                                    </div>
+                                </mat-list-option>
+                            </mat-selection-list>
+                        </div>
+                    </mat-tab>
                 </mat-tab-group>
             </div>
-            <div class="flex flex-col w-full bg-slate-400 h-5/6 overflow-auto p-2 space-y-2 mt-12">
-                <mat-card *ngFor="let subject of scheduleList; let i = index" [attr.data-index]="i">
-                    <mat-card-title>{{ subject.description }}</mat-card-title>
-                    <div class="grid gap-1 grid-cols-2 spa">
-                        <p class="col-span-2">{{ subject.teacher_id  }}</p>
-                        <p>{{ subject.section_id }}</p>
-                        <p>{{ subject.subject_id }}</p>
-                        <p>{{ subject.units }}</p>
-                        <p>{{ subject.hours }}</p>
-                        <!-- <p>{{ subject.room }}</p> -->
-                        <button mat-raised-button color="warn" (click)="removeSchedule(i)">Remove</button>
-                    </div>
-                </mat-card>
+            <div class="flex flex-col mt-12">
+                <p class="font-sans text-2xl font-semibold">Subject List</p>
+                <div class="flex flex-col w-full h-96 overflow-auto p-2 space-y-2 border-2 rounded-xl border-slate-300">
+                    <mat-card *ngFor="let subject of scheduleList; let i = index" [attr.data-index]="i">
+                        <mat-card-title>{{ subject.description }}</mat-card-title>
+                        <div class="grid gap-1 grid-cols-2 spa">
+                            <p class="col-span-2">{{ subject.teacher_id }}</p>
+                            <p>{{ subject.section_id }}</p>
+                            <p>{{ subject.subject_id }}</p>
+                            <p>{{ subject.units }}</p>
+                            <p>{{ subject.hours }}</p>
+                            <button mat-raised-button color="warn" (click)="removeSchedule(i)">Remove</button>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
         </div>
         <div class="w-full mt-5">
@@ -63,13 +80,11 @@
         <ng-template matStepLabel>Fill Up Schedules</ng-template>
 
         <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            
-            <div class="flex flex-col w-full bg-slate-400 h-96 overflow-auto p-2 space-y-2">
+
+            <div class="flex flex-col w-full border-2 border-slate-400 rounded-xl h-96 overflow-auto p-2 space-y-2">
                 <mat-accordion>
                     <mat-expansion-panel *ngFor="let subject of scheduleList; let i = index" [attr.data-index]="i"
-                                        (opened)="selectedLoad = i"
-                                        (closed)="selectedLoad != i"
-                                        (click)="selectedLoad=i">
+                        (opened)="selectedLoad = i" (closed)="selectedLoad != i" (click)="selectedLoad=i">
 
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -80,34 +95,26 @@
                         <p>Subject Code: {{ subject.subject_id }}</p>
                         <p>Unit: {{ subject.units }}</p>
                         <p>Hours: {{ subject.hours }}</p>
-                        <!-- <p>Room {{ subject.room }}</p> -->
                     </mat-expansion-panel>
                 </mat-accordion>
             </div>
 
-            <div class="lg:col-span-2 flex w-full bg-slate-400 h-96 overflow-auto p-2 ">
+            <div class="lg:col-span-2 flex w-full border-2 border-slate-400 rounded-xl h-96 overflow-auto p-2 ">
                 <div class="flex flex-col w-full space-y-2" *ngIf="selectedLoad!=-1">
-                    <ng-select class="bg-white"
-                        [dropdownPosition]="'bottom'"
-                        [appearance]="'outline'"
-                        [items]="departmentTeachers" 
-                        bindLabel="name" 
-                        bindValue="id" 
-                        [(ngModel)]="scheduleList[selectedLoad].teacher_id"
-                        [loading]="loadingTeachers"
-                        placeholder="Select Teacher"
-                        (click)="selectedTeacher()">
+                    <ng-select class="bg-white" [dropdownPosition]="'bottom'" [appearance]="'outline'"
+                        [items]="departmentTeachers" bindLabel="name" bindValue="id"
+                        [(ngModel)]="scheduleList[selectedLoad].teacher_id" [loading]="loadingTeachers"
+                        placeholder="Select Teacher" (click)="selectedTeacher()">
                     </ng-select>
                     <button mat-raised-button button color="primary" (click)="addSubjectSchedule()">Add</button>
-                    
 
-                    <div class="flex flex-col w-full space-y-2" 
-                        *ngFor="let subject of scheduleList[selectedLoad].schedules; let i = index" [attr.data-index]="i">
 
-                        <div class="flex flex-col w-full space-y-2"
-                            *ngIf="scheduleList[selectedLoad].teacher_id != ''">
-                            <mat-button-toggle-group 
-                                [(ngModel)]="scheduleList[selectedLoad].schedules[i].days" 
+                    <div class="flex flex-col w-full space-y-2"
+                        *ngFor="let subject of scheduleList[selectedLoad].schedules; let i = index"
+                        [attr.data-index]="i">
+
+                        <div class="flex flex-col w-full space-y-2" *ngIf="scheduleList[selectedLoad].teacher_id != ''">
+                            <mat-button-toggle-group [(ngModel)]="scheduleList[selectedLoad].schedules[i].days"
                                 name="daySelector" aria-label="" multiple>
                                 <mat-button-toggle value="M">M</mat-button-toggle>
                                 <mat-button-toggle value="T">T</mat-button-toggle>
@@ -115,19 +122,17 @@
                                 <mat-button-toggle value="Th">Th</mat-button-toggle>
                                 <mat-button-toggle value="F">F</mat-button-toggle>
                                 <mat-button-toggle value="SAT">S</mat-button-toggle>
-                                <button mat-raised-button  button color="warn" (click)="removeSubjectSchedule(i)"><mat-icon>delete_forever</mat-icon></button>
+                                <button mat-raised-button button color="warn" (click)="removeSubjectSchedule(i)">
+                                    <mat-icon>delete_forever</mat-icon>
+                                </button>
                             </mat-button-toggle-group>
 
                             <div class="grid gap-2 grid-cols-3">
-                                <input placeholder="Start Time" 
-                                       aria-label="12hr format" 
-                                       [ngxTimepicker]="startTime" 
-                                       [(ngModel)]="subject.startTime" readonly>
+                                <input appearance="outline" placeholder="Start Time" aria-label="12hr format"
+                                    [ngxTimepicker]="startTime" [(ngModel)]="subject.startTime" readonly>
 
-                                <input placeholder="End Time" 
-                                       aria-label="12hr format" 
-                                       [ngxTimepicker]="endTime" 
-                                       [(ngModel)]="subject.endTime" readonly>
+                                <input appearance="outline" placeholder="End Time" aria-label="12hr format"
+                                    [ngxTimepicker]="endTime" [(ngModel)]="subject.endTime" readonly>
 
                                 <mat-form-field appearance="outline">
                                     <mat-label>Location</mat-label>
@@ -143,50 +148,51 @@
                 </div>
             </div>
 
-            <div class="col-span-full flex flex-col w-full bg-slate-400 h-96 overflow-auto p-2 space-y-2">
+            <div
+                class="col-span-full flex flex-col w-full border-2 border-slate-400 rounded-xl h-96 overflow-auto p-2 space-y-2">
                 <p class="font-sans text-lg font-semibold place-self-center">Teacher's Current Load</p>
                 <table class="table-auto">
                     <thead>
-                      <tr>
-                        <th class="text-left">Section</th>
-                        <th class="text-left">Subject</th>
-                        <th class="text-left">Description</th>
-                        <th class="text-left">Units</th>
-                        <th class="text-left">Hours</th>
-                        <th class="text-left">Days</th>
-                        <th class="text-left">Time</th>
-                        <th class="text-left">Rooms</th>
-                      </tr>
+                        <tr>
+                            <th class="text-left">Section</th>
+                            <th class="text-left">Subject</th>
+                            <th class="text-left">Description</th>
+                            <th class="text-left">Units</th>
+                            <th class="text-left">Hours</th>
+                            <th class="text-left">Days</th>
+                            <th class="text-left">Time</th>
+                            <th class="text-left">Rooms</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let load of selectedTeacherSchedule; let i = index;">
-                        <td>{{ load.section_id }}</td>
-                        <td>{{ load.subject_id }}</td>
-                        <td>{{ load.description }}</td>
-                        <td>{{ load.units }}</td>
-                        <td>{{ load.hours }}</td>
-                        <td>
-                            <div class="" *ngFor="let schedule of load.schedules">
-                                {{ schedule.days.join('') }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class=""  *ngFor="let schedule of load.schedules">
-                                {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="" *ngFor="let schedule of load.schedules">
-                                {{ schedule.location }}
-                            </div>
-                        </td>
-                      </tr>
+                        <tr *ngFor="let load of selectedTeacherSchedule; let i = index;">
+                            <td>{{ load.section_id }}</td>
+                            <td>{{ load.subject_id }}</td>
+                            <td>{{ load.description }}</td>
+                            <td>{{ load.units }}</td>
+                            <td>{{ load.hours }}</td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.days.join('') }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.location }}
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
-                  </table>
+                </table>
             </div>
 
         </div>
-        
+
         <div class="grid gap-2 grid-cols-2 mt-5">
             <button mat-raised-button button matStepperPrevious color="accent">Back</button>
             <button mat-raised-button button matStepperNext color="primary">Next</button>
@@ -197,51 +203,75 @@
     <mat-step errorMessage="">
         <ng-template matStepLabel>View Finished Schedule</ng-template>
         <ng-template matStepContent>
-            <div class="col-span-full flex flex-col w-full bg-slate-400 h-96 overflow-auto p-2 space-y-2">
+            <div
+                class="col-span-full flex flex-col w-full h-96 overflow-auto p-2 space-y-2  border-2 border-slate-400 rounded-xl">
                 <p class="font-sans text-lg font-semibold place-self-center">New Class Subject Loads</p>
                 <table class="table-auto">
                     <thead>
-                    <tr>
-                        <th class="text-left">Section</th>
-                        <th class="text-left">Subject</th>
-                        <th class="text-left">Description</th>
-                        <th class="text-left">Units</th>
-                        <th class="text-left">Hours</th>
-                        <th class="text-left">Days</th>
-                        <th class="text-left">Time</th>
-                        <th class="text-left">Rooms</th>
-                    </tr>
+                        <tr>
+                            <th class="text-left">Section</th>
+                            <th class="text-left">Subject</th>
+                            <th class="text-left">Description</th>
+                            <th class="text-left">Units</th>
+                            <th class="text-left">Hours</th>
+                            <th class="text-left">Days</th>
+                            <th class="text-left">Time</th>
+                            <th class="text-left">Rooms</th>
+                        </tr>
                     </thead>
-                    <tbody *ngIf="isValidSchedule">
-                    <tr *ngFor="let load of scheduleList; let i = index;">
-                        <td>{{ load.section_id }}</td>
-                        <td>{{ load.subject_id }}</td>
-                        <td>{{ load.description }}</td>
-                        <td>{{ load.units }}</td>
-                        <td>{{ load.hours }}</td>
-                        <td>
-                            <div class="" *ngFor="let schedule of load.schedules">
-                                {{ schedule.days.join('') }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class=""  *ngFor="let schedule of load.schedules">
-                                {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="" *ngFor="let schedule of load.schedules">
-                                {{ schedule.location }}
-                            </div>
-                        </td>
-                    </tr>
+                    <tbody class="">
+                        <tr *ngFor="let load of scheduleList; let i = index;">
+                            <td>{{ load.section_id }}</td>
+                            <td>{{ load.subject_id }}</td>
+                            <td>{{ load.description }}</td>
+                            <td>{{ load.units }}</td>
+                            <td>{{ load.hours }}</td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.days.join('') }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.location }}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let load of selectedSchedules; let i = index;">
+                            <td>{{ load.section_id }}</td>
+                            <td>{{ load.subject_id }}</td>
+                            <td>{{ load.description }}</td>
+                            <td>{{ load.units }}</td>
+                            <td>{{ load.hours }}</td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.days.join('') }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="" *ngFor="let schedule of load.schedules">
+                                    {{ schedule.location }}
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="grid gap-2 grid-cols-2 mt-5">
                 <button mat-raised-button button matStepperPrevious color="accent">Back</button>
-                <button mat-raised-button button matStepperNext [disabled]="!isValidSchedule" color="primary">Next</button>
+                <button mat-raised-button button matStepperNext [disabled]="!isValidSchedule"
+                    color="primary">Next</button>
             </div>
         </ng-template>
     </mat-step>
@@ -249,10 +279,7 @@
     <mat-step>
         <ng-template matStepLabel>Finishing Up</ng-template>
 
-        <form
-            [formGroup]="classForm"
-            novalidate 
-            class="grid gap-2 grid-cols-1 md:grid-cols-2"
+        <form [formGroup]="classForm" novalidate class="grid gap-2 grid-cols-1 md:grid-cols-2"
             (ngSubmit)="publishClassSchedule()">
 
             <mat-form-field class="col-span-full" appearance="outline">
@@ -277,12 +304,9 @@
             </mat-form-field>
 
             <div class="col-span-full grid gap-2 grid-cols-2 mt-5">
-                <button type="submit" 
-                    [disabled]="!this.classForm.valid"
-                    (click)="publishClassSchedule"
-                    color="primary"
-                    mat-raised-button>Publish Schedule</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button type="submit" [disabled]="!this.classForm.valid" (click)="publishClassSchedule"
+                    color="primary" mat-raised-button>Publish Schedule</button>
+                <button mat-raised-button color="warn" [routerLink]="'/dept-head/class-schedules'">Reset</button>
             </div>
         </form>
 
