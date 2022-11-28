@@ -1,0 +1,104 @@
+<div class="flex flex-col w-full h-full p-2">
+    <h1 class="font-sans text-2xl font-semibold">Schedule</h1>
+
+    <mat-tab-group [color]="'primary'">
+        <mat-tab label="Monday"> 
+            <h1 class="font-sans text-xl font-semibold">Monday</h1>
+
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[0].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+            
+        </mat-tab>
+        <mat-tab label="Tuesday"> 
+            <h1 class="font-sans text-xl font-semibold">Tuesday</h1>
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[1].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Wednesday"> 
+            <h1 class="font-sans text-xl font-semibold">Wednesday</h1>
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[2].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Thursday">
+            <h1 class="font-sans text-xl font-semibold">Thursday</h1>
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[3].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Friday"> 
+            <h1 class="font-sans text-xl font-semibold">Friday</h1>
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[4].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Saturday">
+            <h1 class="font-sans text-xl font-semibold">Saturday</h1>
+            <mat-list>
+                <mat-list-item class="flex items-center space-x-4 justify-center"
+                    *ngFor="let schedule of daySchedule[5].schedules">
+                    <div class="">
+                        <mat-icon matListItemIcon>schedule</mat-icon>
+                    </div>
+                    <div class="flex flex-col">
+                        <span matListItemTitle>{{schedule.description}}</span>
+                        <span matListItemLine>{{schedule.startTime + '-' + schedule.endTime}}</span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -171,7 +171,8 @@ export class CreateRequestSubjectsComponent implements OnInit {
     this.classApi.createNewResponseSchedule(data).subscribe( (data: any) => {
       console.log(data);
       if (data['status'] == 200){
-        this.dialog.open(SuccessDialog, { width: '250px' })
+        // this.dialog.open(SuccessDialog, { width: '250px' })
+        this.snackbar.open(data.detail, 'Close', { duration: 3 * 1000})
       }
     })
   }

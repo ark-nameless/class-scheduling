@@ -1,0 +1,44 @@
+<div class="flex flex-col w-screen h-screen overflow-x-hidden">
+    <div class="flex justify-between items-center bg-red-900 h-14 w-full top-0 sticky">
+        <div class="flex items-center pl-2">
+            <h1 class="font-sans text-xl text-white">Class Scheduling</h1>
+        </div>
+        <div class="flex text-white">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>expand_circle_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Profile</span>
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>settings</mat-icon>
+                    <span>Settings</span>
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+
+
+    <div class="flex w-full h-full items-center">
+
+        <!-- content -->
+        <div class="p-2 flex flex-col w-full h-full lg:w-1/4">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!-- sidebar -->
+        <div class="hidden lg:flex w-1/4 h-full sticky top-0 items-center">
+            <div class="flex flex-col  m-2 bg-purple-100 w-full h-[98%] rounded-xl">
+                <app-calendar></app-calendar>
+            </div>
+        </div>
+    </div>
+
+
+</div>

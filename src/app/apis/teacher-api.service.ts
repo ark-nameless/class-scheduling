@@ -75,6 +75,11 @@ export class TeacherApiService {
                .get<any>(this.apiURL + `/teachers/${id}`, this.httpOptions);
   }
 
+  getTeacherSchedules(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/teachers/${id}/schedules`, this.httpOptions)
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';
