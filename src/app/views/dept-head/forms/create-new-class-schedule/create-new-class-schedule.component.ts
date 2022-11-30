@@ -129,48 +129,48 @@ export class CreateNewClassScheduleComponent implements OnInit {
       this.scheduleList[this.selectedLoad].schedules[length].endTime == '';
   }
 
-  private timeToInt(time: string) {
-    time = time.toLowerCase()
-    let multiply = time.search('pm') <= -1 ? 0 : 1200;
-    let time_striped = time.replace(/\D/g, '');
+  // private timeToInt(time: string) {
+  //   time = time.toLowerCase()
+  //   let multiply = time.search('pm') <= -1 ? 0 : 1200;
+  //   let time_striped = time.replace(/\D/g, '');
 
-    return parseInt(time_striped) + multiply;
-  }
+  //   return parseInt(time_striped) + multiply;
+  // }
 
-  private checkTimeCollision(t1: any, t2: any) {
-    t1.startTime = this.timeToInt(t1.startTime);
-    t1.endTime = this.timeToInt(t1.endTime);
-    t2.startTime = this.timeToInt(t2.startTime);
-    t2.endTime = this.timeToInt(t2.endTime);
+  // private checkTimeCollision(t1: any, t2: any) {
+  //   t1.startTime = this.timeToInt(t1.startTime);
+  //   t1.endTime = this.timeToInt(t1.endTime);
+  //   t2.startTime = this.timeToInt(t2.startTime);
+  //   t2.endTime = this.timeToInt(t2.endTime);
 
-    return (
-      t1.endTime > t2.startTime &&
-      t2.endTime > t1.startTime
-    )
-  }
+  //   return (
+  //     t1.endTime > t2.startTime &&
+  //     t2.endTime > t1.startTime
+  //   )
+  // }
 
-  private checkSchedule(sched1: any, sched2: any) {
-    console.log(sched2)
-    let days = sched1.days.join('')
+  // private checkSchedule(sched1: any, sched2: any) {
+  //   console.log(sched2)
+  //   let days = sched1.days.join('')
 
-    for (let i = 0; i < sched2.length; i++) {
-      for (const day of sched2[i].days) {
-        // similar day; perform check
-        if (days.search(day) != -1) {
-          let t1 = {
-            startTime: sched1.startTime,
-            endTime: sched1.endTime
-          };
-          let t2 = {
-            startTime: sched2[i].startTime,
-            endTime: sched2[i].endTime
-          };
-          if (this.checkTimeCollision(t1, t2)) return true
-        }
-      }
-    }
-    return false
-  }
+  //   for (let i = 0; i < sched2.length; i++) {
+  //     for (const day of sched2[i].days) {
+  //       // similar day; perform check
+  //       if (days.search(day) != -1) {
+  //         let t1 = {
+  //           startTime: sched1.startTime,
+  //           endTime: sched1.endTime
+  //         };
+  //         let t2 = {
+  //           startTime: sched2[i].startTime,
+  //           endTime: sched2[i].endTime
+  //         };
+  //         if (this.checkTimeCollision(t1, t2)) return true
+  //       }
+  //     }
+  //   }
+  //   return false
+  // }
 
   public selectRequestSchedule(data: any) {
 		if (this.selectedSchedules.has(data)) {
@@ -231,73 +231,6 @@ export class CreateNewClassScheduleComponent implements OnInit {
       })
     }
   }
-
-  private validSelectedLoad() {
-    const scheduleLen = this.scheduleList[this.selectedLoad].schedules.length;
-    let currentSchedule = this.scheduleList[this.selectedLoad].schedules[scheduleLen-1];
-
-    if (this.timeToInt(currentSchedule.startTime) >= this.timeToInt(currentSchedule.endTime)){
-      this.snackbar.open('Please ensure that start time is lower than the end time.', 'Close', { duration: 1 * 1000 });
-      return
-    }
-
-    for (let i = 0, advance = i + 1; advance < scheduleLen; i++, advance++) {
-      let scheduleDay = this.scheduleList[this.selectedLoad].schedules[advance].days.join('');
-      let found = this.scheduleList[this.selectedLoad].schedules[i].days.forEach((day: any) => {
-        console.log(day)
-        let searched = scheduleDay.search(day)
-        if (searched != -1) {
-          let i_time = this.scheduleList[this.selectedLoad].schedules[i];
-          let advance_time = this.scheduleList[this.selectedLoad].schedules[advance];
-
-          let t1 = { startTime: i_time.startTime, endTime: i_time.endTime };
-          let t2 = { startTime: advance_time.startTime, endTime: advance_time.endTime };
-          if (this.checkTimeCollision(t1, t2)) {
-            this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
-            return
-          }
-        }
-      });
-    }
-  }
-
-  // validateSchedule() {
-  //   this.isValidSchedule = false;
-  //   if (this.emptySubjectLoad()) {
-  //     this.snackbar.open('Please add schedule before trying to validate it.', 'Close', { duration: 1 * 1000 });
-  //     return
-  //   }
-  //   this.validSelectedLoad();
-  //   let selected_index = 0;
-  //   for (let i = 0; i < this.scheduleList.length; i++) {
-  //     this.scheduleList[i].schedules.forEach((sched: any) => {
-  //       this.scheduleList.forEach((schedule: any, index: number) => {
-  //         // check only if not the same schedule and same teacher's schedule
-  //         if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
-  //           let res = this.checkSchedule(sched, schedule.schedules);
-  //           console.log(`${this.scheduleList[i].teacher_id} == ${schedule.teacher_id}`)
-  //           if (res) {
-  //             this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
-  //             return
-  //           }
-  //         }
-  //       });
-  //     });
-  //   }
-  //   // checking for saved subject load
-  //   if (this.selectedTeacherSchedule.length > 0) {
-  //     this.scheduleList[this.selectedLoad].schedules.forEach((data: any) => {
-  //       this.selectedTeacherSchedule.forEach((sched2: any) => {
-  //         if (this.checkSchedule(data, sched2.schedules)) {
-  //           this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
-  //           return
-  //         }
-  //       })
-  //     })
-  //   }
-  //   this.isValidSchedule = true;
-  //   // this.snackbar.open('Schedule is Valid', 'Close', { duration: 2 * 1000 });
-  // }
 
   validateSchedule(){
     const errorMessageDuration = 2;

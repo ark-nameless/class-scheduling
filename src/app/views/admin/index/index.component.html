@@ -2,7 +2,7 @@
     x-data="{ sidebarOpen: false }"
     class="flex flex-col w-screen h-screen overflow-x-hidden">
 
-    <div class="flex justify-between items-center bg-red-900 h-14 w-full sticky top-0">
+    <div class="flex justify-between items-center bg-red-900 h-14 w-full sticky top-0 z-10">
         <div class="flex items-center pl-2">
             <div class="flex md:hidden ">
                 <button mat-icon-button class="example-icon" aria-label="" mat-button x-on:click="sidebarOpen = ! sidebarOpen">
@@ -16,10 +16,10 @@
                 <mat-icon>expand_circle_down</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>
+                <!-- <button mat-menu-item>
                   <mat-icon>account_circle</mat-icon>
                   <span>Profile</span>
-                </button>
+                </button> -->
                 <button mat-menu-item (click)="logout()">
                   <mat-icon>logout</mat-icon>
                   <span>Logout</span>
@@ -31,11 +31,10 @@
 
     <div class="flex w-full h-full items-center">
 
-        <div x-show="sidebarOpen" x-on:click="sidebarOpen = false"
-            class="w-14 h-full overflow-y-auto
+        <div x-show="sidebarOpen" x-on:click="sidebarOpen = false" class="md:hidden absolute z-10 place-self-center w-14 h-fit overflow-y-auto 
                  text-gray-400 transition-all duration-300 ease-in-out bg-slate-200 shadow-lg overflow-x-hidden">
 
-            <div class="flex flex-col bg-red-900 h-full space-y-5 pl-2">
+                 <div class="flex flex-col bg-red-900 h-full space-y-5 pl-2 py-10 rounded-xl" x-on:click.outside="sidebarOpen = false">
                 <button mat-icon-button aria-label="" class="text-white">
                     <img class="w-fit bg-white rounded-full p-1 " src="/assets/images/logo-filled.png" alt="">
                 </button>

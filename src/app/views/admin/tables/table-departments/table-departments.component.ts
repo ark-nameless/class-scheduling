@@ -8,6 +8,7 @@ import { DepartmentApiService } from 'src/app/apis/department-api.service';
 import { FormControl } from '@angular/forms';
 import { SessionService } from 'src/app/services/session.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { Router } from '@angular/router';
 
 
 
@@ -31,6 +32,7 @@ export class TableDepartmentsComponent implements OnInit {
   students = <any>[];
 
   constructor(
+    private router: Router,
     private departmentApi: DepartmentApiService,
     private http: HttpClient,
     private events: EventEmitterService,
@@ -76,8 +78,8 @@ export class TableDepartmentsComponent implements OnInit {
     })
   }
 
-  alert(row: any) {
-    window.alert(row.id);
+  navigateToDepartment(row: any) {
+    this.router.navigate([`/admin/view-department/${row.id}`]);
   }
 
 }

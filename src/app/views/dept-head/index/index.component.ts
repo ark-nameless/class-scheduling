@@ -11,7 +11,8 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class IndexComponent implements OnInit {
 
-  
+  userId = '';
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -24,9 +25,15 @@ export class IndexComponent implements OnInit {
         window.sessionStorage.setItem('dept-id', data.data);
       })
     }
+    this.userId = this.session.getUser().id;
   }
 
   ngOnInit(): void {
+  }
+
+  viewProfile(){
+    console.log(this.userId);
+    this.router.navigate([`/dept-head/profile/${this.userId}/edit`]);
   }
 
   logout(): void {

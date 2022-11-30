@@ -91,7 +91,7 @@
                                 <p class="font-sans text-xl font-semibold">{{ subject.description }}</p>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <p> Section Code: {{ subject.section_id }}</p>
+                        <p>Section Code: {{ subject.section_id }}</p>
                         <p>Subject Code: {{ subject.subject_id }}</p>
                         <p>Unit: {{ subject.units }}</p>
                         <p>Hours: {{ subject.hours }}</p>
@@ -128,11 +128,31 @@
                             </mat-button-toggle-group>
 
                             <div class="grid gap-2 grid-cols-3">
-                                <input appearance="outline" placeholder="Start Time" aria-label="12hr format"
-                                    [ngxTimepicker]="startTime" [(ngModel)]="subject.startTime" readonly>
+                                <mat-form-field appearance="outline">
+                                    <input  matInput
+                                            [(ngModel)]="subject.startTime"
+                                            [ngxTimepicker]="startTime"
+                                            placeholder="4:00 PM"
+                                            [min]="'6:00 AM'"
+                                            [max]="'8:00 PM'"
+                                            readonly />
+                                    <mat-icon matSuffix (click)="startTime.open()">
+                                        schedule
+                                    </mat-icon>
+                                </mat-form-field>
 
-                                <input appearance="outline" placeholder="End Time" aria-label="12hr format"
-                                    [ngxTimepicker]="endTime" [(ngModel)]="subject.endTime" readonly>
+                                <mat-form-field appearance="outline">
+                                    <input  matInput
+                                            [(ngModel)]="subject.endTime"
+                                            [ngxTimepicker]="endTime"
+                                            placeholder="4:00 PM"
+                                            [min]="'6:00 AM'"
+                                            [max]="'8:00 PM'"
+                                            readonly />
+                                    <mat-icon matSuffix (click)="endTime.open()">
+                                        schedule
+                                    </mat-icon>
+                                </mat-form-field>
 
                                 <mat-form-field appearance="outline">
                                     <mat-label>Location</mat-label>

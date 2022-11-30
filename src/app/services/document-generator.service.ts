@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
-pdfMake.vfs = pdfFonts.pdfMake.vfs;  
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
 
@@ -16,9 +16,28 @@ export class DocumentGeneratorService {
 
 
 
-	public generateTeachingAssignment() {
+	public generateTeachingAssignment(class_loads: any, profile: any = <any>{}) {
 		// playground requires you to assign document definition to a variable called dd
 		let utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+
+		let loads = <any>[];
+		loads.push(
+			[
+				{ text: 'Section Code', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Day(s)', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Time', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Course Code', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Descriptive Title', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Units', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Converted Hours', style: 'tableHeader', alignment: 'center' },
+				{ text: 'College', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Class Size', style: 'tableHeader', alignment: 'center' }
+			]
+		)
+
+		transformTeacherAssignmentToPdfMakeTableData(class_loads).forEach((data: any) => loads.push(data))
+
+		console.log(loads);
 		var docDefinition = {
 			content: [
 				{
@@ -96,7 +115,7 @@ export class DocumentGeneratorService {
 							width: 'auto',
 							text: [
 								{ text: 'Valid Until: ', style: 'defaultText', },
-								{ text: '_______________', style: 'textBoldUnderline', },
+								{ text: '________________', style: 'textBoldUnderline', },
 							], margin: [0, 0, 0, 2]
 						}
 					], margin: [0, 0, 0, 2]
@@ -155,36 +174,7 @@ export class DocumentGeneratorService {
 					table: {
 						widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
 						headerRows: 1,
-						body: [
-							[
-								{
-									text: 'Section Code',
-									style: 'tableHeader',
-									alignment: 'center'
-
-								}, { text: 'Day(s)', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Time', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Course Code', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Descriptive Title', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Units', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Converted Hours', style: 'tableHeader', alignment: 'center' }
-								, { text: 'College', style: 'tableHeader', alignment: 'center' }
-								, { text: 'Class Size', style: 'tableHeader', alignment: 'center' }
-							],
-							[
-								{
-									text: 'Section Code',
-									alignment: 'center'
-								}, { text: 'Day(s)', alignment: 'center' },
-								{ text: 'Time', alignment: 'center' },
-								{ text: 'Course Code', alignment: 'center' },
-								{ text: 'Descriptive Title', alignment: 'center' },
-								{ text: 'Units', alignment: 'center' },
-								{ text: 'Converted Hours', alignment: 'center' },
-								{ text: 'College', alignment: 'center' },
-								{ text: 'Class Size', alignment: 'center' }
-							],
-						]
+						body: loads
 					}
 				},
 				{
@@ -200,7 +190,7 @@ export class DocumentGeneratorService {
 								{
 									type: 'none',
 									ul: [
-										{ text: 'Prepared By', style: 'textBold' },
+										{ text: 'Prepared By:', style: 'textBold' },
 										{ text: '\n\n\nALDWIN M. ILUMIN, MIT', style: 'textBold' },
 										{ text: 'Department Chairperson', style: 'textBold' },
 										{ text: '\n\nRecommending Approval:\n\n\n', style: 'textBold' },
@@ -234,7 +224,7 @@ export class DocumentGeneratorService {
 										{
 											text: [
 												{ text: 'TOTAL- Regular  ', style: 'textBold' },
-												{ text: '6 units/ 15 converted hours', style: 'textBoldUnderline' }
+												{ text: `${totalUnits(class_loads)} units/ ${totalHours(class_loads)} converted hours`, style: 'textBoldUnderline' }
 											]
 										},
 										{ text: '\n\n\n\n', style: 'textBold' },
@@ -272,8 +262,11 @@ export class DocumentGeneratorService {
 				},
 				tableHeader: {
 					bold: true,
-					fontSize: 13,
+					fontSize: 9,
 					color: 'black'
+				},
+				tableContent: {
+					fontSize: 11,
 				}
 			},
 			defaultStyle: {
@@ -286,19 +279,21 @@ export class DocumentGeneratorService {
 		return docDefinition;
 	}
 
-	public generatePreEnrollmentForm(class_info: any, class_loads: any){
+
+
+	public generatePreEnrollmentForm(class_info: any, class_loads: any) {
 
 		let loads = [];
 		loads.push(
 			[
-				{text: 'Section Code', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Subject Code', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Description', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Units', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Hrs/Wk', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Day/s', style: 'tableHeader', alignment: 'center'}, 
-				{text: 'Time', style: 'tableHeader', alignment: 'center'},
-				{text: 'Professor', style: 'tableHeader', alignment: 'center'}, 
+				{ text: 'Section Code', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Subject Code', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Description', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Units', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Hrs/Wk', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Day/s', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Time', style: 'tableHeader', alignment: 'center' },
+				{ text: 'Professor', style: 'tableHeader', alignment: 'center' },
 			],
 		);
 
@@ -306,83 +301,83 @@ export class DocumentGeneratorService {
 
 		loads.push(
 			[
-				{text: '', style: 'tableContent', alignment: 'center'}, 
-				{text: '', style: 'tableContent', alignment: 'center'}, 
-				{text: 'Total number of units/hours', style: 'tableContentBold', alignment: 'right'}, 
-				{text: `${totalUnits(class_loads)}`, style: 'tableContent', alignment: 'center'}, 
-				{text: `${totalHours(class_loads)}`, style: 'tableContent', alignment: 'center'}, 
-				{text: '', style: 'tableContent', alignment: 'center'}, 
-				{text: '', style: 'tableContent', alignment: 'center'},
-				{text: '', style: 'tableContent', alignment: 'center'}, 
+				{ text: '', style: 'tableContent', alignment: 'center' },
+				{ text: '', style: 'tableContent', alignment: 'center' },
+				{ text: 'Total number of units/hours', style: 'tableContentBold', alignment: 'right' },
+				{ text: `${totalUnits(class_loads)}`, style: 'tableContent', alignment: 'center' },
+				{ text: `${totalHours(class_loads)}`, style: 'tableContent', alignment: 'center' },
+				{ text: '', style: 'tableContent', alignment: 'center' },
+				{ text: '', style: 'tableContent', alignment: 'center' },
+				{ text: '', style: 'tableContent', alignment: 'center' },
 			],
 		);
 
 		let docDefinition = {
 			pageSize: 'A3',
 			content: [
-			   {
-				   columns:[
+				{
+					columns: [
 						{
-							width:'68%',
+							width: '68%',
 							text: [
-								{text: 'Course: ', style:'textBold'},
-								{text: class_info.department_name, style:'textBoldUnderline'}
+								{ text: 'Course: ', style: 'textBold' },
+								{ text: class_info.department_name, style: 'textBoldUnderline' }
 							]
 						},
 						{
-							width:'auto',
-							text:[
-								{text:'Pre-Enrollment Form No.', style:'textBold'},
-								{text:'______________', style:'textBoldUnderline'}
-							]   
-						}
-				   ], style:'defaultMargin'
-			   },
-			   {
-				   columns:[
-						{
-							width:'68%',
+							width: 'auto',
 							text: [
-								{text: 'Year/Section:: ', style:'textBold'},
-								{text: class_info.class_name, style:'textBoldUnderline'}
+								{ text: 'Pre-Enrollment Form No.', style: 'textBold' },
+								{ text: '______________', style: 'textBoldUnderline' }
+							]
+						}
+					], style: 'defaultMargin'
+				},
+				{
+					columns: [
+						{
+							width: '68%',
+							text: [
+								{ text: 'Year/Section:: ', style: 'textBold' },
+								{ text: class_info.class_name, style: 'textBoldUnderline' }
 							]
 						},
 						{
-							width:'auto',
-							text:[
-								{text:'Cash', style:'textBold'},
-								{text:'___________', style:'textBoldUnderline'},
-								{text:'Installment', style:'textBold'},
-								{text:'____________', style:'textBoldUnderline'}
-							]   
-						}
-				   ], style:'defaultMargin'
-			   },
-			   {
-				   columns:[
-						{
-							width:'68%',
+							width: 'auto',
 							text: [
-								{text: 'Section Block: ', style:'textBold'},
-								{text: class_info.section_block, style:'textBoldUnderline'}
+								{ text: 'Cash', style: 'textBold' },
+								{ text: '___________', style: 'textBoldUnderline' },
+								{ text: 'Installment', style: 'textBold' },
+								{ text: '____________', style: 'textBoldUnderline' }
+							]
+						}
+					], style: 'defaultMargin'
+				},
+				{
+					columns: [
+						{
+							width: '68%',
+							text: [
+								{ text: 'Section Block: ', style: 'textBold' },
+								{ text: class_info.section_block, style: 'textBoldUnderline' }
 							]
 						},
 						{
-							width:'auto',
-							text:[
-								{text:'CET/F137/XBS (PSA)/CGMC', style:'textBold'},
-							]   
+							width: 'auto',
+							text: [
+								{ text: 'CET/F137/XBS (PSA)/CGMC', style: 'textBold' },
+							]
 						}
-				   ], margin:[0,0,0,20]
-			   },
-			   {
-					text: 'SUBJECT(s) TO BE TAKEN:', style:'textBold'  
-			   },
-			   {
+					], margin: [0, 0, 0, 20]
+				},
+				{
+					text: 'SUBJECT(s) TO BE TAKEN:', style: 'textBold'
+				},
+				{
 					style: 'tableExample',
 					color: '#444',
 					table: {
-						widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', '*', ],
+						widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', '*',],
 						headerRows: 1,
 						body: loads
 					}
@@ -390,7 +385,7 @@ export class DocumentGeneratorService {
 			],
 			styles: {
 				defaultText: {
-				  fontSize: 13  
+					fontSize: 13
 				},
 				textBold: {
 					fontSize: 13,
@@ -402,7 +397,7 @@ export class DocumentGeneratorService {
 					decoration: 'underline'
 				},
 				tableLoads: {
-					
+
 				},
 				tableExample: {
 					margin: [0, 5, 0, 15]
@@ -417,19 +412,19 @@ export class DocumentGeneratorService {
 					color: 'black'
 				},
 				tableContentBold: {
-					bold:true,
+					bold: true,
 					fontSize: 13,
 					color: 'black'
 				},
-				defaultMargin:{
+				defaultMargin: {
 					margin: [0, 0, 0, 3]
 				}
 			},
 			defaultStyle: {
 				// alignment: 'justify'
-				margin: [ 0, 5, 0, 5 ]
+				margin: [0, 5, 0, 5]
 			}
-			
+
 		}
 
 		return docDefinition;
@@ -440,40 +435,57 @@ export class DocumentGeneratorService {
 function transformClassLoadToPdfMakeTableData(class_load: any) {
 	let data: { text: any; style: string; alignment: string; }[][] = [];
 	class_load.forEach(
-	  (load: any) => {
-		let days = '';
-		let times = ''
-		load.schedules.forEach(
-		  (schedule: any) => {
-			days += schedule.days.join('') + '\n';
-			times += `${schedule.startTime.split(' ')[0]}-${schedule.endTime.split(' ')[0]}\n`;
-		  }
-		)
-		data.push(
-		  [
-			{ text: load.section_id, style: 'tableContent', alignment: 'left' },
-			{ text: load.subject_id, style: 'tableContent', alignment: 'left' },
-			{ text: load.description, style: 'tableContent', alignment: 'left' },
-			{ text: load.units, style: 'tableContent', alignment: 'center' },
-			{ text: load.hours, style: 'tableContent', alignment: 'center' },
-			{ text: days, style: 'tableContent', alignment: 'center' },
-			{ text: times, style: 'tableContent', alignment: 'left' },
-			{ text: `${load.name.lastname.toUpperCase()}, ${load.name.firstname.toUpperCase()[0]}`, style: 'tableContent', alignment: 'left' },
-		  ],
-		)
-	  }
+		(load: any) => {
+			let days = '';
+			let times = ''
+			load.schedules.forEach(
+				(schedule: any) => {
+					days += schedule.days.join('') + '\n';
+					times += `${schedule.startTime.split(' ')[0]}-${schedule.endTime.split(' ')[0]}\n`;
+				}
+			)
+			data.push(
+				[
+					{ text: load.section_id, style: 'tableContent', alignment: 'left' },
+					{ text: load.subject_id, style: 'tableContent', alignment: 'left' },
+					{ text: load.description, style: 'tableContent', alignment: 'left' },
+					{ text: load.units, style: 'tableContent', alignment: 'center' },
+					{ text: load.hours, style: 'tableContent', alignment: 'center' },
+					{ text: days, style: 'tableContent', alignment: 'center' },
+					{ text: times, style: 'tableContent', alignment: 'left' },
+					{ text: `${load.name.lastname.toUpperCase()}, ${load.name.firstname.toUpperCase()[0]}`, style: 'tableContent', alignment: 'left' },
+				],
+			)
+		}
 	)
 	return data;
 }
 
-function totalHours(class_load: any){
+function transformTeacherAssignmentToPdfMakeTableData(class_load: any) {
+	let data = <any>[];
+	class_load.forEach(function (load: any) {
+		data.push([
+			{ text: load.section_id, style: 'tableContent', alignment: 'center' },
+			{ text: load.days, style: 'tableContent', alignment: 'center' },
+			{ text: load.time, style: 'tableContent', alignment: 'center' },
+			{ text: load.subject_id, style: 'tableContent', alignment: 'center' },
+			{ text: load.description, style: 'tableContent', alignment: 'center' },
+			{ text: load.units, style: 'tableContent', alignment: 'center' },
+			{ text: load.hours, style: 'tableContent', alignment: 'center' },
+			{ text: load.college, style: 'tableContent', alignment: 'center' },
+			{ text: load.class_size, style: 'tableContent', alignment: 'center' }
+		]);
+	});
+	return data;
+}
+
+function totalHours(class_load: any) {
 	let hours = 0;
 	class_load.forEach((load: any) => hours += load.hours)
 	return hours;
 }
-function totalUnits(class_load: any){
+function totalUnits(class_load: any) {
 	let units = 0;
 	class_load.forEach((load: any) => units += load.units)
 	return units;
 }
-  

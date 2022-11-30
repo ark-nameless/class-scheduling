@@ -7,6 +7,7 @@
 			Generate Pre-Enrollment Form
 		</button>
 		<button 
+            *ngIf="!disableEditing"
 			matRipple
 			(click)="archiveClass()"
 			class="font-sans text-xl font-semibold text-white text-center bg-red-800 rounded-md hover:bg-red-900 p-2 drop-shadow-md shadow-md">
@@ -21,35 +22,35 @@
 
 			<mat-form-field class="col-span-full w-full" appearance="outline">
 				<mat-label>Class Name</mat-label>
-				<input matInput type="text" formControlName="name">
+				<input matInput type="text" formControlName="name" [readonly]="disableEditing">
 				<button *ngIf="" matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
 			</mat-form-field>
 			<mat-form-field class="" appearance="outline">
 				<mat-label>Major</mat-label>
-				<input matInput type="text" formControlName="major">
+				<input matInput type="text" formControlName="major" [readonly]="disableEditing">
 				<button *ngIf="" matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
 			</mat-form-field>
 			<mat-form-field class="" appearance="outline">
 				<mat-label>Semester</mat-label>
-				<input matInput type="text" formControlName="semester">
+				<input matInput type="text" formControlName="semester" [readonly]="disableEditing">
 				<button *ngIf="" matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
 			</mat-form-field>
 			<mat-form-field class="" appearance="outline">
 				<mat-label>Start Year</mat-label>
-				<input matInput type="number" formControlName="startYear">
+				<input matInput type="number" formControlName="startYear" [readonly]="disableEditing">
 				<button *ngIf="" matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
 			</mat-form-field>
 			<mat-form-field class="" appearance="outline">
 				<mat-label>End Year</mat-label>
-				<input matInput type="number" formControlName="endYear">
+				<input matInput type="number" formControlName="endYear" [readonly]="disableEditing">
 				<button *ngIf="" matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
@@ -118,7 +119,7 @@
 					<tr mat-header-row *matHeaderRowDef="studentsTableColumns"></tr>
 					<!-- <tr mat-row *matRowDef="let row; columns: studentsTableColumns;"></tr> -->
 
-					<tr mat-row (click)="selectStudent(row.id)" [class.row-is-clicked]="selectedStudents.has(row.id)"
+					<tr mat-row (click)="selectStudent(row.id)" [class.row-is-clicked]="selectedStudents.has(row.id) && !disableEditing"
 						*matRowDef="let row; columns: studentsTableColumns;"></tr>
 				</table>
 			</va-mat-table>
@@ -128,7 +129,7 @@
 			</mat-paginator>
 		</div>
 
-		<div class="grid gap-2 grid-cols-1 md:grid-cols-3 mt-5">
+		<div class="grid gap-2 grid-cols-1 md:grid-cols-3 mt-5" *ngIf="!disableEditing">
 			<button mat-raised-button 
 				[disabled]="!classInfoChanged"
 				(click)="updateClassInfo()"
@@ -142,7 +143,7 @@
 				Add New Students
 			</button>
 			<button mat-raised-button 
-				*ngIf="selectedStudents.size > 0" 
+				*ngIf="selectedStudents.size > 0 && !disableEditing" 
 				(click)="removeStudentsFromClass()"
 				color="warn">
 					<mat-icon><mat-spinner *ngIf="removeStudentsLoading" [diameter]="20" [color]="'accent'"></mat-spinner></mat-icon>

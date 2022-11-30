@@ -80,6 +80,23 @@ export class TeacherApiService {
                .get<any>(this.apiURL + `/teachers/${id}/schedules`, this.httpOptions)
   }
 
+  getTeacherProfile(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/teachers/${id}/profile`, this.httpOptions);
+  }
+
+  getTeachingAssigment(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/teachers/${id}/teaching-assignment`, this.httpOptions);
+  }
+
+
+
+  updateCredentials(id: string, payload: any): Observable<any>{
+    return this.http
+               .put<any>(this.apiURL + `/teachers/${id}/update-credentials`, payload, this.httpOptions);
+  }
+
   handleError(error: any) {
     console.log(error);
     let errorMessage = '';

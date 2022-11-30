@@ -34,6 +34,9 @@ export class ClassesTableComponent implements OnInit {
   @Input()
   departmentId = '';
 
+  @Input()
+  origin = '';
+
   userId = '';
 
   constructor(
@@ -90,7 +93,11 @@ export class ClassesTableComponent implements OnInit {
 
   rowOnClick(data: any) {
     this.selectedRow = data;
-    this.router.navigate([`/dept-head/view-class-schedule/${data.id}`]);
+    let source = 'dept-head';
+    if (origin != ''){
+      source = 'admin'
+    }
+    this.router.navigate([`/${source}/view-class-schedule/${data.id}`]);
   }
 
 

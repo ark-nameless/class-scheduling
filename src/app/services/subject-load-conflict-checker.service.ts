@@ -8,10 +8,26 @@ export class SubjectLoadConflictCheckerService {
   constructor() { }
 
   timeToInt(time: string) {
-    time = time.toLowerCase()
-    let multiply = time.search('pm') <= -1 ? 0 : 1200;
+    time = time.toLowerCase();
+    let multiply = 0;
+    if (time.split(' ')[1] == 'pm'){
+      if (parseInt(time.split(':')[0]) == 12){
+        multiply = 0;
+      } else {
+        multiply = 1200;
+      }
+    }
+    if (time.split(' ')[1] == 'am'){
+      if (parseInt(time.split(':')[0]) == 12){
+        multiply = 12;
+      } else {
+        multiply = 0;
+      }
+    }
+    // let multiply = time.search('pm') <= -1 ? 0 : 1200;
     let time_striped = time.replace(/\D/g, '');
 
+    console.log(parseInt(time_striped) + multiply);
     return parseInt(time_striped) + multiply;
   }
 

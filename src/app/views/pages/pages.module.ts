@@ -30,6 +30,11 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ViewPublicProfileComponent } from './view-public-profile/view-public-profile.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { ViewClassInfoComponent } from './view-class-info/view-class-info.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
+import { StudentProfileComponent } from './student-profile/student-profile.component';
 
 
 
@@ -44,6 +49,9 @@ import { MatListModule } from '@angular/material/list';
     VerifyTeacherAccountComponent,
     ChangePasswordComponent,
     ViewPublicProfileComponent,
+    ViewClassInfoComponent,
+    TeacherProfileComponent,
+    StudentProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +59,8 @@ import { MatListModule } from '@angular/material/list';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
+    ComponentsModule,
 
     MatButtonModule,
     MatTabsModule,
@@ -68,6 +78,7 @@ import { MatListModule } from '@angular/material/list';
     MatCheckboxModule,
     MatDividerModule,
     MatListModule,
+    MatExpansionModule,
   ],
   exports: [
     LoginComponent,

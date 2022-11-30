@@ -10,7 +10,9 @@
                 </div>
     
                 <app-new-student x-show="addStudent"></app-new-student>
-                <app-students-table></app-students-table>
+                <app-students-table
+                    [origin]="'admin'">
+                </app-students-table>
             </div>
         </mat-tab>
         <mat-tab label="Manage Teachers">
@@ -23,7 +25,9 @@
                 </div>
 
                 <app-new-teacher x-show="addTeacher"></app-new-teacher>
-                <app-teachers-table></app-teachers-table>
+                <app-teachers-table
+                    [origin]="'admin'">
+                </app-teachers-table>
             </div>
         </mat-tab>
     </mat-tab-group>

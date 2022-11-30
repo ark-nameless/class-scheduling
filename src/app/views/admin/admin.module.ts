@@ -38,6 +38,7 @@ import { TableDepartmentsComponent } from './tables/table-departments/table-depa
 import { DepartmentsComponent } from './departments/departments.component';
 import { NewDepartmentComponent } from './forms/new-department/new-department.component';
 import { PagesModule } from '../pages/pages.module';
+import { ViewDepartmentComponent } from './view-department/view-department.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { PagesModule } from '../pages/pages.module';
     TableTeachersComponent,
     TableDepartmentsComponent,
     DepartmentsComponent,
-    NewDepartmentComponent
+    NewDepartmentComponent,
+    ViewDepartmentComponent
   ],
   imports: [
     CommonModule,

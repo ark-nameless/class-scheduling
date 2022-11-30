@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
+import { TeacherProfileComponent } from '../pages/teacher-profile/teacher-profile.component';
 import { ViewPublicProfileComponent } from '../pages/view-public-profile/view-public-profile.component';
 import { ClassSchedulesComponent } from './class-schedules/class-schedules.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -30,7 +31,8 @@ const routes: Routes = [
 			{ path: 'create-request-subjects', component: CreateRequestSubjectsComponent },
 			{ path: 'subject-requests', component: ViewRequestingDepartmentsComponent },
 			{ path: ':role/profile/:token', component: ViewPublicProfileComponent },
-			{ path: 'request-class-schedule', component: RequestClassScheduleComponent }, 
+			{ path: 'request-class-schedule', component: RequestClassScheduleComponent },
+			{ path: 'profile/:id/edit', component: TeacherProfileComponent }
 		]
 	}
 ];
