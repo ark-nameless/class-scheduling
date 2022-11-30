@@ -1,4 +1,19 @@
 <div class="flex flex-col w-full h-full p-2 justify-center space-y-2">
+	<div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+		<button 
+			matRipple
+			(click)="generatePreEnrollmentForm()"
+			class="font-sans text-xl font-semibold text-white text-center bg-rose-800 rounded-xl hover:bg-rose-900 p-2 drop-shadow-sm shadow-sm">
+			Generate Pre-Enrollment Form
+		</button>
+		<button 
+			matRipple
+			(click)="archiveClass()"
+			class="font-sans text-xl font-semibold text-white text-center bg-red-800 rounded-xl hover:bg-red-900 p-2 drop-shadow-sm shadow-sm">
+			Archive Class
+		</button>
+
+	</div>
 	<div class="grid gap-2 grid-cols-1 md:grid-cols-2">
 		<!-- Class Info -->
 		<form [formGroup]="classInfoForm" class="grid gap-x-2 grid-cols-2 border-2 p-2 border-slate-300 rounded-xl">
@@ -51,7 +66,7 @@
 							<p class="font-sans text-lg font-semibold">{{ load.description }}</p>
 						</mat-panel-title>
 					</mat-expansion-panel-header>
-					<p>Teacher: {{ load.name }}</p>
+					<p>Teacher: {{ load.name.lastname + ', ' + load.name.firstname + ' ' + load.name.middlename.toUpperCase()[0] }}</p>
 					<p>Section Code: {{ load.section_id }}</p>
 					<p>Subject Code: {{ load.subject_id }}</p>
 					<p>Unit: {{ load.units }}</p>

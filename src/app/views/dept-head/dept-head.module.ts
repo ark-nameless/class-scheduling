@@ -49,6 +49,10 @@ import { PagesModule } from '../pages/pages.module';
 import { RequestClassScheduleComponent } from './pages/request-class-schedule/request-class-schedule.component';
 import { MaterialModule } from 'src/app/material/material.module';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+
+
 @NgModule({
   declarations: [
     IndexComponent,
@@ -103,6 +107,8 @@ import { MaterialModule } from 'src/app/material/material.module';
     MatRippleModule,
     MatChipsModule,
     MatListModule,
+
+    SweetAlert2Module,
   ],
 })
 export class DeptHeadModule { }

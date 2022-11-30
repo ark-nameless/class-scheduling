@@ -83,6 +83,10 @@ export class ClassApiService {
                .put<any>(this.apiURL + `/classes/${id}/remove-students`, payload, this.httpOptions);
   }
 
+  archiveClass(id: string): Observable<any> {
+    return this.http
+               .delete<any>(this.apiURL + `/classes/${id}/archive`, this.httpOptions);
+  }
 
 
 

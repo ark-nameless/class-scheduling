@@ -23,7 +23,7 @@ const routes: Routes = [
 		children: [
 			{ path: 'dashboard', component: DashboardComponent },
 			{ path: 'students', component: StudentsComponent },
-			{ path: 'department', component: DepartmentComponent },
+			{ path: 'classes', component: DepartmentComponent },
 			{ path: 'class-schedules', component: ClassSchedulesComponent },
 			{ path: 'view-class-schedule/:token', component: ViewClassInfoComponent },
 			{ path: 'create-new-schedule', component: NewScheduleComponent },

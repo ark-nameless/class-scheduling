@@ -5,11 +5,18 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { ClassApiService } from 'src/app/apis/class-api.service';
+import { TeacherApiService } from 'src/app/apis/teacher-api.service';
 import { SelectStudentsTableComponent } from 'src/app/components/select-students-table/select-students-table.component';
+import { DocumentGeneratorService } from 'src/app/services/document-generator.service';
 import { SessionService } from 'src/app/services/session.service';
+import Swal from 'sweetalert2';
+
+var pdfMake = require('pdfmake/build/pdfmake.js');
+var pdfFonts = require('pdfmake/build/vfs_fonts.js');
+pdfMake.vfs = pdfFonts.pdfMake.vfs;  
 
 @Component({
 	selector: 'app-view-class-info',
@@ -21,6 +28,8 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 	userId = '';
 	classId = '';
 
+	userInfo = <any>{};
+
 	classInfoChanged: boolean = false;
 	addStudentLoading: boolean = false;
 	removeStudentsLoading: boolean = false;
@@ -29,6 +38,8 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 
 	classLoads = <any>[];
 	classStudents = <any>[];
+	classInfo = {};
+
 
 	studentsTableColumns: string[] = ['profile_img', 'name', 'gender', 'year'];
 	studentsDataSource = new MatTableDataSource();
@@ -38,11 +49,14 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 	@ViewChild(MatSort) sort!: MatSort;
 
 	constructor(
+		private router: Router,
 		public dialog: MatDialog,
+		private docgenerator: DocumentGeneratorService,
 		private snackBar: MatSnackBar,
 		private route: ActivatedRoute,
 		private fb: FormBuilder,
 		private classAPI: ClassApiService,
+		private teacherApi: TeacherApiService,
 		private tokenStorage: SessionService
 	) {
 		this.classInfoForm = fb.group({
@@ -62,6 +76,7 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 		this.loadClassInfo();
 		this.loadClassLoads();
 		this.loadClassStudents();
+		this.loadUserInfo();
 		this.listenToClassInfoChanges();
 	}
 
@@ -84,6 +99,14 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 		this.classInfoForm.controls['endYear'].valueChanges.subscribe(() => this.classInfoChanged = true);
 	}
 
+	loadUserInfo(){
+		this.teacherApi.getTeacherPublicProfile(this.userId).subscribe(
+			(data: any) => {
+				this.userInfo = data.data;
+			}
+		)
+	}
+
 	loadClassInfo() {
 		this.classAPI.getClassInfo(this.token).subscribe(
 			(data) => {
@@ -94,6 +117,7 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 				this.classInfoForm.get('startYear')?.setValue(data.year.start);
 				this.classInfoForm.get('endYear')?.setValue(data.year.end);
 				this.classInfoChanged = false;
+				this.classInfo = data;
 			},
 			(err) => { }
 		);
@@ -102,25 +126,18 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 	loadClassLoads() {
 		this.classAPI.getClassLoads(this.token).subscribe((data) => {
 			data.data.forEach((value: any) => {
-				value.name =
-					value.name.lastname +
-					', ' +
-					value.name.firstname +
-					' ' +
-					value.name.middlename.toUpperCase()[0];
 				this.classLoads.push(value);
 			});
 		});
 	}
 
+	
+
 	loadClassStudents() {
 		this.classAPI.getClassStudents(this.token).subscribe((data) => {
 			this.classStudents = data.data;
-
-			console.log(this.classStudents);
-
+			
 			this.studentsDataSource = new MatTableDataSource(this.classStudents);
-
 			this.studentsDataSource.paginator = this.paginator;
 			this.studentsDataSource.sort = this.sort;
 		});
@@ -132,7 +149,6 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 		} else {
 			this.selectedStudents.add(id);
 		}
-		console.log(this.selectedStudents);
 	}
 
 	openAddStudentDialog() {
@@ -195,5 +211,65 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 		);
 
 		this.selectedStudents.clear();
+	}
+
+	createPreEnrollmentData(){
+		return {
+			department_name: this.userInfo.department_name,
+			class_name: this.classInfoForm.controls['name'].value,
+			section_block: 'A',
+			sy: {
+				startYear: '',
+				endYear: '',
+			}
+		}
+	}
+
+	async generatePreEnrollmentForm() {
+		pdfMake.createPdf(this.docgenerator.generatePreEnrollmentForm(this.createPreEnrollmentData(), this.classLoads)).open();
+	}
+
+	async archiveClass() {
+		const { value: className } = await Swal.fire({
+			title: `Archive Class`,
+			html: `<p>Please Enter <span class="font-semibold">'${this.classInfoForm.controls['name'].value}'</span> to archive</p>`,
+			input: 'text',
+			icon: 'warning',
+			timer: 15000,
+			timerProgressBar: true,
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Confirm',
+			inputValidator: (value) => {
+				if (!value) {
+					return 'Please fill in the field!';
+				}
+				return '';
+			}
+		});
+
+		if (className){
+			if (className != this.classInfoForm.controls['name'].value){
+				Swal.fire({
+					icon: 'error',
+					title: 'Incorrect Class Name',
+					html: `Unable to archive <span class="font-semibold">'${this.classInfoForm.controls['name'].value}'</span>`,
+				})
+			} else {
+				this.classAPI.archiveClass(this.token).subscribe(
+					(data: any) => {
+						Swal.fire({
+							text: data.detail,
+							icon: 'success',
+							confirmButtonColor: '#bc2ac9',
+							confirmButtonText: 'Finish'
+						}).then((result:any) => {
+							this.router.navigate(['/dept-head/classes'])
+						})
+					}
+				)
+			}
+		}
 	}
 }

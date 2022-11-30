@@ -8,6 +8,7 @@ import { DepartmentApiService } from 'src/app/apis/department-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
+import { SubjectLoadConflictCheckerService } from 'src/app/services/subject-load-conflict-checker.service';
 
 
 
@@ -45,6 +46,7 @@ export class CreateNewClassScheduleComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private session: SessionService,
+    private conflictChecker: SubjectLoadConflictCheckerService,
     private authApi: AuthApiService,
     private teacherApi: TeacherApiService,
     private departmentApi: DepartmentApiService,
@@ -259,42 +261,85 @@ export class CreateNewClassScheduleComponent implements OnInit {
     }
   }
 
-  validateSchedule() {
+  // validateSchedule() {
+  //   this.isValidSchedule = false;
+  //   if (this.emptySubjectLoad()) {
+  //     this.snackbar.open('Please add schedule before trying to validate it.', 'Close', { duration: 1 * 1000 });
+  //     return
+  //   }
+  //   this.validSelectedLoad();
+  //   let selected_index = 0;
+  //   for (let i = 0; i < this.scheduleList.length; i++) {
+  //     this.scheduleList[i].schedules.forEach((sched: any) => {
+  //       this.scheduleList.forEach((schedule: any, index: number) => {
+  //         // check only if not the same schedule and same teacher's schedule
+  //         if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
+  //           let res = this.checkSchedule(sched, schedule.schedules);
+  //           console.log(`${this.scheduleList[i].teacher_id} == ${schedule.teacher_id}`)
+  //           if (res) {
+  //             this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
+  //             return
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }
+  //   // checking for saved subject load
+  //   if (this.selectedTeacherSchedule.length > 0) {
+  //     this.scheduleList[this.selectedLoad].schedules.forEach((data: any) => {
+  //       this.selectedTeacherSchedule.forEach((sched2: any) => {
+  //         if (this.checkSchedule(data, sched2.schedules)) {
+  //           this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
+  //           return
+  //         }
+  //       })
+  //     })
+  //   }
+  //   this.isValidSchedule = true;
+  //   // this.snackbar.open('Schedule is Valid', 'Close', { duration: 2 * 1000 });
+  // }
+
+  validateSchedule(){
+    const errorMessageDuration = 2;
     this.isValidSchedule = false;
+    let currentSchedule = this.scheduleList[this.selectedLoad];
+
+
     if (this.emptySubjectLoad()) {
-      this.snackbar.open('Please add schedule before trying to validate it.', 'Close', { duration: 1 * 1000 });
+      this.snackbar.open('Please add schedule before trying to validate it.', 'Close', { duration: errorMessageDuration * 1000 });
       return
     }
-    this.validSelectedLoad();
-    let selected_index = 0;
-    for (let i = 0; i < this.scheduleList.length; i++) {
-      this.scheduleList[i].schedules.forEach((sched: any) => {
-        this.scheduleList.forEach((schedule: any, index: number) => {
-          // check only if not the same schedule and same teacher's schedule
-          if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
-            let res = this.checkSchedule(sched, schedule.schedules);
-            console.log(`${this.scheduleList[i].teacher_id} == ${schedule.teacher_id}`)
-            if (res) {
-              this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
-              return
+    else if (!this.conflictChecker.validScheduleTime(currentSchedule)){
+      this.snackbar.open('Please ensure that start time is lower than the end time.', 'Close', { duration: errorMessageDuration * 1000 });
+      return
+    }
+    else if (!this.conflictChecker.validSchedule(this.scheduleList[this.selectedLoad].schedules)){
+      this.snackbar.open('Invalid Schedule, Please check this loads schedule', 'Close', { duration: errorMessageDuration * 1000 });
+    }
+    else if (!this.conflictChecker.validScheduleToTeachersLoad(currentSchedule.schedules, this.selectedTeacherSchedule)){
+      this.snackbar.open('Invalid Schedule, there is a conflict in the teacher\s current subject load.', 'Close', { duration: errorMessageDuration * 1000 });
+    }
+    else {
+      let validLoad = true;
+      for (let i = 0; i < this.scheduleList.length; i++) {
+        this.scheduleList[i].schedules.forEach((sched: any) => {
+          this.scheduleList.forEach((schedule: any, index: number) => {
+            // check only if not the same schedule and same teacher's schedule
+            if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
+              validLoad = !this.conflictChecker.checkScheduleToSchedules(sched, schedule.schedules);
+              console.log(`${this.scheduleList[i].teacher_id} == ${schedule.teacher_id}: ${validLoad}`)
             }
-          }
+          });
         });
-      });
+      }
+      if (validLoad == true){
+        this.snackbar.open('Congrats! It\'s a valid schedule.', 'Close', { duration: errorMessageDuration * 1000 });
+        this.isValidSchedule = true;
+      } else {
+        this.snackbar.open('There is collision in your schedule. Please check subject loads.', 'Close', { duration: errorMessageDuration * 1000 });
+      }
     }
-    // checking for saved subject load
-    if (this.selectedTeacherSchedule.length > 0) {
-      this.scheduleList[this.selectedLoad].schedules.forEach((data: any) => {
-        this.selectedTeacherSchedule.forEach((sched2: any) => {
-          if (this.checkSchedule(data, sched2.schedules)) {
-            this.snackbar.open('There is collision in your schedule. Please check the time.', 'Close', { duration: 1 * 1000 });
-            return
-          }
-        })
-      })
-    }
-    this.isValidSchedule = true;
-    // this.snackbar.open('Schedule is Valid', 'Close', { duration: 2 * 1000 });
+
   }
 
 
