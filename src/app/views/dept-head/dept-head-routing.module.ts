@@ -12,7 +12,7 @@ import { CreateRequestSubjectsComponent } from './forms/create-request-subjects/
 import { IndexComponent } from './index/index.component';
 import { NewScheduleComponent } from './pages/new-schedule/new-schedule.component';
 import { RequestClassScheduleComponent } from './pages/request-class-schedule/request-class-schedule.component';
-import { ViewClassInfoComponent } from './pages/view-class-info/view-class-info.component';
+import { ViewClassInfoComponent } from '../pages/view-class-info/view-class-info.component';
 import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-departments/view-requesting-departments.component';
 import { StudentsComponent } from './students/students.component';
 
