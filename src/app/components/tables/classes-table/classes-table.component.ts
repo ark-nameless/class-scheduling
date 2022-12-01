@@ -92,12 +92,12 @@ export class ClassesTableComponent implements OnInit {
   }
 
   rowOnClick(data: any) {
-    this.selectedRow = data;
-    let source = 'dept-head';
-    if (origin != ''){
-      source = 'admin'
-    }
-    this.router.navigate([`/${source}/view-class-schedule/${data.id}`]);
+//     this.selectedRow = data;
+//     let source = 'dept-head';
+//     if (origin != ''){
+//       source = 'admin'
+//     }
+    this.router.navigate([`/${this.origin}/view-class-schedule/${data.id}`]);
   }
 
 
