@@ -73,13 +73,21 @@ export class StudentApiService {
     let headers = { 
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        // 'accept': 'application/json',
-        // 'Authorization': 'Bearer ' + this.token.getToken(),
       })
     };
 
     return this.http
                .put<any>(this.apiURL + '/students/' + token, JSON.stringify(data), headers);
+  }
+
+  getProfile(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/students/${id}/profile`, this.httpOptions);
+  }
+
+  updateCredentials(id: string, payload: any): Observable<any>{
+    return this.http
+               .put<any>(this.apiURL + `/students/${id}/update-credentials`, payload, this.httpOptions);
   }
 
 

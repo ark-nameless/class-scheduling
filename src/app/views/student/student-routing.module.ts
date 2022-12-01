@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
+import { StudentProfileComponent } from '../pages/student-profile/student-profile.component';
 import { ViewPublicProfileComponent } from '../pages/view-public-profile/view-public-profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndexComponent } from './index/index.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
 			{ path: 'schedules', component: SchedulesComponent },
 			{ path: 'search', component: SearchComponent },
 			{ path: ':role/profile/:token', component: ViewPublicProfileComponent },
+			{ path: 'profile/:id/edit', component: StudentProfileComponent }
 		]
 	}
 ];

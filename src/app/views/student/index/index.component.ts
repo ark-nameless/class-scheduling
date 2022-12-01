@@ -11,6 +11,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class IndexComponent implements OnInit {
 
+  userId = '';
   
   constructor(
     private router: Router,
@@ -23,6 +24,8 @@ export class IndexComponent implements OnInit {
         window.sessionStorage.setItem('dept-id', data.data);
       })
     }
+
+    this.userId = session.getUser().id;
   }
 
   ngOnInit(): void {
