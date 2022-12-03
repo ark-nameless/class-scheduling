@@ -282,7 +282,7 @@ export class DocumentGeneratorService {
 
 
 	public generatePreEnrollmentForm(class_info: any, class_loads: any) {
-
+		console.log(class_info);
 		let loads = [];
 		loads.push(
 			[
@@ -358,7 +358,7 @@ export class DocumentGeneratorService {
 						{
 							width: '68%',
 							text: [
-								{ text: 'Section Block: ', style: 'textBold' },
+								{ text: `Section Block: `, style: 'textBold' },
 								{ text: class_info.section_block, style: 'textBoldUnderline' }
 							]
 						},

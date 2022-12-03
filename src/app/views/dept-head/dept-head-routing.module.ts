@@ -15,6 +15,7 @@ import { RequestClassScheduleComponent } from './pages/request-class-schedule/re
 import { ViewClassInfoComponent } from '../pages/view-class-info/view-class-info.component';
 import { ViewRequestingDepartmentsComponent } from './pages/view-requesting-departments/view-requesting-departments.component';
 import { StudentsComponent } from './students/students.component';
+import { EditClassScheduleComponent } from './edit-class-schedule/edit-class-schedule.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -32,7 +33,8 @@ const routes: Routes = [
 			{ path: 'subject-requests', component: ViewRequestingDepartmentsComponent },
 			{ path: ':role/profile/:token', component: ViewPublicProfileComponent },
 			{ path: 'request-class-schedule', component: RequestClassScheduleComponent },
-			{ path: 'profile/:id/edit', component: TeacherProfileComponent }
+			{ path: 'profile/:id/edit', component: TeacherProfileComponent },
+			{ path: 'class/:id/edit', component: EditClassScheduleComponent },
 		]
 	}
 ];

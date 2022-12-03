@@ -102,6 +102,9 @@ export class TeachersTableComponent implements OnInit {
     }
   }
 
+  stopOpen($event: any){
+    $event.stopPropagation();
+  }
 
   rowOnClick(data: any) {
     this.selectedRow = data

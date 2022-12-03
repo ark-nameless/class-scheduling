@@ -212,7 +212,7 @@ export class ViewClassInfoComponent implements OnInit, AfterViewInit {
 		return {
 			department_name: this.classInfo['department_name'],
 			class_name: this.classInfo['name'],
-			section_block: this.classInfo['section_block'],
+			section_block: this.classInfo['name'].slice(-1),
 			sy: {
 				startYear: '',
 				endYear: '',

@@ -77,6 +77,17 @@ export class ClassApiService {
     return this.http
                .put<any>(this.apiURL + `/classes/${id}/class-info`, payload, this.httpOptions);
   }
+  
+  updateSchedule(id: string, payload:any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/update-subject-schedule`, payload, this.httpOptions);
+  }
+
+  updateSubjectInfo(id: string, payload:any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/update-subject-info`, payload, this.httpOptions);
+  }
+
 
   removeStudentsFromClass(id: string, payload:any): Observable<any> {
     return this.http

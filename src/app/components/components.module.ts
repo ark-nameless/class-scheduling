@@ -39,6 +39,9 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { SubjectRequestsTableComponent } from './tables/subject-requests-table/subject-requests.component';
 import {MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, } from '@angular/material/chips';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -56,6 +59,11 @@ import {MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, } from '@angular/material/chi
     SubjectRequestsTableComponent,
   ],
   imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+
     CommonModule,
 
     MatDialogModule,
@@ -87,6 +95,7 @@ import {MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, } from '@angular/material/chi
     MatButtonToggleModule,
     MatDatepickerModule,
     MatChipsModule,
+    NgxMaterialTimepickerModule,
   ],
   exports: [
     SelectDepartmentsComponent,

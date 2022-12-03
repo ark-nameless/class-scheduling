@@ -27,7 +27,6 @@ export class SubjectLoadConflictCheckerService {
     // let multiply = time.search('pm') <= -1 ? 0 : 1200;
     let time_striped = time.replace(/\D/g, '');
 
-    console.log(parseInt(time_striped) + multiply);
     return parseInt(time_striped) + multiply;
   }
 
@@ -104,11 +103,12 @@ export class SubjectLoadConflictCheckerService {
     return true;
   }
 
-  public validScheduleToTeachersLoad(sched: any, teacherLoad: any) {
+  public validScheduleToTeachersLoad(sched: any, teacherLoad: any, teacherId='') {
     if (teacherLoad.length > 0) {
       for (let i = 0; i < sched.length; i++){
         for (const sched2 of teacherLoad){
-          if (this.checkScheduleToSchedules(sched[i], sched2.schedules)) {
+          // if (teacherId != )
+          if (teacherId != sched2.id && this.checkScheduleToSchedules(sched[i], sched2.schedules)) {
             return false;
           }
         }

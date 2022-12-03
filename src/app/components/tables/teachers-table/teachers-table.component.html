@@ -44,22 +44,22 @@
   
             <ng-container matColumnDef="actions" class=" md:hidden">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class=" md:hidden"> Actions </th>
-                <td mat-cell *matCellDef="let row" class=" md:hidden">
+                <td mat-cell *matCellDef="let row" class=" md:hidden" (click)="stopOpen($event)">
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                         <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
-                            <mat-icon>dialpad</mat-icon>
-                            <span>Redial</span>
+                        <button mat-flat-button (click)="sendVerificationEmail()">
+                            <mat-icon>published_with_changes</mat-icon>
+                            <span>Send Verification Email</span>
                         </button>
-                        <button mat-menu-item disabled>
-                            <mat-icon>voicemail</mat-icon>
-                            <span>Check voice mail</span>
+                        <button mat-flat-button (click)="sendPasswordResetEmail()">
+                            <mat-icon>lock_reset</mat-icon>
+                            <span>Send Password Reset Email</span>
                         </button>
-                        <button mat-menu-item>
-                            <mat-icon>notifications_off</mat-icon>
-                            <span>Disable alerts</span>
+                        <button mat-flat-button  (click)="deleteAccount('0ms', '0ms')">
+                            <mat-icon>delete_forever</mat-icon>
+                            <span>Delete Account</span>
                         </button>
                     </mat-menu>
                 </td>

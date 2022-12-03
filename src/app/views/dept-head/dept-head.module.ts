@@ -50,6 +50,7 @@ import { RequestClassScheduleComponent } from './pages/request-class-schedule/re
 import { MaterialModule } from 'src/app/material/material.module';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { EditClassScheduleComponent } from './edit-class-schedule/edit-class-schedule.component';
 
 
 
@@ -66,7 +67,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NewScheduleComponent,
     CreateRequestSubjectsComponent,
     ViewRequestingDepartmentsComponent,
-    RequestClassScheduleComponent
+    RequestClassScheduleComponent,
+    EditClassScheduleComponent
   ],
   imports: [
     CommonModule,

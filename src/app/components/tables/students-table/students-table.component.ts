@@ -101,9 +101,12 @@ export class StudentsTableComponent implements OnInit {
     }
   }
 
+  stopOpen($event: any){
+    $event.stopPropagation();
+  }
+
   rowOnClick(data: any) {
     this.selectedRow = data;
-
   }
 
   selectRow(data: any) {

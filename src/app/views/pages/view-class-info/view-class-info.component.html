@@ -7,6 +7,13 @@
 			Generate Pre-Enrollment Form
 		</button>
 		<button 
+			*ngIf="!disableEditing"
+			[routerLink]="'/dept-head/class/' + classId + '/edit'"
+			matRipple
+			class="font-sans text-xl font-semibold text-white text-center bg-red-800 rounded-md hover:bg-red-900 p-2 drop-shadow-md shadow-md">
+			Edit
+		</button>
+		<button 
             *ngIf="!disableEditing"
 			matRipple
 			(click)="archiveClass()"

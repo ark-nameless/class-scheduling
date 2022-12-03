@@ -35,6 +35,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -56,6 +57,7 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
