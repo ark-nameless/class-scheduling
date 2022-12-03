@@ -48,4 +48,19 @@
             </button>
         </form>
     </div>
+    <div class="relative flex flex-col w-full lg:h-screen border-2 border-slate-400 rounded-xl p-2">
+        <p class="font-sans text-lg font-semibold">Year</p>
+        <div class="grid gap-1 grid-cols-3">
+            <mat-form-field class="col-span-1" appearance="outline">
+                <mat-label>Time</mat-label>
+                <input type="text" matInput [(ngModel)]="studentYear" placeholder="W / 03:00-04:00pm">
+            </mat-form-field>
+        </div>
+    
+        <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white px-5 py-2.5 mb-2"
+            (click)="updateProfile()"
+            mat-raised-button>
+            Update Profile
+        </button>
+    </div>
 </div>

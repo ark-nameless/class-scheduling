@@ -90,6 +90,11 @@ export class StudentApiService {
                .put<any>(this.apiURL + `/students/${id}/update-credentials`, payload, this.httpOptions);
   }
 
+  updateProfileInfo(id: string, payload: any): Observable<any>{
+    return this.http
+               .put<any>(this.apiURL + `/students/${id}/update-profile-info`, payload, this.httpOptions);
+  }
+
 
   handleError(error: any) {
     console.log(error);

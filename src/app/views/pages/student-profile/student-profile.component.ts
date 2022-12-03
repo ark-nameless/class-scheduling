@@ -34,6 +34,9 @@ export class StudentProfileComponent implements OnInit {
   updatingCredentials = false;
 
 
+  studentYear = '';
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -102,6 +105,19 @@ export class StudentProfileComponent implements OnInit {
       }, err => {
         this.snackbar.open(err.error.detail, 'Close', { duration: 3 * 1000 })
         this.updatingCredentials = this.willUpdateCredentials = false;
+      }
+    )
+  }
+
+  updateProfile(){
+    let data = {
+      year: this.studentYear,
+    }
+    this.studentApi.updateProfileInfo(this.tokenId, data).subscribe(
+      (data: any) => {
+        this.snackbar.open(data.detail, 'Close', { duration: 3 * 1000 })
+      }, err => {
+        this.snackbar.open((err.error.detail), 'Close', { duration: 3 * 1000 });
       }
     )
   }
