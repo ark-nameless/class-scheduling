@@ -16,9 +16,12 @@ export class DocumentGeneratorService {
 
 
 
-	public generateTeachingAssignment(class_loads: any, profile: any = <any>{}) {
+	public generateTeachingAssignment(class_loads: any, profile: any = <any>{}, extras: any = <any>{}) {
 		// playground requires you to assign document definition to a variable called dd
 		let utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+
+		console.log(profile);
+		console.log(extras);
 
 		let loads = <any>[];
 		loads.push(
@@ -46,13 +49,13 @@ export class DocumentGeneratorService {
 							width: '*',
 							text: [
 								{ text: 'DEPARTMENT OF ', style: 'textBold', },
-								{ text: 'COMPUTER SCIENCE', style: 'textBoldUnderline', },
+								{ text: extras[0].toUpperCase() ?? '', style: 'textBoldUnderline', },
 							], margin: [0, 0, 0, 2]
 						},
 						{
 							width: 'auto',
 							text: [
-								{ text: '1ST SEMESTER of SY 2022-2023', style: 'textBold', },
+								{ text: extras[1].toUpperCase() ?? '', style: 'textBold', },
 							], margin: [0, 0, 0, 2]
 						}
 					]
@@ -60,15 +63,15 @@ export class DocumentGeneratorService {
 				{
 					text: [
 						{ text: 'TEACHING ASSIGMENT (', style: 'textBold', },
-						{ text: 'REGULAR', style: 'textBoldUnderline', },
-						{ text: ' / SPECIAL CLASSES)', style: 'textBold', }
+						{ text: extras[2].toUpperCase() ?? '', style: 'textBoldUnderline', },
+						{ text: ')', style: 'textBold', }
 					]
 					, margin: [0, 0, 0, 10]
 				},
 				{
 					text: [
-						{ text: 'FULL-TIME', style: 'textBoldUnderline', },
-						{ text: ' / PART-TIME FACULTY', style: 'textBold', }
+						{ text: profile.teaching_info.teaching_status ?? '', style: 'textBoldUnderline', },
+						// { text: ' / PART-TIME FACULTY', style: 'textBold', }
 					], margin: [0, 0, 0, 2]
 				},
 				{
@@ -77,14 +80,14 @@ export class DocumentGeneratorService {
 							width: '*',
 							text: [
 								{ text: 'Name: ', style: 'defaultText', },
-								{ text: 'ALDWIN M. ILUMIN', style: 'textBoldUnderline', },
+								{ text: `${profile.name.firstname.toUpperCase() ?? ''} ${profile.name.middlename.toUpperCase()[0] ?? ''}. ${profile.name.lastname.toUpperCase() ?? ''}`, style: 'textBoldUnderline', },
 							], margin: [0, 0, 0, 2]
 						},
 						{
 							width: 'auto',
 							text: [
 								{ text: 'Academic Rank: ', style: 'defaultText', },
-								{ text: 'Asst. Professor', style: 'textBoldUnderline', },
+								{ text: profile.teaching_info.academic_rank ?? '', style: 'textBoldUnderline', },
 							], margin: [0, 0, 0, 2]
 						}
 					]
@@ -92,7 +95,7 @@ export class DocumentGeneratorService {
 				{
 					text: [
 						{ text: 'Nature of Appointment: ', style: 'defaultText', },
-						{ text: 'Permanent Full-time / Program Chair', style: 'textBoldUnderline', },
+						{ text: profile.teaching_info.nature_of_appointment ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
@@ -123,31 +126,31 @@ export class DocumentGeneratorService {
 				{
 					text: [
 						{ text: 'Teaching Record: ', style: 'defaultText', },
-						{ text: '21 years', style: 'textBoldUnderline', },
+						{ text: profile.teaching_info.teaching_record ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
 					text: [
 						{ text: 'Highest Degree: ', style: 'defaultText', },
-						{ text: 'Doctor in Information Technology (DIT-with units)', style: 'textBoldUnderline', },
+						{ text: profile.highest_school.degree ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
 					text: [
 						{ text: 'School and Year Obtained: ', style: 'defaultText', },
-						{ text: 'University of the Cordilleras-Baguio City/', style: 'textBoldUnderline', },
+						{ text: profile.highest_school.location ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
 					text: [
 						{ text: 'Other Information on Educational Qualification: ', style: 'defaultText', },
-						{ text: 'Master in Information Technology (MIT)- MSEUF Lucena City (2009); Bachelor of Science in Computer Science(BSCS)-Manuel S. Enverga University Foundation – Lucena City (2001)', style: 'textBoldUnderline', },
+						{ text: profile.teaching_info.other_educational_qualification ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
 					text: [
 						{ text: 'Non-Teaching Duty: ', style: 'defaultText', },
-						{ text: 'Research, Promotion, & Community Outreach', style: 'textBoldUnderline', },
+						{ text: profile.non_teaching_duty ?? '', style: 'textBoldUnderline', },
 					], margin: [0, 0, 0, 2]
 				},
 				{
@@ -156,14 +159,14 @@ export class DocumentGeneratorService {
 							width: '*',
 							text: [
 								{ text: 'Consultation Hours: ', style: 'defaultText', },
-								{ text: 'W / 03:00-04:00pm', style: 'textBoldUnderline', },
+								{ text: profile.consultation.time ?? '', style: 'textBoldUnderline', },
 							],
 						},
 						{
 							width: '*',
 							text: [
 								{ text: 'Venue: : ', style: 'defaultText', },
-								{ text: 'Consultation Room', style: 'textBoldUnderline', },
+								{ text: profile.consultation.location ?? '', style: 'textBoldUnderline', },
 							],
 						}
 					], margin: [0, 0, 0, 15]
@@ -184,37 +187,37 @@ export class DocumentGeneratorService {
 				},
 				{
 					columns: [
-						{
-							width: '50%',
-							columns: [
-								{
-									type: 'none',
-									ul: [
-										{ text: 'Prepared By:', style: 'textBold' },
-										{ text: '\n\n\nALDWIN M. ILUMIN, MIT', style: 'textBold' },
-										{ text: 'Department Chairperson', style: 'textBold' },
-										{ text: '\n\nRecommending Approval:\n\n\n', style: 'textBold' },
-										{ text: 'DR. CRYSTAL B. QUINTANA', style: 'textBold' },
-										{ text: '.        Dean of Studies', style: 'textBold', },
-										{
-											style: 'tableExample',
-											table: {
-												body: [
-													[{ text: 'Teaching Assigment acknowledge and received:', alignment: 'center', border: [true, true, true, false] }],
-													[{ text: '\n', border: [true, false, true, false], alignment: 'center' }],
-													[{ text: 'ALDWIN M. ILUMIN', style: 'textBold', border: [true, false, true, false], alignment: 'center' }],
-													[{ text: `Date: ${utc}`, border: [true, false, true, true], alignment: 'center' }],
+						// {
+						// 	width: '50%',
+						// 	columns: [
+						// 		{
+						// 			type: 'none',
+						// 			ul: [
+						// 				{ text: 'Prepared By:', style: 'textBold' },
+						// 				{ text: '\n\n\nALDWIN M. ILUMIN, MIT', style: 'textBold' },
+						// 				{ text: 'Department Chairperson', style: 'textBold' },
+						// 				{ text: '\n\nRecommending Approval:\n\n\n', style: 'textBold' },
+						// 				{ text: 'DR. CRYSTAL B. QUINTANA', style: 'textBold' },
+						// 				{ text: '.        Dean of Studies', style: 'textBold', },
+						// 				{
+						// 					style: 'tableExample',
+						// 					table: {
+						// 						body: [
+						// 							[{ text: 'Teaching Assigment acknowledge and received:', alignment: 'center', border: [true, true, true, false] }],
+						// 							[{ text: '\n', border: [true, false, true, false], alignment: 'center' }],
+						// 							[{ text: 'ALDWIN M. ILUMIN', style: 'textBold', border: [true, false, true, false], alignment: 'center' }],
+						// 							[{ text: `Date: ${utc}`, border: [true, false, true, true], alignment: 'center' }],
 
-												]
-											},
-											layout: {
-												defaultBorder: true,
-											}
-										},
-									]
-								},
-							]
-						},
+						// 						]
+						// 					},
+						// 					layout: {
+						// 						defaultBorder: true,
+						// 					}
+						// 				},
+						// 			]
+						// 		},
+						// 	]
+						// },
 						{
 							width: 'auto',
 							columns: [
@@ -227,13 +230,13 @@ export class DocumentGeneratorService {
 												{ text: `${totalUnits(class_loads)} units/ ${totalHours(class_loads)} converted hours`, style: 'textBoldUnderline' }
 											]
 										},
-										{ text: '\n\n\n\n', style: 'textBold' },
-										{ text: '\n', style: 'textBold' },
-										{ text: '\n\n\n\n\n', style: 'textBold' },
-										{ text: 'Approved by:\n\n\n', style: 'textBold', alignment: 'center' },
-										{ text: '', style: 'textBold' },
-										{ text: 'BENILDA N. VILLENAS, Ph.D.', style: 'textBold', alignment: 'center' },
-										{ text: 'Vice President for Academics and Research', style: 'textBold', alignment: 'center' },
+										// { text: '\n\n\n\n', style: 'textBold' },
+										// { text: '\n', style: 'textBold' },
+										// { text: '\n\n\n\n\n', style: 'textBold' },
+										// { text: 'Approved by:\n\n\n', style: 'textBold', alignment: 'center' },
+										// { text: '', style: 'textBold' },
+										// { text: 'BENILDA N. VILLENAS, Ph.D.', style: 'textBold', alignment: 'center' },
+										// { text: 'Vice President for Academics and Research', style: 'textBold', alignment: 'center' },
 									]
 								},
 							]

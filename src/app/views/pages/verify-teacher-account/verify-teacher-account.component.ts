@@ -149,7 +149,7 @@ export class VerifyTeacherAccountComponent implements OnInit {
         },
         personal_info: {
           birth_place: this.verifyForm.value.birth_place == null ? '' : this.verifyForm.value.birth_place,
-          date_of_birth: this.verifyForm.value.date_of_birth == null ? '' : this.verifyForm.value.date_of_birth.toString(),
+          date_of_birth: this.verifyForm.value.date_of_birth == null ? '' : this.verifyForm.value.date_of_birth,
           nationality: this.verifyForm.value.nationality == null ? '' : this.verifyForm.value.nationality,
           sex: this.verifyForm.value.sex == null ? '' : this.verifyForm.value.sex
         },

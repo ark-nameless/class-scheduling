@@ -1,68 +1,222 @@
-<div class="flex flex-col w-full h-full bg-white">
+<div class="grid gap-2 grid-cols-1 lg:grid-cols-2 bg-white w-full h-full p-2">
 
     <!-- credentials -->
-    <div class="flex flex-col md:flex-row w-full items-center justify-center md:justify-start border-b-2 border-slate-400 rounded-xl p-5 md:space-x-10 ">
+    <div class="row-auto row-end-auto flex flex-col md:flex-row w-full h-fit items-center justify-center md:justify-start border-2 border-slate-400 rounded-xl p-5 md:space-x-10 ">
         <img class="w-48 h-48" src="/assets/images/logo-filled.png" alt="logo">
 
-        <form [formGroup]="credentialsForm" novalidate (ngSubmit)="updateCredentials()" class="flex flex-col w-full md:p-5">
-            <p class="font-sans text-lg font-semibold">Credentials</p>
+        <div class="flex flex-col">
+            <form [formGroup]="credentialsForm" novalidate class="flex flex-col w-full md:p-5">
+                <p class="font-sans text-lg font-semibold">Credentials</p>
+                <div class="grid gap-2 grid-cols-1 md:grid-cols-3">
+                    <mat-form-field class="col-span-full" appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input type="text" matInput formControlName="username" placeholder="joshua.lapso">
+                        <mat-error *ngIf="credentialsForm.controls['username'].hasError('required')">
+                            Username is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-span-full" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput formControlName="email" placeholder="example@gmail.com">
+                        <mat-error *ngIf="credentialsForm.controls['email'].hasError('required')">
+                            Email is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="flex" appearance="outline">
+                        <mat-label>Current Password</mat-label>
+                        <input type="password" matInput formControlName="currentPassword" placeholder="Password">
+                    </mat-form-field>
+                    <mat-form-field class="flex" appearance="outline">
+                        <mat-label>New Password</mat-label>
+                        <input type="password" matInput formControlName="password" placeholder="Password">
+                    </mat-form-field>
+                    <mat-form-field class="flex" appearance="outline">
+                        <mat-label>Confirm New Password</mat-label>
+                        <input type="password" matInput formControlName="confirmPassword" placeholder="Password">
+                        <mat-error
+                            *ngIf="credentialsForm.hasError('notSame')">
+                            Passwords do not match
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="grid gap-2 grid-cols-1">
+                    <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white w-full text-center" 
+                        [disabled]="!willUpdateCredentials || !this.credentialsForm.valid"
+                        (click)="updateCredentials()"
+                        mat-raised-button>
+                        <mat-icon *ngIf="updatingCredentials" >
+                            <mat-spinner [diameter]="20" [color]="'accent'"></mat-spinner>
+                        </mat-icon>
+                        Change
+                    </button>
+                </div>
+            </form>
+            <button 
+                [disabled]="loadingTeachingAssignment"
+                matRipple
+                (click)="generateTeachingAssignment()"
+                class="font-sans text-xl font-semibold text-white text-center bg-rose-800 rounded-md hover:bg-rose-900 p-2 drop-shadow-md shadow-md">
+                Generate Teaching Assignment
+            </button>
+        </div>
+        
+    </div>
+
+    <div class="relative flex flex-col w-full lg:h-screen border-2 border-slate-400 rounded-xl">
+        <form [formGroup]="profileForm" novalidate (ngSubmit)="updateProfile()" class="flex flex-col w-full h-min p-5 lg:overflow-auto pb-14">
+        
+            <p class="font-sans text-lg font-semibold">Name</p>
             <div class="grid gap-2 grid-cols-1 md:grid-cols-3">
-                <mat-form-field class="col-span-full" appearance="outline">
-                    <mat-label>Username</mat-label>
-                    <input type="text" matInput formControlName="username" placeholder="joshua.lapso">
-                    <mat-error *ngIf="credentialsForm.controls['username'].hasError('required')">
-                        Username is <strong>required</strong>
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field class="col-span-full" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input type="email" matInput formControlName="email" placeholder="example@gmail.com">
-                    <mat-error *ngIf="credentialsForm.controls['email'].hasError('required')">
-                        Email is <strong>required</strong>
+                <mat-form-field class="flex" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput formControlName="firstname" placeholder="Joshua">
+                    <mat-error *ngIf="profileForm.controls['firstname'].hasError('required')">
+                        First Name is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field class="flex" appearance="outline">
-                    <mat-label>Current Password</mat-label>
-                    <input type="password" matInput formControlName="currentPassword" placeholder="Password">
-                </mat-form-field>
-                <mat-form-field class="flex" appearance="outline">
-                    <mat-label>New Password</mat-label>
-                    <input type="password" matInput formControlName="password" placeholder="Password">
-                </mat-form-field>
-                <mat-form-field class="flex" appearance="outline">
-                    <mat-label>Confirm New Password</mat-label>
-                    <input type="password" matInput formControlName="confirmPassword" placeholder="Password">
-                    <mat-error
-                        *ngIf="credentialsForm.hasError('notSame')">
-                        Passwords do not match
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput formControlName="lastname" placeholder="Lapso">
+                    <mat-error *ngIf="profileForm.controls['lastname'].hasError('required')">
+                        Last Name is <strong>required</strong>
                     </mat-error>
+                </mat-form-field>
+                <mat-form-field class="flex" appearance="outline">
+                    <mat-label>Middle Name</mat-label>
+                    <input type="text" matInput formControlName="middlename" placeholder="Dalisay">
                 </mat-form-field>
             </div>
-            <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white w-full text-center" 
-                [disabled]="!willUpdateCredentials || !this.credentialsForm.valid"
+        
+        
+            <p class="font-sans text-lg font-semibold">Address</p>
+            <div class="grid gap-1 grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>House Number</mat-label>
+                    <input type="text" matInput formControlName="house_no" placeholder="458">
+                </mat-form-field>
+                <mat-form-field class="col-span-2 md:col-span-1" appearance="outline">
+                    <mat-label>Street</mat-label>
+                    <input type="text" matInput formControlName="street" placeholder="Purok I">
+                </mat-form-field>
+                <mat-form-field class="col-span-3 md:col-span-1" appearance="outline">
+                    <mat-label>Barangay</mat-label>
+                    <input type="text" matInput formControlName="barangay" placeholder="Malabanban Norte">
+                </mat-form-field>
+                <mat-form-field class="col-span-1 md:col-span-1" appearance="outline">
+                    <mat-label>Town</mat-label>
+                    <input type="text" matInput formControlName="town" placeholder="Candelaria">
+                </mat-form-field>
+                <mat-form-field class="col-span-2 md:col-span-1" appearance="outline">
+                    <mat-label>Province</mat-label>
+                    <input type="text" matInput formControlName="province" placeholder="Quezon">
+                </mat-form-field>
+            </div>
+        
+            <p class="font-sans text-lg font-semibold">Contact Information</p>
+            <div class="grid gap-1 grid-cols-2">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Telephone Number</mat-label>
+                    <input type="text" matInput formControlName="tel_no" placeholder="585-4567">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Phone Number</mat-label>
+                    <input type="text" matInput formControlName="phone_no" placeholder="09*********">
+                </mat-form-field>
+            </div>
+        
+            <p class="font-sans text-lg font-semibold">Personal Information</p>
+            <div class="grid gap-1 grid-cols-2">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Birth Place</mat-label>
+                    <input type="text" matInput formControlName="birth_place" placeholder="Lucena City">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="date_of_birth">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+        
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Nationality</mat-label>
+                    <input type="text" matInput formControlName="nationality" placeholder="Filipino">
+                </mat-form-field>
+                <mat-form-field class="" appearance="outline">
+                    <mat-label>Sex</mat-label>
+                    <input type="text" matInput formControlName="sex" placeholder="Male">
+                </mat-form-field>
+            </div>
+        
+            <p class="font-sans text-lg font-semibold">Teaching Information</p>
+            <div class="grid gap-1 grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Academic Rank</mat-label>
+                    <input type="text" matInput formControlName="academic_rank" placeholder="Asst. Professor">
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Teaching Status</mat-label>
+                    <mat-select formControlName="teaching_status">
+                        <mat-option value="FULL-TIME">Full-Time</mat-option>
+                        <mat-option value="PART-TIME">Part-Time</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Teaching Record</mat-label>
+                    <input type="text" matInput formControlName="teaching_record" placeholder="21">
+                </mat-form-field>
+                <mat-form-field class="col-span-3" appearance="outline">
+                    <mat-label>Nature of Appointment</mat-label>
+                    <input type="text" matInput formControlName="nature_of_appointment"
+                        placeholder="Permanent Full-time / Program Chair">
+                </mat-form-field>
+        
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Highest Degree</mat-label>
+                    <input type="text" matInput formControlName="degree" placeholder="Doctor in Information Technology">
+                </mat-form-field>
+                <mat-form-field class="col-span-2" appearance="outline">
+                    <mat-label>School and Year Obtained</mat-label>
+                    <input type="text" matInput formControlName="school_location"
+                        placeholder="University of the Cordilleras-Baguio City">
+                </mat-form-field>
+        
+                <mat-form-field class="col-span-3" appearance="outline">
+                    <mat-label>Other Information on Educational Qualification</mat-label>
+                    <input type="text" matInput formControlName="other_educational_qualification" placeholder="Master in Information Technology (MIT)- MSEUF Lucena City
+                        (2009); Bachelor of Science in Computer Science(BSCS)-Manuel S. Enverga University Foundation – Lucena
+                        City (2001)">
+                </mat-form-field>
+                <mat-form-field class="col-span-3" appearance="outline">
+                    <mat-label>Non-Teaching Duty</mat-label>
+                    <input type="text" matInput formControlName="non_teaching_duty"
+                        placeholder="Research, Promotion, & Community Outreach">
+                </mat-form-field>
+            </div>
+        
+            <p class="font-sans text-lg font-semibold">Consultation Information</p>
+            <div class="grid gap-1 grid-cols-3">
+                <mat-form-field class="col-span-1" appearance="outline">
+                    <mat-label>Time</mat-label>
+                    <input type="text" matInput formControlName="time" placeholder="W / 03:00-04:00pm">
+                </mat-form-field>
+                <mat-form-field class="col-span-2" appearance="outline">
+                    <mat-label>Venue</mat-label>
+                    <input type="text" matInput formControlName="consultation_location" placeholder="Consultation Room">
+                </mat-form-field>
+            </div>
+        
+            <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white px-5 py-2.5 mb-2"
                 mat-raised-button>
-                <mat-icon *ngIf="updatingCredentials" >
-                    <mat-spinner [diameter]="20" [color]="'accent'"></mat-spinner>
+                <mat-icon>
+                    <mat-spinner *ngIf="sending" [diameter]="20" [color]="'accent'"></mat-spinner>
                 </mat-icon>
-                Change
+                Update Profile
             </button>
         </form>
     </div>
 
-    <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-5">
-		<button 
-            [disabled]="loadingTeachingAssignment"
-			matRipple
-            (click)="generateTeachingAssignment()"
-			class="font-sans text-xl font-semibold text-white text-center bg-rose-800 rounded-md hover:bg-rose-900 p-2 drop-shadow-md shadow-md">
-			Generate Teaching Assignment
-		</button>
-		<!-- <button 
-			matRipple
-			class="font-sans text-xl font-semibold text-white text-center bg-red-800 rounded-md hover:bg-red-900 p-2 drop-shadow-md shadow-md">
-			Archive Class
-		</button> -->
-	</div>
+    
 
     <!-- <form [formGroup]="verifyForm" novalidate (ngSubmit)="onSubmit()"
         class="flex flex-col w-full p-5">

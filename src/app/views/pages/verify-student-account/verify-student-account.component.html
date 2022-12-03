@@ -232,7 +232,7 @@
 
             <mat-form-field class="col-span-1" appearance="outline">
                 <mat-label>College School Name</mat-label>
-                <input [attr.disabled]="transferee" type="text" matInput formControlName="college_name" placeholder="MSEUF Lucena">
+                <input type="text" matInput formControlName="college_name" placeholder="MSEUF Lucena">
             </mat-form-field>
 
             <mat-form-field class="col-span-1" appearance="outline">
@@ -246,7 +246,7 @@
             [disabled]="!this.verifyForm.valid"
             mat-raised-button>
             <mat-icon><mat-spinner *ngIf="sending" [diameter]="20" [color]="'accent'"></mat-spinner></mat-icon>
-            Send
+            Verify Account
         </button>
     </form>
 

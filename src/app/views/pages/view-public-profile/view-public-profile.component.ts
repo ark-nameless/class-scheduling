@@ -4,6 +4,7 @@ import { StudentApiService } from 'src/app/apis/student-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
 import { DocumentGeneratorService } from 'src/app/services/document-generator.service';
 import { SessionService } from 'src/app/services/session.service';
+import Swal from 'sweetalert2';
 
 var pdfMake = require('pdfmake/build/pdfmake.js');
 var pdfFonts = require('pdfmake/build/vfs_fonts.js');
@@ -17,6 +18,8 @@ export class ViewPublicProfileComponent implements OnInit {
   userId = '';
   userRole = '';
   currentRole = '';
+
+  teacherInfo = <any>[];
 
   userProfile = <any>{};
   userName = ''
@@ -51,6 +54,7 @@ export class ViewPublicProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadTeacherInfo();
   }
 
   loadStudentProfile(){
@@ -79,6 +83,14 @@ export class ViewPublicProfileComponent implements OnInit {
     )
   }
 
+  loadTeacherInfo(){
+    this.teacherApi.getTeacherProfile(this.userId).subscribe(
+      (data) => {
+        this.teacherInfo = data.data;
+      }
+    )
+  }
+
 
   loadTeachingAssignment(){
     this.teacherApi.getTeachingAssigment(this.userId).subscribe(
@@ -89,8 +101,29 @@ export class ViewPublicProfileComponent implements OnInit {
     )
   }
 
-  generateTeachingAssignment() {
-		pdfMake.createPdf(this.docgenerator.generateTeachingAssignment(this.teachingAssignment)).open();
+  async generateTeachingAssignment() {
+    const { value: extras } = await Swal.fire({
+      title: 'Multiple inputs',
+      html:
+        `<p>College of</p>
+        <input id="swal-input1" class="swal2-input">
+        <p>Semester School Year </p>
+        <input id="swal-input2" class="swal2-input">
+        <p>Teaching assignment </p>
+        <input id="swal-input3" class="swal2-input">`,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          (<HTMLInputElement>document.getElementById('swal-input1'))!.value,
+          (<HTMLInputElement>document.getElementById('swal-input2'))!.value,
+          (<HTMLInputElement>document.getElementById('swal-input3')).value
+        ]
+      }
+    })
+    
+    if (extras) {
+      pdfMake.createPdf(this.docgenerator.generateTeachingAssignment(this.teachingAssignment, this.teacherInfo.profile, extras)).open();
+    }
 	}
 
 }

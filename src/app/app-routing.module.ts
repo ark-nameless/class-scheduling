@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'teacher', loadChildren: () => import(`./views/teacher/teacher.module`).then(m => m.TeacherModule)},
   { path: 'student', loadChildren: () => import(`./views/student/student.module`).then(m => m.StudentModule)},
   { path: 'verify-account/:token', pathMatch: "prefix", component: VerifyAccountComponent, canActivate:[LoginGuard] },
-  { path: 'verify-teacher-account/:token', pathMatch: "prefix", component: VerifyTeacherAccountComponent, canActivate:[LoginGuard] },
+  { path: 'verify-student-account/:token', pathMatch: "prefix", component: VerifyStudentAccountComponent, canActivate:[LoginGuard] },
   { path: 'verify-teacher-account/:token', pathMatch: "prefix", component: VerifyTeacherAccountComponent, canActivate:[LoginGuard] },
   { path: ':token/change-password', pathMatch: "prefix", component: ChangePasswordComponent, canActivate:[LoginGuard] },
   { path: '**', component: Page404Component, canActivate:[LoginGuard]}
