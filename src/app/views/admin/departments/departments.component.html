@@ -1,4 +1,6 @@
-<div class="w-full h-full">
+<div class="flex flex-col p-2 w-full h-full">
+    <h1 class="col-span-full text-4xl font-sans font-semibold text-slate-700 mb-3">Departments</h1>
+
     <div x-data="{newDepartment: false}" >
         <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-2">
             <button mat-raised-button class="bg-red-900 text-white" x-on:click="newDepartment = ! newDepartment">

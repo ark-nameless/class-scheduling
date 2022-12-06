@@ -36,6 +36,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatRippleModule} from '@angular/material/core';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { CreateNewClassScheduleComponent } from './forms/create-new-class-schedule/create-new-class-schedule.component';
@@ -109,6 +110,7 @@ import { EditClassScheduleComponent } from './edit-class-schedule/edit-class-sch
     MatRippleModule,
     MatChipsModule,
     MatListModule,
+    MatTooltipModule,
 
     SweetAlert2Module,
   ],

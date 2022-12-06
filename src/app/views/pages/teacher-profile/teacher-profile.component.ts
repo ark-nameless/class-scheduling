@@ -84,9 +84,10 @@ export class TeacherProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingTeachingAssignment = true;
+    this.willUpdateCredentials = true;
 
     this.loadTeacherInfo();
-    this.listenToCredentialChanges();
+    // this.listenToCredentialChanges();
     this.loadTeachingAssignment();
   }
 
@@ -184,7 +185,7 @@ export class TeacherProfileComponent implements OnInit {
 
       // Highest School
       degree: profile.highest_school.degree,
-      school_location: profile.highest_school.school_location,
+      school_location: profile.highest_school.location,
 
       non_teaching_duty: profile.non_teaching_duty,
 

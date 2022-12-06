@@ -12,15 +12,14 @@
                 (ngSubmit)="loginUser()">
                 
                 <mat-form-field class="w-full" appearance="fill">
-                    <mat-label>Email/Username</mat-label>
-                    <input type="text" matInput formControlName="username" [errorStateMatcher]="emailErrorMatcher"
-                        placeholder="Ex. pat@example.com / pat">
-                    <mat-hint>Please input Username/Email</mat-hint>
+                    <mat-label>Username</mat-label>
+                    <input type="text" matInput formControlName="username" placeholder="pat">
+                    <mat-hint>Please input Username</mat-hint>
                     <mat-error *ngIf="loginForm.hasError('username') && !loginForm.hasError('required')">
-                        Please enter a valid email address or username
+                        Please enter a valid username
                     </mat-error>
                     <mat-error *ngIf="loginForm.hasError('required')">
-                        Email is <strong>required</strong>
+                        Username is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
 

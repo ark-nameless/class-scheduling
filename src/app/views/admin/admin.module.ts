@@ -39,6 +39,7 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { NewDepartmentComponent } from './forms/new-department/new-department.component';
 import { PagesModule } from '../pages/pages.module';
 import { ViewDepartmentComponent } from './view-department/view-department.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ViewDepartmentComponent } from './view-department/view-department.compo
     NgSelectModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatTooltipModule
   ]
 })
 export class AdminModule { }

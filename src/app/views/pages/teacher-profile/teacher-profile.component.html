@@ -41,17 +41,18 @@
                 </div>
                 <div class="grid gap-2 grid-cols-1">
                     <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white w-full text-center" 
-                        [disabled]="!willUpdateCredentials || !this.credentialsForm.valid"
+                        [disabled]="!this.credentialsForm.valid"
                         (click)="updateCredentials()"
                         mat-raised-button>
                         <mat-icon *ngIf="updatingCredentials" >
                             <mat-spinner [diameter]="20" [color]="'accent'"></mat-spinner>
                         </mat-icon>
-                        Change
+                        Update Credentails
                     </button>
                 </div>
             </form>
             <button 
+                role="button"
                 [disabled]="loadingTeachingAssignment"
                 matRipple
                 (click)="generateTeachingAssignment()"

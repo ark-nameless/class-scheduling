@@ -14,6 +14,7 @@
             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                 <mat-icon>expand_circle_down</mat-icon>
             </button>
+
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="viewProfile()">
                     <mat-icon>account_circle</mat-icon>
@@ -58,16 +59,16 @@
                 <button mat-icon-button aria-label="" class="text-white">
                     <img class="w-fit bg-white rounded-full p-1 " src="/assets/images/logo-filled.png" alt="">
                 </button>
-                <button [routerLink]="'dashboard'" mat-icon-button aria-label="" class="text-white">
+                <button matTooltip="Go to Dashboard" [matTooltipPosition]="'right'" [routerLink]="'dashboard'" mat-icon-button aria-label="" class="text-white">
                     <mat-icon>home</mat-icon>
                 </button>
-                <button [routerLink]="'students'" mat-icon-button aria-label="" class="text-white">
+                <button matTooltip="Go to Users" [matTooltipPosition]="'right'" [routerLink]="'students'" mat-icon-button aria-label="" class="text-white">
                     <mat-icon>group</mat-icon>
                 </button>
-                <button [routerLink]="'classes'" mat-icon-button aria-label="" class="text-white">
+                <button matTooltip="Go to Department Classes" [matTooltipPosition]="'right'" [routerLink]="'classes'" mat-icon-button aria-label="" class="text-white">
                     <mat-icon>workspaces</mat-icon>
                 </button>
-                <button [routerLink]="'class-schedules'" mat-icon-button aria-label="" class="text-white">
+                <button matTooltip="Go to Schedules Options" [matTooltipPosition]="'right'" [routerLink]="'class-schedules'" mat-icon-button aria-label="" class="text-white">
                     <mat-icon>edit_calendar</mat-icon>
                 </button>
             </div>
