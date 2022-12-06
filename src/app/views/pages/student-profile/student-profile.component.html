@@ -39,12 +39,12 @@
                 </mat-form-field>
             </div>
             <button class="font-sans text-md font-semibold col-span-3 bg-purple-600 text-white w-full text-center" 
-                [disabled]="!willUpdateCredentials || !this.credentialsForm.valid"
+                [disabled]="!this.credentialsForm.valid"
                 mat-raised-button>
                 <mat-icon *ngIf="updatingCredentials" >
                     <mat-spinner [diameter]="20" [color]="'accent'"></mat-spinner>
                 </mat-icon>
-                Change
+                Update Credentials
             </button>
         </form>
     </div>
@@ -52,8 +52,8 @@
         <p class="font-sans text-lg font-semibold">Year</p>
         <div class="grid gap-1 grid-cols-3">
             <mat-form-field class="col-span-1" appearance="outline">
-                <mat-label>Time</mat-label>
-                <input type="text" matInput [(ngModel)]="studentYear" placeholder="W / 03:00-04:00pm">
+                <mat-label>Year</mat-label>
+                <input type="number" matInput [(ngModel)]="studentYear" placeholder="3">
             </mat-form-field>
         </div>
     
