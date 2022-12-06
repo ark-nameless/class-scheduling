@@ -103,13 +103,34 @@ export class SubjectLoadConflictCheckerService {
     return true;
   }
 
+  public checkRoomAssignment(schedule1: any, schedule2: any){
+    console.log('Room Check')
+    console.log(schedule1);
+    console.log(schedule2);
+    console.log('Room END')
+  }
+
+  public validRoomAssignment(sched:any, sched2:any){
+    for (let i = 0; i < sched.length; i++){
+      for (const target_sched of sched2){
+        this.checkRoomAssignment(sched[i].schedules, target_sched.schedules);
+      }
+    }
+    return true;
+  }
+
   public validScheduleToTeachersLoad(sched: any, teacherLoad: any, teacherId='') {
+    console.log(sched);
+    console.log(teacherLoad);
     if (teacherLoad.length > 0) {
       for (let i = 0; i < sched.length; i++){
         for (const sched2 of teacherLoad){
           // if (teacherId != )
           if (teacherId != sched2.id && this.checkScheduleToSchedules(sched[i], sched2.schedules)) {
             return false;
+          }
+          else if (this.validRoomAssignment(sched[i], sched2)){
+            
           }
         }
       }

@@ -62,6 +62,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HttpClientModule,
 
     ComponentsModule,
+    PagesModule,
 
     CdkMenuModule,
 
