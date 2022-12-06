@@ -88,6 +88,11 @@ export class ClassApiService {
                .put<any>(this.apiURL + `/classes/${id}/update-subject-info`, payload, this.httpOptions);
   }
 
+  updateClassLoads(id: string, payload: any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/classes/${id}/class-loads`, payload, this.httpOptions);
+  }
+
 
   removeStudentsFromClass(id: string, payload:any): Observable<any> {
     return this.http
@@ -97,6 +102,11 @@ export class ClassApiService {
   archiveClass(id: string): Observable<any> {
     return this.http
                .delete<any>(this.apiURL + `/classes/${id}/archive`, this.httpOptions);
+  }
+
+  removeClassLoad(classId: string, id: string): Observable<any> {
+    return this.http
+               .delete<any>(this.apiURL + `/classes/${classId}/class-load/${id}/delete`, this.httpOptions);
   }
 
 

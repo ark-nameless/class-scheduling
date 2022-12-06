@@ -311,7 +311,11 @@
 
             <div class="grid gap-2 grid-cols-2 mt-5">
                 <button mat-raised-button button matStepperPrevious color="accent">Back</button>
-                <button mat-raised-button button matStepperPrevious [routerLink]="'/dept-head/view-class-schedule/'+classId"color="primary">Finish</button>
+                <button mat-raised-button button matStepperPrevious
+                    (click)="updateNewClassLoads()"
+                    color="primary">
+                    Finish
+                </button>
             </div>
         </ng-template>
     </mat-step>
