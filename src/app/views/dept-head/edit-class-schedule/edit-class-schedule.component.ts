@@ -179,8 +179,14 @@ export class EditClassScheduleComponent implements OnInit {
         denyButtonText: `Delete`,
       }).then((result) => {
         if (result.isDenied){
-          Swal.fire('delete')
-          // this.scheduleList.splice(index, 1);
+          this.classApi.removeClassLoad(this.classId, id).subscribe(
+            (data: any) => {
+              Swal.fire({text: data.detail, timer: 5000, timerProgressBar: true,})
+              this.scheduleList.splice(index, 1);
+            }, err => {
+              this.snackbar.open(err.error.detail, 'Close', { duration: 3 * 1000 });
+            }
+          )
         }
       })
     } else {
@@ -300,6 +306,17 @@ export class EditClassScheduleComponent implements OnInit {
         this.snackbar.open('There is collision in your schedule. Please check subject loads.', 'Close', { duration: errorMessageDuration * 1000 });
       }
     }
+  }
 
+
+
+  updateNewClassLoads(){
+    this.classApi.updateClassLoads(this.classId, this.scheduleList).subscribe(
+      (data: any) => {
+        this.snackbar.open(data.detail, 'Close', { duration: 3 * 1000 });
+      }, err => {
+        this.snackbar.open(err.error.detail, 'Close', { duration: 3 * 1000 });
+      }
+    )
   }
 }
