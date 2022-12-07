@@ -170,38 +170,38 @@
 
             <div
                 class="col-span-full flex flex-col w-full border-2 border-slate-400 rounded-xl h-96 overflow-auto p-2 space-y-2">
-                <p class="font-sans text-lg font-semibold place-self-center">Teacher's Current Load</p>
+                <p class="font-sans text-xl font-semibold place-self-center">Teacher's Current Load</p>
                 <table class="table-auto">
                     <thead>
                         <tr>
-                            <th class="text-left">Section</th>
-                            <th class="text-left">Subject</th>
-                            <th class="text-left">Description</th>
-                            <th class="text-left">Units</th>
-                            <th class="text-left">Hours</th>
-                            <th class="text-left">Days</th>
-                            <th class="text-left">Time</th>
-                            <th class="text-left">Rooms</th>
+                            <th class="border border-tl-xl px-2 py-1 md:px-4 md:py-2 text-left text-lg">Section</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Subject</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Description</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Units</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Hours</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Days</th>
+                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Time</th>
+                            <th class="border border-tl-xl px-2 py-1 md:px-4 md:py-2 text-left text-lg">Rooms</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let load of selectedTeacherSchedule; let i = index;">
-                            <td>{{ load.section_id }}</td>
-                            <td>{{ load.subject_id }}</td>
-                            <td>{{ load.description }}</td>
-                            <td>{{ load.units }}</td>
-                            <td>{{ load.hours }}</td>
-                            <td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">{{ load.section_id }}</td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">{{ load.subject_id }}</td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">{{ load.description }}</td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">{{ load.units }}</td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">{{ load.hours }}</td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">
                                 <div class="" *ngFor="let schedule of load.schedules">
                                     {{ schedule.days.join('') }}
                                 </div>
                             </td>
-                            <td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">
                                 <div class="" *ngFor="let schedule of load.schedules">
                                     {{ schedule.startTime.split(' ')[0] + ' - ' + schedule.endTime.split(' ')[0] }}
                                 </div>
                             </td>
-                            <td>
+                            <td class="border px-2 py-1 md:px-4 md:py-2">
                                 <div class="" *ngFor="let schedule of load.schedules">
                                     {{ schedule.location }}
                                 </div>
@@ -229,14 +229,14 @@
                 <table class="table-fixed">
                     <thead>
                         <tr>
-                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Section</th>
+                            <th class="border border-tl-xl px-2 py-1 md:px-4 md:py-2 text-left text-lg">Section</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Subject</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Description</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Units</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Hours</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Days</th>
                             <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Time</th>
-                            <th class="border px-2 py-1 md:px-4 md:py-2 text-left text-lg">Rooms</th>
+                            <th class="border border-tl-xl px-2 py-1 md:px-4 md:py-2 text-left text-lg">Rooms</th>
                         </tr>
                     </thead>
                     <tbody class="">
