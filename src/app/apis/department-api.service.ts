@@ -39,6 +39,11 @@ export class DepartmentApiService {
                .get<any>(this.apiURL + `/departments/${departmentId}/subject-requests-responses`, this.httpOptions);
   }
 
+  getDepartmentInfo(id: string): Observable<any> {
+    return this.http
+               .get<any>(this.apiURL + `/departments/${id}`, this.httpOptions);
+  }
+
   createNewDepartment(data: any): Observable<any[]> {
     let headers = {
       headers: new HttpHeaders({
@@ -49,6 +54,11 @@ export class DepartmentApiService {
     }
     return this.http
                .post<any>(this.apiURL + '/departments', JSON.stringify(data), headers);
+  }
+
+  updateDepartmentInfo(id: string, payload: any): Observable<any> {
+    return this.http
+               .put<any>(this.apiURL + `/departments/${id}`, payload, this.httpOptions);
   }
 
   finishScheduleRequest(id: string): Observable<any> {
