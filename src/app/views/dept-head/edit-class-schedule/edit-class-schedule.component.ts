@@ -40,6 +40,9 @@ export class EditClassScheduleComponent implements OnInit {
   selectedSchedules = new Set<any>();
   selectedSchedulesList = <any>[];
 
+  all_loads = <any>[];
+
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -67,9 +70,14 @@ export class EditClassScheduleComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadAllLoads();
     this.loadTeachers();
     this.loadResponseSchedules();
     this.loadClassLoad();
+  }
+
+  loadAllLoads(){ 
+    this.classApi.getAllSubjectLoads().subscribe((data:any) => this.all_loads = data.data);
   }
 
   loadTeachers() {
@@ -267,7 +275,7 @@ export class EditClassScheduleComponent implements OnInit {
     )
   }
 
-  validateSchedule(){
+  async validateSchedule(){
     const errorMessageDuration = 2;
     this.isValidSchedule = false;
     let currentSchedule = this.scheduleList[this.selectedLoad];
@@ -284,25 +292,42 @@ export class EditClassScheduleComponent implements OnInit {
     else if (!this.conflictChecker.validSchedule(this.scheduleList[this.selectedLoad].schedules)){
       this.snackbar.open('Invalid Schedule, Please check this loads schedule', 'Close', { duration: errorMessageDuration * 1000 });
     }
-    else if (!this.conflictChecker.validScheduleToTeachersLoad(currentSchedule.schedules, this.selectedTeacherSchedule, currentSchedule.id)){
-      this.snackbar.open('Invalid Schedule, there is a conflict in the teacher\'s current subject load.', 'Close', { duration: errorMessageDuration * 1000 });
+    let res = this.conflictChecker.validScheduleToTeachersLoad(currentSchedule.schedules, this.selectedTeacherSchedule, currentSchedule.id);
+    if (res === false){
+      this.snackbar.open('Invalid Schedule, there is a conflict in the teacher\s current subject load.', 'Close', { duration: errorMessageDuration * 1000 });
+    } else if (res === -1) {
+      this.snackbar.open('Invalid Schedule, The room is already in use.', 'Close', { duration: errorMessageDuration * 1000 });
+    }
+    else if (await this.conflictChecker.validRoomAssignmentToAllLoads(currentSchedule.schedules, this.all_loads, currentSchedule.id) === false){
+      this.snackbar.open('Invalid Schedule, The room is already in use.', 'Close', { duration: errorMessageDuration * 1000 });
     }
     else {
       let validLoad = true;
+      let conflictRoom = false;
+      let j = 0;
       for (let i = 0; i < this.scheduleList.length; i++) {
         this.scheduleList[i].schedules.forEach((sched: any) => {
           this.scheduleList.forEach((schedule: any, index: number) => {
             // check only if not the same schedule and same teacher's schedule
             if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
               validLoad = !this.conflictChecker.checkScheduleToSchedules(sched, schedule.schedules);
+            } 
+            // check room if not the same schedule
+            if (index != i){
+              console.log('checked room')
+              conflictRoom = !this.conflictChecker.validRoomAssignment(sched, schedule.schedules);
             }
           });
         });
       }
-      if (validLoad == true){
+      if (conflictRoom){
+        this.snackbar.open('Invalid Schedule, The room is already in use.', 'Close', { duration: errorMessageDuration * 1000 });
+      } else if (validLoad == true){
         this.snackbar.open('Congrats! It\'s a valid schedule.', 'Close', { duration: errorMessageDuration * 1000 });
         this.isValidSchedule = true;
-      } else {
+        this.loadAllLoads();
+      }
+      else {
         this.snackbar.open('There is collision in your schedule. Please check subject loads.', 'Close', { duration: errorMessageDuration * 1000 });
       }
     }
