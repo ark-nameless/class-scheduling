@@ -63,6 +63,11 @@ export class ClassApiService {
                .get<any>(this.apiURL + `/classes/${id}/students-not-in-class`, this.httpOptions);
   }
 
+  getAllSubjectLoads(): Observable<any>{
+    return this.http
+               .get<any>(this.apiURL + `/classes/all-subject-loads`, this.httpOptions);
+  }
+
   sendNewScheduleRequest(payload:any): Observable<any> {
     return this.http
                .post<any>(this.apiURL + `/classes/create-schedule-request`, payload, this.httpOptions);

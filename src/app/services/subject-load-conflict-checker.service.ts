@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
+import { concatMap } from 'rxjs';
+import { ClassApiService } from '../apis/class-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubjectLoadConflictCheckerService {
 
-  constructor() { }
+  constructor(
+    private classApi: ClassApiService
+  ) {
+
+  }
 
   timeToInt(time: string) {
     time = time.toLowerCase();
@@ -103,14 +109,58 @@ export class SubjectLoadConflictCheckerService {
     return true;
   }
 
+  public checkRoomAssignment(schedule1: any, schedule2: any){
+    for (const day of schedule2.days) {
+      if (schedule1.days.indexOf(day) != -1) {
+        let t1 = {
+          startTime: schedule1.startTime,
+          endTime: schedule1.endTime
+        };
+        let t2 = {
+          startTime: schedule2.startTime,
+          endTime: schedule2.endTime
+        };
+        if (this.checkTimeCollision(t1, t2)){
+          if ((schedule1.location != '' && schedule2.location != '') && schedule1.location.toLowerCase() == schedule2.location.toLowerCase()){
+            console.log(schedule1.location.toLowerCase() + '=='+ schedule2.location.toLowerCase())
+            return true;
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  public validRoomAssignment(sched:any, sched2:any){
+    for (const target_sched of sched2){
+      let room_conflict = this.checkRoomAssignment(sched, target_sched);
+      if (room_conflict) return false;
+    }
+    return true;
+  }
+
   public validScheduleToTeachersLoad(sched: any, teacherLoad: any, teacherId='') {
     if (teacherLoad.length > 0) {
       for (let i = 0; i < sched.length; i++){
         for (const sched2 of teacherLoad){
-          // if (teacherId != )
           if (teacherId != sched2.id && this.checkScheduleToSchedules(sched[i], sched2.schedules)) {
             return false;
           }
+          else if (!this.validRoomAssignment(sched[i], sched2.schedules)){
+            return -1;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  public async validRoomAssignmentToAllLoads(sched: any, all_loads: any, teacherId='') {
+    for (let i = 0; i < sched.length; i++){
+      for (const sched2 of all_loads){
+        if (teacherId != sched2.id && !this.validRoomAssignment(sched[i], sched2.schedules)){
+          console.log('false');
+          return false;
         }
       }
     }

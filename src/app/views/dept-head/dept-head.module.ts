@@ -79,6 +79,7 @@ import { EditClassScheduleComponent } from './edit-class-schedule/edit-class-sch
     HttpClientModule,
 
     ComponentsModule,
+    PagesModule,
 
     DataTablesModule,
 

@@ -36,6 +36,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TeacherProfileComponent } from './teacher-profile/teacher-profile.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { RouterModule } from '@angular/router';
+import { MissionVissionComponent } from './mission-vission/mission-vission.component';
 
 
 
@@ -53,13 +54,13 @@ import { RouterModule } from '@angular/router';
     ViewClassInfoComponent,
     TeacherProfileComponent,
     StudentProfileComponent,
+    MissionVissionComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     HttpClientModule,
 
     ComponentsModule,
@@ -86,6 +87,7 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     ChangePasswordComponent,
     ViewPublicProfileComponent,
+    MissionVissionComponent,
   ]
 })
 export class PagesModule { }

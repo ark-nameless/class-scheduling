@@ -1,8 +1,52 @@
 
-<div class="flex flex-col p-2">
-    <h1 class="font-sans text-2xl font-semibold">Department Classes</h1>
-    <app-classes-table
-        [origin]="'admin'"
-        [departmentId]="departmentId">
-    </app-classes-table>
+<div class="flex flex-col p-2 space-y-2">
+    <h1 class="font-sans text-2xl font-semibold">Manage Department of {{ form.value.abbrev }}</h1>
+    <form 
+            [formGroup]="form" 
+            novalidate 
+            (ngSubmit)="updateDepartment()"
+            class="grid gap-2 grid-cols-1 md:grid-cols-2 w-full border-2 border-slate-600 rounded-xl p-2">
+                <h1 class="col-span-full font-sans text-xl font-semibold">Department Info</h1>
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Department Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Bachelor of Science in Computer Science">
+                    <mat-icon matSuffix>text_fields</mat-icon>
+                </mat-form-field>
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Department Abbreviation</mat-label>
+                    <input matInput formControlName="abbrev" placeholder="BSCS">
+                    <mat-icon matSuffix>text_fields</mat-icon>
+                </mat-form-field>
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Section Code</mat-label>
+                    <input matInput formControlName="section_id" placeholder="I0">
+                    <mat-icon matSuffix>text_fields</mat-icon>
+                </mat-form-field>
+
+                <ng-select 
+                    [dropdownPosition]="'bottom'"
+                    [appearance]="'outline'"
+                    [items]="teachers" 
+                    bindLabel="username" 
+                    bindValue="id" 
+                    formControlName="head_id"
+                    [loading]="loadingTeachers"
+                    placeholder="Department Head">
+                </ng-select>
+                <button 
+                    class="font-sans text-lg font-semibold col-span-full bg-red-900 text-white px-5 py-2.5" 
+                    [disabled]="!this.form.valid"
+                    mat-raised-button>
+                    <mat-icon><mat-spinner *ngIf="sending" [diameter]="20" [color]="'accent'"></mat-spinner></mat-icon>
+                    Update Department
+                </button>
+        </form>
+
+    <div class="flex flex-col w-full h-full border-2 border-slate-600 rounded-xl p-2">
+        <h1 class="font-sans text-xl font-semibold">Department Classes</h1>
+        <app-classes-table
+            [origin]="'admin'"
+            [departmentId]="departmentId">
+        </app-classes-table>
+    </div>
 </div>
