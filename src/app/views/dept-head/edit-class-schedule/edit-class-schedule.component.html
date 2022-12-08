@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     <button mat-raised-button button color="primary" (click)="validateSchedule()">Validate</button>
-                    <button *ngIf="isValidSchedule" mat-raised-button button color="primary" (click)="updateSchedule()">Update Schedule</button>
+                    <button *ngIf="isValidSchedule && scheduleList[selectedLoad].id != ''" mat-raised-button button color="primary" (click)="updateSchedule()">Update Schedule</button>
                 </div>
             </div>
 

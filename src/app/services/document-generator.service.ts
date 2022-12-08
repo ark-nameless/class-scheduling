@@ -62,7 +62,7 @@ export class DocumentGeneratorService {
 				},
 				{
 					text: [
-						{ text: 'TEACHING ASSIGMENT (', style: 'textBold', },
+						{ text: 'TEACHING ASSIGNMENT (', style: 'textBold', },
 						{ text: extras[2].toUpperCase() ?? '', style: 'textBoldUnderline', },
 						{ text: ')', style: 'textBold', }
 					]

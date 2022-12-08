@@ -155,45 +155,45 @@ export class TeacherProfileComponent implements OnInit {
     let profile = this.teacherInfo.profile;
     this.profileForm.patchValue({
       // Name 
-      firstname: profile.name.firstname,
-      lastname: profile.name.lastname,
-      middlename: profile.name.middlename,
+      firstname: profile.name.firstname ?? '',
+      lastname: profile.name.lastname ?? '',
+      middlename: profile.name.middlename ?? '',
 
       // Address
-      house_no: profile.address.house_no,
-      street: profile.address.street,
-      barangay: profile.address.barangay,
-      town: profile.address.town,
-      province: profile.address.province,
+      house_no: profile.address.house_no ?? '',
+      street: profile.address.street ?? '',
+      barangay: profile.address.barangay ?? '',
+      town: profile.address.town ?? '',
+      province: profile.address.province ?? '',
 
       // Contact Info
-      tel_no: profile.contact_info.tel_no,
-      phone_no: profile.contact_info.phone_no,
+      tel_no: profile.contact_info.tel_no ?? '',
+      phone_no: profile.contact_info.phone_no ?? '',
 
       // Personal Info
-      birth_place: profile.personal_info.birth_place,
-      date_of_birth: new Date(profile.personal_info.date_of_birth),
-      nationality: profile.personal_info.nationality,
-      sex: profile.personal_info.sex,
+      birth_place: profile.personal_info.birth_place ?? '',
+      date_of_birth: new Date(profile.personal_info.date_of_birth) ?? '',
+      nationality: profile.personal_info.nationality ?? '',
+      sex: profile.personal_info.sex ?? '',
 
       // Teaching Info
-      academic_rank: profile.teaching_info.academic_rank,
-      teaching_status: profile.teaching_info.teaching_status,
-      nature_of_appointment: profile.teaching_info.nature_of_appointment,
-      teaching_record: profile.teaching_info.teaching_record,
-      other_educational_qualification: profile.teaching_info.other_educational_qualification,
+      academic_rank: profile.teaching_info.academic_rank ?? '',
+      teaching_status: profile.teaching_info.teaching_status ?? '',
+      nature_of_appointment: profile.teaching_info.nature_of_appointment ?? '',
+      teaching_record: profile.teaching_info.teaching_record ?? '',
+      other_educational_qualification: profile.teaching_info.other_educational_qualification ?? '',
 
       // Highest School
-      degree: profile.highest_school.degree,
-      school_location: profile.highest_school.location,
+      degree: profile.highest_school.degree ?? '',
+      school_location: profile.highest_school.location ?? '',
 
-      non_teaching_duty: profile.non_teaching_duty,
+      non_teaching_duty: profile.non_teaching_duty ?? '',
 
       // Consultation
-      time: profile.consultation.time,
-      consultation_location: profile.consultation.location,
+      time: profile.consultation.time ?? '',
+      consultation_location: profile.consultation.location ?? '',
 
-      profile_img: profile.profile_img,
+      profile_img: profile.profile_img ?? '',
 
     })
   }
@@ -266,8 +266,6 @@ export class TeacherProfileComponent implements OnInit {
 	}
 
   loadProfileInfo(){
-    // let b_day = this.profileForm.value.date_of_birth.toISOString().split('T')[0].split('-')
-    // b_day = `${b_day[1]}/${b_day[2]}/${b_day[0]}`
     let data = {
         profile_img: this.profileForm.value.profile_img == null ? '' : this.profileForm.value.profile_img == null,
         name: {

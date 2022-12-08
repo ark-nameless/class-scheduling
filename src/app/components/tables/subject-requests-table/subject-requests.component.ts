@@ -89,6 +89,8 @@ export class SubjectRequestsTableComponent implements OnInit {
   finishRequest(id = ''){
     id = id == '' ? this.selectedRow.id : id;
 
+    console.log(id);
+
     this.departmentApi.finishScheduleRequest(id).subscribe(
       (data: any) => {
         this.snackbar.open(data.detail, 'Close', { duration: this.snackbarDuration * 1000 })
