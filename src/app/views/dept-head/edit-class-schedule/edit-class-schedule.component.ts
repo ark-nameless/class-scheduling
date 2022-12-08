@@ -143,11 +143,13 @@ export class EditClassScheduleComponent implements OnInit {
   }
 
   public selectRequestSchedule(data: any) {
+    console.log(data);
 		if (this.selectedSchedules.has(data)) {
 			this.selectedSchedules.delete(data);
 		} else {
 			this.selectedSchedules.add(data);
 		}
+    this.selectedSchedulesList = Array.from(this.selectedSchedules);
   }
 
 
@@ -306,17 +308,20 @@ export class EditClassScheduleComponent implements OnInit {
       let conflictRoom = false;
       let j = 0;
       for (let i = 0; i < this.scheduleList.length; i++) {
-        this.scheduleList[i].schedules.forEach((sched: any) => {
-          this.scheduleList.forEach((schedule: any, index: number) => {
+        this.scheduleList[i].schedules.every((sched: any) => {
+          this.scheduleList.every((schedule: any, index: number) => {
             // check only if not the same schedule and same teacher's schedule
             if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
               validLoad = !this.conflictChecker.checkScheduleToSchedules(sched, schedule.schedules);
             } 
             // check room if not the same schedule
             if (index != i){
-              console.log('checked room')
               conflictRoom = !this.conflictChecker.validRoomAssignment(sched, schedule.schedules);
+              if (conflictRoom){
+                return false;
+              }
             }
+            return true;
           });
         });
       }
@@ -336,9 +341,21 @@ export class EditClassScheduleComponent implements OnInit {
 
 
   updateNewClassLoads(){
-    this.classApi.updateClassLoads(this.classId, this.scheduleList).subscribe(
+    let payload = {
+      subject_loads: this.scheduleList,
+      response_loads: this.selectedSchedulesList
+    }
+
+    this.classApi.updateClassLoads(this.classId, payload).subscribe(
       (data: any) => {
-        this.snackbar.open(data.detail, 'Close', { duration: 3 * 1000 });
+        let res = this.snackbar.open(data.detail, 'Close', { duration: 3 * 1000 });
+
+        res.onAction().subscribe(()=>{
+          this.router.navigate([`dept-head/view-class-schedule/${this.classId}`])
+        });
+        res.afterDismissed().subscribe(()=>{
+          this.router.navigate([`dept-head/view-class-schedule/${this.classId}`])
+        });
       }, err => {
         this.snackbar.open(err.error.detail, 'Close', { duration: 3 * 1000 });
       }

@@ -269,17 +269,20 @@ export class CreateNewClassScheduleComponent implements OnInit {
       let conflictRoom = false;
       let j = 0;
       for (let i = 0; i < this.scheduleList.length; i++) {
-        this.scheduleList[i].schedules.forEach((sched: any) => {
-          this.scheduleList.forEach((schedule: any, index: number) => {
+        this.scheduleList[i].schedules.every((sched: any) => {
+          this.scheduleList.every((schedule: any, index: number) => {
             // check only if not the same schedule and same teacher's schedule
             if (index != i && this.scheduleList[i].teacher_id == schedule.teacher_id) {
               validLoad = !this.conflictChecker.checkScheduleToSchedules(sched, schedule.schedules);
             } 
             // check room if not the same schedule
             if (index != i){
-              console.log('checked room')
               conflictRoom = !this.conflictChecker.validRoomAssignment(sched, schedule.schedules);
+              if (conflictRoom){
+                return false;
+              }
             }
+            return true;
           });
         });
       }
