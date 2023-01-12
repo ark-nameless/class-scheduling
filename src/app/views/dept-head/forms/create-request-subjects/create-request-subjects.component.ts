@@ -7,6 +7,7 @@ import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { ClassApiService } from 'src/app/apis/class-api.service';
 import { DepartmentApiService } from 'src/app/apis/department-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
+import { RoomDialogComponent } from 'src/app/components/room-dialog/room-dialog.component';
 import { SessionService } from 'src/app/services/session.service';
 import { SubjectLoadConflictCheckerService } from 'src/app/services/subject-load-conflict-checker.service';
 
@@ -243,6 +244,14 @@ export class CreateRequestSubjectsComponent implements OnInit {
         this.snackbar.open('There is collision in your schedule. Please check subject loads.', 'Close', { duration: errorMessageDuration * 1000 });
       }
     }
+  }
+
+  openRoomsDialog(location: string){
+    const dialogRef = this.dialog.open(RoomDialogComponent, {data: location});
+
+    dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

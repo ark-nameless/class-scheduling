@@ -145,6 +145,9 @@
                                 <mat-form-field appearance="outline">
                                     <mat-label>Room</mat-label>
                                     <input matInput type="text" [(ngModel)]="subject.location">
+                                    <button *ngIf="subject.location != ''" matSuffix mat-icon-button aria-label="Search" (click)="openRoomsDialog(subject.location)">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
                                 </mat-form-field>
 
                                 <ngx-material-timepicker #startTime></ngx-material-timepicker>

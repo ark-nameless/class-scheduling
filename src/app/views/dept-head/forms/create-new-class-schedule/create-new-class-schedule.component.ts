@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { ClassApiService } from 'src/app/apis/class-api.service';
 import { DepartmentApiService } from 'src/app/apis/department-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
+import { RoomDialogComponent } from 'src/app/components/room-dialog/room-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 import { SubjectLoadConflictCheckerService } from 'src/app/services/subject-load-conflict-checker.service';
@@ -54,6 +56,7 @@ export class CreateNewClassScheduleComponent implements OnInit {
     private departmentApi: DepartmentApiService,
     private classApi: ClassApiService,
     private snackbar: MatSnackBar,
+    public dialog: MatDialog,
   ) {
     this.initialClassForm = this.classForm = this.fb.group({
       name: [null, [Validators.required]],
@@ -323,6 +326,14 @@ export class CreateNewClassScheduleComponent implements OnInit {
     }, err => {
 
     })
+  }
+
+  openRoomsDialog(location: string){
+    const dialogRef = this.dialog.open(RoomDialogComponent, {data: location});
+
+    dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

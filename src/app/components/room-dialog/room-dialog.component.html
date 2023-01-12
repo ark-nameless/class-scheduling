@@ -1,0 +1,91 @@
+<h1 *ngIf="isEmpty">The room "{{ this.data }}" isn't registered yet, you can use it to register the room.</h1>
+<div *ngIf="!isEmpty">
+    <h2 mat-dialog-title>{{ this.data ?? 'computer lab 1' }}</h2>
+    <mat-dialog-content class="mat-typography">
+        <mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Monday
+                </ng-template>
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['M']" class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Tuesday
+                </ng-template>
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['T']" class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Wednesday
+                </ng-template>
+
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['W']" class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Thursday
+                </ng-template>
+
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['Th']"
+                        class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Friday
+                </ng-template>
+
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['F']" class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Saturday
+                </ng-template>
+
+                <ul *ngIf="roomSchedule != []" class="mt-6">
+                    <li *ngFor="let schedule of roomSchedule['SAT']"
+                        class="border-2 m-1 p-2 border-slate-100 rounded-xl">
+                        <p class="text-lg font-bold">{{ schedule.subject }}</p>
+                        <span class="">{{ schedule.startTime }}-{{ schedule.endTime }}</span>
+                    </li>
+                </ul>
+
+            </mat-tab>
+        </mat-tab-group>
+
+        <!-- <pre *ngIf="roomSchedule != []">{{ roomSchedule | json }}</pre> -->
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+    </mat-dialog-actions>
+</div>

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthApiService } from 'src/app/apis/auth-api.service';
 import { ClassApiService } from 'src/app/apis/class-api.service';
 import { TeacherApiService } from 'src/app/apis/teacher-api.service';
+import { RoomDialogComponent } from 'src/app/components/room-dialog/room-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -23,6 +25,7 @@ export class ClassSchedulesComponent implements OnInit {
         private teacherApi: TeacherApiService,
         private classApi: ClassApiService,
         private snackbar: MatSnackBar,
+        public dialog: MatDialog,
     ) {
 
     }
@@ -35,6 +38,14 @@ export class ClassSchedulesComponent implements OnInit {
     }
     createRequestSubject(){
         this.router.navigate([`/dept-head/create-request-subjects`]);
+    }
+
+    openRoomsDialog(){
+        const dialogRef = this.dialog.open(RoomDialogComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
     }
 
 }

@@ -32,4 +32,13 @@
         <mat-icon>pending_actions</mat-icon>
         <span class="font-sans text-xl font-semibold">View Requesting Departments</span>
     </button>
+
+    <button 
+        matRipple
+        [matRippleColor]="'slate-50'"
+        (click)="openRoomsDialog()"
+        class="flex items-center justify-center bg-rose-900 rounded-xl text-slate-50 p-4 drop-shadow-lg space-x-2">
+        <mat-icon>pending_actions</mat-icon>
+        <span class="font-sans text-xl font-semibold">View Rooms</span>
+    </button>
 </div>

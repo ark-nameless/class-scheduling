@@ -42,7 +42,8 @@ import {MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, } from '@angular/material/chi
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { RoomDialogComponent } from './room-dialog/room-dialog.component';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { HttpClientModule } from '@angular/common/http';
     SelectStudentsTableComponent,
     CalendarComponent,
     SubjectRequestsTableComponent,
+    RoomDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +97,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatChipsModule,
+    MatListModule,
     NgxMaterialTimepickerModule,
   ],
   exports: [
