@@ -20,7 +20,9 @@ export class RoomDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRoomSchedule(this.data ?? 'computer lab 1');
+    this.data = this.data.extras[0];
+    console.log(this.data);
+    this.getRoomSchedule(this.data);
   }
 
   getRoomSchedule(name: string) {
@@ -29,6 +31,8 @@ export class RoomDialogComponent implements OnInit {
       this.roomSchedule = schedules;
       if (schedules == null || schedules === undefined){
         this.roomSchedule = { 'M': [], 'T': [], 'W': [], 'Th': [], 'F': [], 'SAT': [], }
+        this.isEmpty = true;
+      } else {
         this.isEmpty = false;
       }
     })
